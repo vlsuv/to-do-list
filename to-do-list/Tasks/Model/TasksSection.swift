@@ -1,5 +1,5 @@
 //
-//  Task.swift
+//  TasksSection.swift
 //  to-do-list
 //
 //  Created by vlsuv on 13.07.2021.
@@ -8,6 +8,8 @@
 
 import Foundation
 
-struct Task {
+struct TasksSection {
     var title: String
+    var tasks: [Task]
+    var isExpand: Bool = true
 }

@@ -24,6 +24,8 @@
 		6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC8B269DA1DA00CAFA15 /* Task.swift */; };
 		6743FC8E269DA2CE00CAFA15 /* TasksCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC8D269DA2CE00CAFA15 /* TasksCoordinator.swift */; };
 		6743FC90269DA59F00CAFA15 /* TasksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC8F269DA59E00CAFA15 /* TasksPresenter.swift */; };
+		6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC93269DC22800CAFA15 /* TaskCell.swift */; };
+		6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC95269DC4BB00CAFA15 /* TasksSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		6743FC8B269DA1DA00CAFA15 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		6743FC8D269DA2CE00CAFA15 /* TasksCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCoordinator.swift; sourceTree = "<group>"; };
 		6743FC8F269DA59E00CAFA15 /* TasksPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksPresenter.swift; sourceTree = "<group>"; };
+		6743FC93269DC22800CAFA15 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		6743FC95269DC4BB00CAFA15 /* TasksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,11 +145,21 @@
 		6743FC88269DA12200CAFA15 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
-				6743FC8B269DA1DA00CAFA15 /* Task.swift */,
+				6743FC97269DD82E00CAFA15 /* Model */,
 				6743FC89269DA14B00CAFA15 /* TasksController.swift */,
 				6743FC8F269DA59E00CAFA15 /* TasksPresenter.swift */,
+				6743FC93269DC22800CAFA15 /* TaskCell.swift */,
 			);
 			path = Tasks;
+			sourceTree = "<group>";
+		};
+		6743FC97269DD82E00CAFA15 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6743FC95269DC4BB00CAFA15 /* TasksSection.swift */,
+				6743FC8B269DA1DA00CAFA15 /* Task.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +236,7 @@
 				6743FC8E269DA2CE00CAFA15 /* TasksCoordinator.swift in Sources */,
 				6730C1B2269D6935005A5297 /* ListsController.swift in Sources */,
 				6730C1AE269D6935005A5297 /* AppDelegate.swift in Sources */,
+				6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */,
 				6730C1B0269D6935005A5297 /* SceneDelegate.swift in Sources */,
 				6743FC85269D934000CAFA15 /* ListsPresenter.swift in Sources */,
 				6743FC90269DA59F00CAFA15 /* TasksPresenter.swift in Sources */,
@@ -230,6 +245,7 @@
 				6730C1C7269D6A38005A5297 /* Color.swift in Sources */,
 				6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */,
 				6743FC83269D862400CAFA15 /* AppCoordinator.swift in Sources */,
+				6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */,
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,
 				6730C1CA269D70EC005A5297 /* List.swift in Sources */,
