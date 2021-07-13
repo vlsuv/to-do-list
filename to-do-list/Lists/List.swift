@@ -8,6 +8,12 @@
 
 import Foundation
 
-struct List {
+class List {
     var title: String
+    var order: Int
+    
+    init(title: String, order: Int) {
+        self.title = title
+        self.order = order
+    }
 }
