@@ -26,6 +26,7 @@ class AppCoordinator: Coordinator {
     func start() {
         let listsCoordinator = ListsCoordinator(navigationController: navigationController)
         childCoordinators.append(listsCoordinator)
+        listsCoordinator.parentCoordinator = self
         listsCoordinator.start()
         
         window.rootViewController = navigationController

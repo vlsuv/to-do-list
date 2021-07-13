@@ -1,5 +1,5 @@
 //
-//  ListsCoordinator.swift
+//  TasksCoordinator.swift
 //  to-do-list
 //
 //  Created by vlsuv on 13.07.2021.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListsCoordinator: Coordinator {
+class TasksCoordinator: Coordinator {
     
     // MARK: - Properties
     private let navigationController: UINavigationController
@@ -26,22 +26,16 @@ class ListsCoordinator: Coordinator {
     }
     
     func start() {
-        let listController = assemblyBuilder.createListsController(coordinator: self)
-        
-        navigationController.viewControllers = [listController]
+        let tasksController = assemblyBuilder.createTasksController(coordinator: self)
+        navigationController.pushViewController(tasksController, animated: true)
+    }
+    
+    deinit {
+        print("deinit: \(self)")
     }
     
     // MARK: - Handlers
-    func showTasks() {
-        let tasksCoordinator = TasksCoordinator(navigationController: navigationController)
-        childCoordinators.append(tasksCoordinator)
-        tasksCoordinator.parentCoordinator = self
-        tasksCoordinator.start()
-    }
-    
-    func childDidFinish(_ childCoordinator: Coordinator) {
-        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
-        
-        childCoordinators.remove(at: index)
+    func viewDidDisappear() {
+        parentCoordinator?.childDidFinish(self)
     }
 }

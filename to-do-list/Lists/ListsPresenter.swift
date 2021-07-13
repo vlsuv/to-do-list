@@ -21,6 +21,7 @@ protocol ListsPresenterInputs {
     func didTapNewList()
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
     func didDeleteList(at indexPath: IndexPath)
+    func didSelectList(at indexPath: IndexPath)
 }
 
 protocol ListsPresenterType {
@@ -34,7 +35,7 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
     var inputs: ListsPresenterInputs { return self }
     var outputs: ListsPresenterOutputs { return self }
     
-    private var coordinator: Coordinator
+    private var coordinator: ListsCoordinator
     
     private weak var view: ListsViewProtocol?
     
@@ -65,6 +66,8 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
     }
     
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+        guard sourceIndexPath != destinationIndexPath else { return }
+        
         let sourceList = lists[sourceIndexPath.row]
         let destinationList = lists[destinationIndexPath.row]
         
@@ -75,5 +78,13 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         lists.remove(at: indexPath.row)
         
         view?.deleteRows(at: [indexPath])
+    }
+    
+    func didSelectList(at indexPath: IndexPath) {
+        let list = lists[indexPath.row]
+        
+        print(list)
+        
+        coordinator.showTasks()
     }
 }
