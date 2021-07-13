@@ -11,6 +11,8 @@ import UIKit
 class ListsController: UIViewController {
     
     // MARK: - Properties
+    var presenter: ListsPresenterType?
+    
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         return tableView
@@ -25,14 +27,11 @@ class ListsController: UIViewController {
         return button
     }()
     
-    var lists: [List] = [List]()
-
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.white
         
-        lists = [List(title: "order 0", order: 0), List(title: "order 1", order: 1)]
         
         configureNewListButton()
         configureTableView()
@@ -45,13 +44,7 @@ class ListsController: UIViewController {
     }
     
     @objc private func didTapNewListButton(_ sender: UIButton) {
-        if let lastList = lists.last {
-            lists.append(List(title: "order \(lastList.order + 1)", order: lastList.order + 1))
-        } else {
-            lists.append(List(title: "order \(0)", order: 0))
-        }
-        
-        tableView.insertRows(at: [IndexPath(row: lists.count - 1, section: 0)], with: .bottom)
+        presenter?.inputs.didTapNewList()
     }
     
     // MARK: - Configures
@@ -81,15 +74,30 @@ class ListsController: UIViewController {
     }
 }
 
+// MARK: - ListsViewProtocol
+extension ListsController: ListsViewProtocol {
+    func deleteRows(at indexPaths: [IndexPath]) {
+        tableView.deleteRows(at: indexPaths, with: .bottom)
+    }
+    
+    func insertRows(at indexPaths: [IndexPath]) {
+        tableView.insertRows(at: indexPaths, with: .bottom)
+    }
+}
+
 // MARK: - UITableViewDataSource
 extension ListsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lists.count
+        return presenter?.outputs.lists.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = lists[indexPath.row].title
+        
+        if let list = presenter?.outputs.lists[indexPath.row] {
+            cell.textLabel?.text = list.title
+        }
+        
         return cell
     }
 }
@@ -112,10 +120,7 @@ extension ListsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        let sourceList = lists[sourceIndexPath.row]
-        let destinationList = lists[destinationIndexPath.row]
-        
-        swap(&sourceList.order, &destinationList.order)
+        presenter?.inputs.didMoveList(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
     
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
@@ -125,13 +130,10 @@ extension ListsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
             
-            self?.lists.remove(at: indexPath.row)
-            self?.tableView.deleteRows(at: [indexPath], with: .bottom)
-            
+            self?.presenter?.inputs.didDeleteList(at: indexPath)
             completion(true)
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
-
