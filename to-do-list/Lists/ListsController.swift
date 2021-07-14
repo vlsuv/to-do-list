@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ListsController: UIViewController {
     
@@ -31,7 +32,6 @@ class ListsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.white
-        
         
         configureNewListButton()
         configureTableView()
@@ -76,25 +76,39 @@ class ListsController: UIViewController {
 
 // MARK: - ListsViewProtocol
 extension ListsController: ListsViewProtocol {
+    func updateView() {
+        tableView.reloadData()
+    }
+    
+    func reloadRows(at indexPaths: [IndexPath]) {
+        tableView.beginUpdates()
+        tableView.reloadRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
+    }
+    
     func deleteRows(at indexPaths: [IndexPath]) {
-        tableView.deleteRows(at: indexPaths, with: .bottom)
+        tableView.beginUpdates()
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
     }
     
     func insertRows(at indexPaths: [IndexPath]) {
-        tableView.insertRows(at: indexPaths, with: .bottom)
+        tableView.beginUpdates()
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
     }
 }
 
 // MARK: - UITableViewDataSource
 extension ListsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter?.outputs.lists.count ?? 0
+        return presenter?.outputs.lists?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        if let list = presenter?.outputs.lists[indexPath.row] {
+        if let list = presenter?.outputs.lists?[indexPath.row] {
             cell.textLabel?.text = list.title
         }
         
@@ -119,7 +133,6 @@ extension ListsController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
         presenter?.inputs.didMoveList(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
     
@@ -133,7 +146,12 @@ extension ListsController: UITableViewDelegate {
             self?.presenter?.inputs.didDeleteList(at: indexPath)
             completion(true)
         }
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
+            
+            self?.presenter?.inputs.didTapEditList(at: indexPath)
+            completion(true)
+        }
         
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
 }

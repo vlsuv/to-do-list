@@ -11,6 +11,7 @@ import UIKit
 protocol AssemblyModuleBuilderProtocol {
     func createListsController(coordinator: ListsCoordinator) -> UIViewController
     func createTasksController(coordinator: TasksCoordinator) -> UIViewController
+    func createNewListController(coordinator: NewListCoordinator, with list: List?) -> UIViewController
 }
 
 final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
@@ -24,6 +25,13 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
     func createTasksController(coordinator: TasksCoordinator) -> UIViewController {
         let view = TasksController()
         let presenter = TasksPresenter(view: view, coordinator: coordinator)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createNewListController(coordinator: NewListCoordinator, with list: List?) -> UIViewController {
+        let view = NewListController()
+        let presenter = NewListPresenter(view: view, coordinator: coordinator, list: list)
         view.presenter = presenter
         return view
     }

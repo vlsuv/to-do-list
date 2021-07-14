@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ListsCoordinator: Coordinator {
     
@@ -31,6 +32,12 @@ class ListsCoordinator: Coordinator {
         navigationController.viewControllers = [listController]
     }
     
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
+        
+        childCoordinators.remove(at: index)
+    }
+    
     // MARK: - Handlers
     func showTasks() {
         let tasksCoordinator = TasksCoordinator(navigationController: navigationController)
@@ -39,9 +46,10 @@ class ListsCoordinator: Coordinator {
         tasksCoordinator.start()
     }
     
-    func childDidFinish(_ childCoordinator: Coordinator) {
-        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
-        
-        childCoordinators.remove(at: index)
+    func showNewList(with list: List?) {
+        let newListCoordinator = NewListCoordinator(navigationController: navigationController, list: list)
+        childCoordinators.append(newListCoordinator)
+        newListCoordinator.parentCoordinator = self
+        newListCoordinator.start()
     }
 }

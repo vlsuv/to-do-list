@@ -7,20 +7,25 @@
 //
 
 import Foundation
+import RealmSwift
+import Realm
 
 protocol ListsViewProtocol: class {
     func insertRows(at indexPaths: [IndexPath])
     func deleteRows(at indexPaths: [IndexPath])
+    func reloadRows(at indexPaths: [IndexPath])
+    func updateView()
 }
 
 protocol ListsPresenterOutputs {
-    var lists: [List] { get set }
+    var lists: Results<List>? { get set }
 }
 
 protocol ListsPresenterInputs {
     func didTapNewList()
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
     func didDeleteList(at indexPath: IndexPath)
+    func didTapEditList(at indexPath: IndexPath)
     func didSelectList(at indexPath: IndexPath)
 }
 
@@ -39,51 +44,90 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
     
     private weak var view: ListsViewProtocol?
     
-    var lists: [List] = [List]()
+    private var dataManager: DataManagerProtocol {
+        return DataManager.shared
+    }
+    
+    var lists: Results<List>?
+    
+    // Cell was moved while editing table view
+    private var isMoved: Bool = false
     
     // MARK: - Init
     init(view: ListsViewProtocol, coordinator: ListsCoordinator) {
         self.coordinator = coordinator
         self.view = view
         
-        getLists()
+        addListsObserver()
     }
     
     // MARK: - Lists Handlers
-    private func getLists() {
-        lists = [List(title: "order 0", order: 0), List(title: "order 1", order: 1)]
+    func addListsObserver() {
+        dataManager.addObserveForLists { [weak self] changes in
+            
+            switch changes {
+            case .initial(let lists):
+                self?.lists = lists
+                
+                self?.view?.updateView()
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                
+                guard self?.isMoved == false else {
+                    self?.isMoved = false
+                    return
+                }
+                
+                if deletions.count > 0 {
+                    self?.view?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}))
+                }
+                if insertions.count > 0 {
+                    self?.view?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0)}))
+                }
+                if modifications.count > 0 {
+                    self?.view?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0)}))
+                }
+                
+            case .error(let error):
+                print(error)
+            }
+        }
     }
     
     func didTapNewList() {
-        if let lastList = lists.last {
-            lists.append(List(title: "order \(lastList.order + 1)", order: lastList.order + 1))
-        } else {
-            lists.append(List(title: "order \(0)", order: 0))
-        }
-        
-        let indexPath = IndexPath(row: lists.count - 1, section: 0)
-        view?.insertRows(at: [indexPath])
+        coordinator.showNewList(with: nil)
     }
     
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
-        guard sourceIndexPath != destinationIndexPath else { return }
+        guard sourceIndexPath != destinationIndexPath, let lists = lists else { return }
+                
+        self.isMoved = true
         
-        let sourceList = lists[sourceIndexPath.row]
-        let destinationList = lists[destinationIndexPath.row]
-        
-        swap(&sourceList.order, &destinationList.order)
+        DataManager.shared.toChange(handler: {
+            let sourceList = lists[sourceIndexPath.row]
+            let destinationList = lists[destinationIndexPath.row]
+
+            swap(&sourceList.order, &destinationList.order)
+        }) { isChanged in
+            if isChanged {
+                print("List is changed")
+            }
+        }
     }
     
     func didDeleteList(at indexPath: IndexPath) {
-        lists.remove(at: indexPath.row)
+        guard let list = lists?[indexPath.row] else { return }
         
-        view?.deleteRows(at: [indexPath])
+        DataManager.shared.deleteList(list, completion: nil)
+    }
+    
+    func didTapEditList(at indexPath: IndexPath) {
+        guard let list = lists?[indexPath.row] else { return }
+        
+        coordinator.showNewList(with: list)
     }
     
     func didSelectList(at indexPath: IndexPath) {
-        let list = lists[indexPath.row]
-        
-        print(list)
+        guard let list = lists?[indexPath.row] else { return }
         
         coordinator.showTasks()
     }
