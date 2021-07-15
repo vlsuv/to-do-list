@@ -15,6 +15,8 @@ protocol DataManagerProtocol {
     func addList(title: String, completion: ((Bool) -> ())?)
     func deleteList(_ object: ListModel, completion: ((Bool) -> ())?)
     
+    func getAllTasks() -> Results<Task>
+    
     func toChange(handler: (() -> ()), completion: ((Bool) -> ())?)
 }
 
@@ -66,7 +68,9 @@ extension DataManager {
 
 // MARK: - Tasks Manage
 extension DataManager {
-    
+    func getAllTasks() -> Results<Task> {
+        return realmService.get(Task.self)
+    }
 }
 
 // MARK: - Data Helpers

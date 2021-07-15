@@ -52,4 +52,11 @@ class ListsCoordinator: Coordinator {
         newListCoordinator.parentCoordinator = self
         newListCoordinator.start()
     }
+    
+    func showTaskSearch() {
+        let taskSearchCoordinator = TaskSearchCoordinator(navigationController: navigationController)
+        childCoordinators.append(taskSearchCoordinator)
+        taskSearchCoordinator.parentCoordinator = self
+        taskSearchCoordinator.start()
+    }
 }

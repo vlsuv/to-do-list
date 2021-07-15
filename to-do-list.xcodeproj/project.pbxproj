@@ -36,6 +36,9 @@
 		67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408A26A0474300DF50AB /* NewTaskController.swift */; };
 		67F9408D26A0499000DF50AB /* NewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */; };
 		67F9408F26A04A7C00DF50AB /* NewTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */; };
+		67F9409226A0555700DF50AB /* TaskSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9409126A0555700DF50AB /* TaskSearchController.swift */; };
+		67F9409426A05C7300DF50AB /* TaskSearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9409326A05C7300DF50AB /* TaskSearchPresenter.swift */; };
+		67F9409626A05D3E00DF50AB /* TaskSearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9409526A05D3E00DF50AB /* TaskSearchCoordinator.swift */; };
 		9C554772B9A35BD48127FAEA /* Pods_to_do_list.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBCB77ED85E5EA875448AB8B /* Pods_to_do_list.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +74,9 @@
 		67F9408A26A0474300DF50AB /* NewTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskController.swift; sourceTree = "<group>"; };
 		67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskCoordinator.swift; sourceTree = "<group>"; };
 		67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskPresenter.swift; sourceTree = "<group>"; };
+		67F9409126A0555700DF50AB /* TaskSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSearchController.swift; sourceTree = "<group>"; };
+		67F9409326A05C7300DF50AB /* TaskSearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSearchPresenter.swift; sourceTree = "<group>"; };
+		67F9409526A05D3E00DF50AB /* TaskSearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSearchCoordinator.swift; sourceTree = "<group>"; };
 		80CF91C18EA7379767FF72E9 /* Pods-to-do-list.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-to-do-list.release.xcconfig"; path = "Target Support Files/Pods-to-do-list/Pods-to-do-list.release.xcconfig"; sourceTree = "<group>"; };
 		EBCB77ED85E5EA875448AB8B /* Pods_to_do_list.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_to_do_list.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20F3C79C735BCDD31D486C3 /* Pods-to-do-list.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-to-do-list.debug.xcconfig"; path = "Target Support Files/Pods-to-do-list/Pods-to-do-list.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 				6730C1BB269D693C005A5297 /* Info.plist */,
 				6743FC86269D944500CAFA15 /* AssemblyModuleBuilder.swift */,
 				6743FC7F269D858400CAFA15 /* Coordinators */,
+				67F9409026A0553600DF50AB /* TaskSearch */,
 				6730C1C8269D6FE1005A5297 /* Lists */,
 				67331CAD269ED24A007A2948 /* NewList */,
 				6743FC88269DA12200CAFA15 /* Tasks */,
@@ -215,6 +222,7 @@
 				67331CB4269ED875007A2948 /* NewListCoordinator.swift */,
 				6743FC8D269DA2CE00CAFA15 /* TasksCoordinator.swift */,
 				67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */,
+				67F9409526A05D3E00DF50AB /* TaskSearchCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -246,6 +254,15 @@
 				67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */,
 			);
 			path = NewTask;
+			sourceTree = "<group>";
+		};
+		67F9409026A0553600DF50AB /* TaskSearch */ = {
+			isa = PBXGroup;
+			children = (
+				67F9409126A0555700DF50AB /* TaskSearchController.swift */,
+				67F9409326A05C7300DF50AB /* TaskSearchPresenter.swift */,
+			);
+			path = TaskSearch;
 			sourceTree = "<group>";
 		};
 		EF9FA0E3CBACC23EB54D973D /* Frameworks */ = {
@@ -381,14 +398,17 @@
 				6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */,
 				6730C1B0269D6935005A5297 /* SceneDelegate.swift in Sources */,
 				6743FC85269D934000CAFA15 /* ListsPresenter.swift in Sources */,
+				67F9409626A05D3E00DF50AB /* TaskSearchCoordinator.swift in Sources */,
 				6743FC90269DA59F00CAFA15 /* TasksPresenter.swift in Sources */,
 				67331CAF269ED26E007A2948 /* NewListController.swift in Sources */,
 				6743FC7E269D83A900CAFA15 /* Coordinator.swift in Sources */,
+				67F9409226A0555700DF50AB /* TaskSearchController.swift in Sources */,
 				6743FC87269D944500CAFA15 /* AssemblyModuleBuilder.swift in Sources */,
 				67F9408D26A0499000DF50AB /* NewTaskCoordinator.swift in Sources */,
 				6730C1C7269D6A38005A5297 /* Color.swift in Sources */,
 				67331CB3269ED544007A2948 /* TextFieldCell.swift in Sources */,
 				67331CB5269ED875007A2948 /* NewListCoordinator.swift in Sources */,
+				67F9409426A05C7300DF50AB /* TaskSearchPresenter.swift in Sources */,
 				6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */,
 				6743FC83269D862400CAFA15 /* AppCoordinator.swift in Sources */,
 				67331CA9269ECB46007A2948 /* RealmService.swift in Sources */,

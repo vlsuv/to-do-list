@@ -47,10 +47,16 @@ class ListsController: UIViewController {
         presenter?.inputs.didTapNewList()
     }
     
+    @objc private func didTapTaskSearchButton(_ sender: UIBarButtonItem) {
+        presenter?.inputs.didTapTaskSearch()
+    }
+    
     // MARK: - Configures
     private func configureNavigationController() {
+        let taskSearchButton = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(didTapTaskSearchButton(_:)))
         let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
         
+        navigationItem.rightBarButtonItem = taskSearchButton
         navigationItem.leftBarButtonItem = editButton
     }
     

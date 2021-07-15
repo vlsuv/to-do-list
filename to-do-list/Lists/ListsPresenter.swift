@@ -27,6 +27,7 @@ protocol ListsPresenterInputs {
     func didDeleteList(at indexPath: IndexPath)
     func didTapEditList(at indexPath: IndexPath)
     func didSelectList(at indexPath: IndexPath)
+    func didTapTaskSearch()
 }
 
 protocol ListsPresenterType {
@@ -130,5 +131,10 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         guard let list = lists?[indexPath.row] else { return }
         
         coordinator.showTasks(for: list)
+    }
+    
+    // MARK: - Inputs Handlers
+    func didTapTaskSearch() {
+        coordinator.showTaskSearch()
     }
 }
