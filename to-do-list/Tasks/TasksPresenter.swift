@@ -128,15 +128,7 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
     }
     
     func didTapNewTask() {
-        DataManager.shared.toChange(handler: { [weak self] in
-            
-            if let lastOrder = self?.unfinishedTasks.last?.order {
-                self?.list.tasks.append(Task(title: "Baz \(lastOrder + 1)", owner: list, order: lastOrder + 1))
-            } else {
-                list.tasks.append(Task(title: "Baz", owner: list, order: 1))
-            }
-            
-            }, completion: nil)
+        coordinator.showNewTask(for: list)
     }
     
     func didMoveTask(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
