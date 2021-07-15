@@ -19,10 +19,10 @@ class NewListCoordinator: Coordinator {
     
     private let assemblyBuilder: AssemblyModuleBuilderProtocol
     
-    private var list: List?
+    private var list: ListModel?
     
     // MARK: - Init
-    init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder(), list: List?) {
+    init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder(), list: ListModel?) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
         self.list = list

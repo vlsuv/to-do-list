@@ -10,10 +10,10 @@ import Foundation
 import RealmSwift
 
 protocol DataManagerProtocol {
-    func getLists() -> Results<List>
-    func addObserveForLists(block: @escaping (RealmCollectionChange<Results<List>>) -> ())
+    func getLists() -> Results<ListModel>
+    func addObserveForLists(block: @escaping (RealmCollectionChange<Results<ListModel>>) -> ())
     func addList(title: String, completion: ((Bool) -> ())?)
-    func deleteList(_ object: List, completion: ((Bool) -> ())?)
+    func deleteList(_ object: ListModel, completion: ((Bool) -> ())?)
     
     func toChange(handler: (() -> ()), completion: ((Bool) -> ())?)
 }
@@ -25,7 +25,7 @@ class DataManager: DataManagerProtocol {
     
     private let realmService: RealmServiceProtocol
     
-    private var lists: Results<List>
+    private var lists: Results<ListModel>
     
     private var listsObserver: NotificationToken?
     
@@ -33,35 +33,40 @@ class DataManager: DataManagerProtocol {
     private init() {
         self.realmService = RealmService()
         
-        lists = realmService.get(List.self).sorted(byKeyPath: "order", ascending: true)
+        lists = realmService.get(ListModel.self).sorted(byKeyPath: "order", ascending: true)
     }
 }
 
 // MARK: - Lists Manage
 extension DataManager {
-    func getLists() -> Results<List> {
+    func getLists() -> Results<ListModel> {
         return lists
     }
     
-    func addObserveForLists(block: @escaping (RealmCollectionChange<Results<List>>) -> ()) {
+    func addObserveForLists(block: @escaping (RealmCollectionChange<Results<ListModel>>) -> ()) {
         listsObserver = lists.observe(block)
     }
     
     func addList(title: String, completion: ((Bool) -> ())?) {
-        let newList: List
+        let newList: ListModel
         
         if let lastList = lists.last {
-            newList = List(title: title, order: lastList.order + 1)
+            newList = ListModel(title: title, order: lastList.order + 1)
         } else {
-            newList = List(title: title, order: 1)
+            newList = ListModel(title: title, order: 1)
         }
         
         realmService.add(newList, completion: completion)
     }
     
-    func deleteList(_ object: List, completion: ((Bool) -> ())?) {
+    func deleteList(_ object: ListModel, completion: ((Bool) -> ())?) {
         realmService.delete(object, completion: completion)
     }
+}
+
+// MARK: - Tasks Manage
+extension DataManager {
+    
 }
 
 // MARK: - Data Helpers

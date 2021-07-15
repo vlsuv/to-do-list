@@ -18,7 +18,7 @@ protocol ListsViewProtocol: class {
 }
 
 protocol ListsPresenterOutputs {
-    var lists: Results<List>? { get set }
+    var lists: Results<ListModel>? { get set }
 }
 
 protocol ListsPresenterInputs {
@@ -48,7 +48,7 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         return DataManager.shared
     }
     
-    var lists: Results<List>?
+    var lists: Results<ListModel>?
     
     // Cell was moved while editing table view
     private var isMoved: Bool = false
@@ -129,6 +129,6 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
     func didSelectList(at indexPath: IndexPath) {
         guard let list = lists?[indexPath.row] else { return }
         
-        coordinator.showTasks()
+        coordinator.showTasks(for: list)
     }
 }

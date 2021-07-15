@@ -25,6 +25,7 @@ class TasksController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.white
         
+        configureNavigationController()
         configureTableView()
     }
     
@@ -37,7 +38,23 @@ class TasksController: UIViewController {
         print("deinit: \(self)")
     }
     
+    // MARK: - Targets
+    @objc private func didTapNewTaskButton(_ sender: UIBarButtonItem) {
+        presenter?.inputs.didTapNewTask()
+    }
+    
+    @objc private func didTapEditButton(_ sender: UIBarButtonItem) {
+        tableView.isEditing.toggle()
+    }
+    
     // MARK: - Configure
+    private func configureNavigationController() {
+        let newTaskButton = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(didTapNewTaskButton(_:)))
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
+        
+        navigationItem.rightBarButtonItems = [newTaskButton, editButton]
+    }
+    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -53,11 +70,15 @@ class TasksController: UIViewController {
 // MARK: - TasksViewProtocol
 extension TasksController: TasksViewProtocol {
     func insertRows(at indexPaths: [IndexPath]) {
-        tableView.insertRows(at: indexPaths, with: .bottom)
+        tableView.beginUpdates()
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
     }
     
     func deleteRows(at indexPaths: [IndexPath]) {
-        tableView.deleteRows(at: indexPaths, with: .bottom)
+        tableView.beginUpdates()
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
     }
     
     func updateView() {
@@ -111,15 +132,12 @@ extension TasksController: UITableViewDelegate {
         presenter?.inputs.didSelectTask(at: indexPath)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
-    }
-    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard indexPath.row > 0, indexPath.section == 0 else { return nil }
+        guard let section = presenter?.outputs.taskSections[indexPath.section], section.canDone, indexPath.row > 0 else {
+            return nil
+        }
         
         let doneAction = UIContextualAction(style: .destructive, title: "Done") { [weak self] action, view, completion in
-            
             self?.presenter?.inputs.didTapDone(at: indexPath)
             
             completion(true)
@@ -127,5 +145,37 @@ extension TasksController: UITableViewDelegate {
         doneAction.backgroundColor = .blue
         
         return UISwipeActionsConfiguration(actions: [doneAction])
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        guard let section = presenter?.outputs.taskSections[indexPath.section], section.canMove, indexPath.row > 0 else {
+            return false
+        }
+        
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        guard let section = presenter?.outputs.taskSections[proposedDestinationIndexPath.section], section.canMove, proposedDestinationIndexPath.row > 0 else {
+            return sourceIndexPath
+        }
+        
+        return proposedDestinationIndexPath
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        presenter?.inputs.didMoveTask(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
     }
 }

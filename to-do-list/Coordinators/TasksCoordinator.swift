@@ -19,14 +19,17 @@ class TasksCoordinator: Coordinator {
     
     private let assemblyBuilder: AssemblyModuleBuilderProtocol
     
+    private let list: ListModel
+    
     // MARK: - Init
-    init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder()) {
+    init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder(), list: ListModel) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
+        self.list = list
     }
     
     func start() {
-        let tasksController = assemblyBuilder.createTasksController(coordinator: self)
+        let tasksController = assemblyBuilder.createTasksController(coordinator: self, for: list)
         navigationController.pushViewController(tasksController, animated: true)
     }
     

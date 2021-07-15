@@ -7,12 +7,24 @@
 //
 
 import Foundation
+import RealmSwift
 
-class Task {
-    var title: String
-    var isDone: Bool = false
+class Task: Object {
+    @objc dynamic var id: String = UUID().uuidString
+    @objc dynamic var title: String = ""
+    @objc dynamic var isDone: Bool = false
+    @objc dynamic var owner: ListModel?
+    @objc dynamic var order: Int = 0
     
-    init(title: String) {
+    convenience init(title: String, owner: ListModel? = nil, order: Int) {
+        self.init()
         self.title = title
+        self.owner = owner
+        self.order = order
+    }
+    
+    override class func primaryKey() -> String? {
+        return "id"
     }
 }
+

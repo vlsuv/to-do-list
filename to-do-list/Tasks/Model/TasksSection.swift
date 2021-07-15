@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct TasksSection {
     var title: String
-    var tasks: [Task]
+    var tasks: Results<Task>
     var isExpand: Bool = true
+    
+    var canMove: Bool
+    var canDone: Bool
 }

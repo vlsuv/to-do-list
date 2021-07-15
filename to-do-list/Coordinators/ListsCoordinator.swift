@@ -39,14 +39,14 @@ class ListsCoordinator: Coordinator {
     }
     
     // MARK: - Handlers
-    func showTasks() {
-        let tasksCoordinator = TasksCoordinator(navigationController: navigationController)
+    func showTasks(for list: ListModel) {
+        let tasksCoordinator = TasksCoordinator(navigationController: navigationController, list: list)
         childCoordinators.append(tasksCoordinator)
         tasksCoordinator.parentCoordinator = self
         tasksCoordinator.start()
     }
     
-    func showNewList(with list: List?) {
+    func showNewList(with list: ListModel?) {
         let newListCoordinator = NewListCoordinator(navigationController: navigationController, list: list)
         childCoordinators.append(newListCoordinator)
         newListCoordinator.parentCoordinator = self

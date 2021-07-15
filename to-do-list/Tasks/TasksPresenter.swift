@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol TasksViewProtocol: class {
     func updateView()
@@ -18,6 +19,8 @@ protocol TasksPresenterInputs {
     func viewDidDisappear()
     func didSelectTask(at indexPath: IndexPath)
     func didTapDone(at indexPath: IndexPath)
+    func didTapNewTask()
+    func didMoveTask(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
 }
 
 protocol TasksPresenterOutputs {
@@ -31,7 +34,7 @@ protocol TasksPresenterType {
 
 class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOutputs {
     
-    // MARK: - Properties
+    // MARK: - Presenter Properties
     var inputs: TasksPresenterInputs { return self }
     var outputs: TasksPresenterOutputs { return self }
     
@@ -39,17 +42,27 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
     
     private weak var view: TasksViewProtocol?
     
+    // MARK: - Tasks Properties
     var taskSections: [TasksSection] = []
     
-    private var unfinishedTasks: [Task] = []
-    private var finishedTasks: [Task] = []
+    private let list: ListModel
+    
+    private var unfinishedTasks: Results<Task> {
+        return list.tasks.filter("isDone == false").sorted(byKeyPath: "order", ascending: true)
+    }
+    private var finishedTasks: Results<Task> {
+        return list.tasks.filter("isDone == true")
+    }
+    
+    private var tasksObserver: NotificationToken?
     
     // MARK: - Init
-    init(view: TasksViewProtocol, coordinator: TasksCoordinator) {
+    init(view: TasksViewProtocol, coordinator: TasksCoordinator, list: ListModel) {
         self.view = view
         self.coordinator = coordinator
+        self.list = list
         
-        getTasks()
+        addTasksObserver()
         configureTasksSections()
     }
     
@@ -61,21 +74,22 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
         print("deinit: \(self)")
     }
     
-    // MARK: - Fetching
-    private func getTasks() {
-        unfinishedTasks = [Task(title: "bar"), Task(title: "bar"), Task(title: "bar"), Task(title: "bar")]
-        finishedTasks = [Task(title: "baz"), Task(title: "baz")]
+    // MARK: - Tasks Configures
+    private func addTasksObserver() {
+        tasksObserver = list.tasks.observe({ [weak self] changes in
+            self?.view?.updateView()
+        })
     }
     
-    // MARK: - Handlers
     private func configureTasksSections() {
-        let unfinishedTasksSection = TasksSection(title: "tasks", tasks: unfinishedTasks, isExpand: true)
+        let unfinishedTasksSection = TasksSection(title: "tasks", tasks: unfinishedTasks, isExpand: true, canMove: true, canDone: true)
         
-        let finishedTasksSection = TasksSection(title: "finished tasks", tasks: finishedTasks, isExpand: false)
+        let finishedTasksSection = TasksSection(title: "finished tasks", tasks: finishedTasks, isExpand: false, canMove: false, canDone: false)
         
         taskSections = [unfinishedTasksSection, finishedTasksSection]
     }
     
+    // MARK: - Inputs Handlers
     func didSelectTask(at indexPath: IndexPath) {
         if indexPath.row == 0 {
             taskSections[indexPath.section].isExpand.toggle()
@@ -100,9 +114,44 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
                 
                 view?.deleteRows(at: indexPathsToDelete)
             }
+        } else {
+            
         }
     }
     
     func didTapDone(at indexPath: IndexPath) {
+        let task = taskSections[indexPath.section].tasks[indexPath.row - 1]
+        
+        DataManager.shared.toChange(handler: {
+            task.isDone.toggle()
+        }, completion: nil)
+    }
+    
+    func didTapNewTask() {
+        DataManager.shared.toChange(handler: { [weak self] in
+            
+            if let lastOrder = self?.unfinishedTasks.last?.order {
+                self?.list.tasks.append(Task(title: "Baz \(lastOrder + 1)", owner: list, order: lastOrder + 1))
+            } else {
+                list.tasks.append(Task(title: "Baz", owner: list, order: 1))
+            }
+            
+            }, completion: nil)
+    }
+    
+    func didMoveTask(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+        let sourceSection = taskSections[sourceIndexPath.section]
+        let destinationSection = taskSections[destinationIndexPath.section]
+        
+        guard sourceSection.canMove, destinationSection.canMove, sourceIndexPath.row > 0, destinationIndexPath.row > 0 else {
+            return
+        }
+        
+        let sourceTask = sourceSection.tasks[sourceIndexPath.row - 1]
+        let destinationTask = destinationSection.tasks[destinationIndexPath.row - 1]
+        
+        DataManager.shared.toChange(handler: {
+            swap(&sourceTask.order, &destinationTask.order)
+        }, completion: nil)
     }
 }

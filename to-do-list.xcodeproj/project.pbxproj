@@ -14,7 +14,7 @@
 		6730C1BA269D693C005A5297 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6730C1B8269D693C005A5297 /* LaunchScreen.storyboard */; };
 		6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1C3269D6A1A005A5297 /* UIView extensions.swift */; };
 		6730C1C7269D6A38005A5297 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1C6269D6A38005A5297 /* Color.swift */; };
-		6730C1CA269D70EC005A5297 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1C9269D70EC005A5297 /* List.swift */; };
+		6730C1CA269D70EC005A5297 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1C9269D70EC005A5297 /* ListModel.swift */; };
 		67331CA9269ECB46007A2948 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67331CA8269ECB46007A2948 /* RealmService.swift */; };
 		67331CAC269ECBBE007A2948 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67331CAB269ECBBE007A2948 /* DataManager.swift */; };
 		67331CAF269ED26E007A2948 /* NewListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67331CAE269ED26E007A2948 /* NewListController.swift */; };
@@ -46,7 +46,7 @@
 		6730C1BB269D693C005A5297 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6730C1C3269D6A1A005A5297 /* UIView extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView extensions.swift"; sourceTree = "<group>"; };
 		6730C1C6269D6A38005A5297 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		6730C1C9269D70EC005A5297 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		6730C1C9269D70EC005A5297 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
 		67331CA8269ECB46007A2948 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		67331CAB269ECBBE007A2948 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		67331CAE269ED26E007A2948 /* NewListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListController.swift; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		6730C1C8269D6FE1005A5297 /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				6730C1C9269D70EC005A5297 /* List.swift */,
+				6730C1C9269D70EC005A5297 /* ListModel.swift */,
 				6730C1B1269D6935005A5297 /* ListsController.swift */,
 				6743FC84269D934000CAFA15 /* ListsPresenter.swift */,
 			);
@@ -376,7 +376,7 @@
 				6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */,
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,
-				6730C1CA269D70EC005A5297 /* List.swift in Sources */,
+				6730C1CA269D70EC005A5297 /* ListModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

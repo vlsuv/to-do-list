@@ -38,7 +38,7 @@ class NewListPresenter: NewListPresenterType, NewListPresenterInputs, NewListPre
     
     var sections: [NewListSection] = []
     
-    var list: List?
+    var list: ListModel?
     
     var editMode: Bool {
         return list != nil
@@ -47,7 +47,7 @@ class NewListPresenter: NewListPresenterType, NewListPresenterInputs, NewListPre
     var listTitle: String = ""
     
     // MARK: - Init
-    init(view: NewListViewProtocol, coordinator: NewListCoordinator, list: List?) {
+    init(view: NewListViewProtocol, coordinator: NewListCoordinator, list: ListModel?) {
         self.view = view
         self.coordinator = coordinator
         self.list = list
