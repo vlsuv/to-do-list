@@ -15,9 +15,30 @@ class NewTaskController: UIViewController {
     
     private var titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Title"
+        textField.placeholder = "New task"
         textField.textColor = Color.black
         return textField
+    }()
+    
+    private var detailTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Add details"
+        textField.textColor = Color.black
+        textField.isHidden = true
+        return textField
+    }()
+    
+    private var vStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    private var addDetailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(Image.listImage, for: .normal)
+        return button
     }()
     
     private var saveButton: UIButton = {
@@ -27,17 +48,12 @@ class NewTaskController: UIViewController {
         return button
     }()
     
-    private var hStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        return stackView
-    }()
-    
     // MARK: - Origin Point Properties
     private var hasSetPointOrigin = false
     
     private var pointOrigin: CGPoint?
+    
+    private var initialY: CGFloat?
     
     private var isKeyboardAppear: Bool = false
     
@@ -46,7 +62,7 @@ class NewTaskController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.white
         
-        configureHStackView()
+        configureElements()
         addTargets()
         
         addKeyboardObservers()
@@ -61,16 +77,18 @@ class NewTaskController: UIViewController {
             return
         }
         
-        let elementsHeight: CGFloat = hStackView.frame.height + 60
+        let elementsHeight: CGFloat = vStackView.frame.height + 36 + addDetailButton.frame.height
         
         view.frame.origin = CGPoint(x: 0, y: containerHeight - elementsHeight)
+        
+        initialY = containerHeight - elementsHeight
         
         if !hasSetPointOrigin {
             hasSetPointOrigin = true
             pointOrigin = self.view.frame.origin
+            
+            titleTextField.becomeFirstResponder()
         }
-        
-        titleTextField.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -89,27 +107,58 @@ class NewTaskController: UIViewController {
         presenter?.inputs.didChangeTitleText(text)
     }
     
+    @objc private func didChangeDetailTextFieldText(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        presenter?.inputs.didChangeDetailText(text)
+    }
+    
     @objc private func didTapSaveButton(_ sender: UITextField) {
         presenter?.inputs.didTapSave()
     }
     
+    @objc private func didTapAddDetailButton(_ sender: UIButton) {
+        guard detailTextField.isHidden else { return }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.detailTextField.isHidden = false
+            self.detailTextField.becomeFirstResponder()
+        }
+    }
+    
     // MARK: - Configures
-    private func configureHStackView() {
-        view.addSubview(hStackView)
-        hStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+    private func configureElements() {
+        view.addSubview(vStackView)
+        vStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           left: view.leftAnchor,
                           right: view.rightAnchor,
-                          paddingTop: 30,
+                          paddingTop: 18,
                           paddingLeft: 18,
                           paddingRight: 18,
                           height: 48)
         
-        [titleTextField, saveButton].forEach { hStackView.addArrangedSubview($0) }
-        saveButton.anchor(width: 56)
+        [titleTextField, detailTextField]
+            .forEach { vStackView.addArrangedSubview($0) }
+        
+        view.addSubview(addDetailButton)
+        addDetailButton.anchor(top: vStackView.bottomAnchor,
+                               left: vStackView.leftAnchor,
+                               paddingTop: 8,
+                               height: 20)
+        
+        view.addSubview(saveButton)
+        saveButton.anchor(top: vStackView.bottomAnchor,
+                          right: view.rightAnchor,
+                          paddingTop: 8,
+                          paddingRight: 18,
+                          height: 20,
+                          width: 56)
     }
     
     private func addTargets() {
         titleTextField.addTarget(self, action: #selector(didChangeTitleTextFieldText(_:)), for: .editingChanged)
+        detailTextField.addTarget(self, action: #selector(didChangeDetailTextFieldText(_:)), for: .editingChanged)
+        addDetailButton.addTarget(self, action: #selector(didTapAddDetailButton(_:)), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(didTapSaveButton(_:)), for: .touchUpInside)
     }
     
@@ -136,6 +185,8 @@ extension NewTaskController {
             return
         }
         
+        guard self.view.frame.origin.y == initialY else { return }
+        
         UIView.animate(withDuration: duration) {
             self.view.frame.origin.y -= keyboardSize.height
         }
@@ -153,6 +204,8 @@ extension NewTaskController {
         }
         
         self.pointOrigin = self.view.frame.origin
+        
+        self.isKeyboardAppear = false
     }
 }
 

@@ -33,6 +33,7 @@
 		6743FC90269DA59F00CAFA15 /* TasksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC8F269DA59E00CAFA15 /* TasksPresenter.swift */; };
 		6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC93269DC22800CAFA15 /* TaskCell.swift */; };
 		6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC95269DC4BB00CAFA15 /* TasksSection.swift */; };
+		6748CC0026A1CEA200C044DA /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748CBFF26A1CEA200C044DA /* Image.swift */; };
 		67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408A26A0474300DF50AB /* NewTaskController.swift */; };
 		67F9408D26A0499000DF50AB /* NewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */; };
 		67F9408F26A04A7C00DF50AB /* NewTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */; };
@@ -73,6 +74,7 @@
 		6743FC8F269DA59E00CAFA15 /* TasksPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksPresenter.swift; sourceTree = "<group>"; };
 		6743FC93269DC22800CAFA15 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		6743FC95269DC4BB00CAFA15 /* TasksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSection.swift; sourceTree = "<group>"; };
+		6748CBFF26A1CEA200C044DA /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		67F9408A26A0474300DF50AB /* NewTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskController.swift; sourceTree = "<group>"; };
 		67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskCoordinator.swift; sourceTree = "<group>"; };
 		67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskPresenter.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				6730C1C6269D6A38005A5297 /* Color.swift */,
+				6748CBFF26A1CEA200C044DA /* Image.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */,
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,
+				6748CC0026A1CEA200C044DA /* Image.swift in Sources */,
 				6730C1CA269D70EC005A5297 /* ListModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

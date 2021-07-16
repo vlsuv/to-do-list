@@ -12,13 +12,15 @@ import RealmSwift
 class Task: Object {
     @objc dynamic var id: String = UUID().uuidString
     @objc dynamic var title: String = ""
+    @objc dynamic var details: String?
     @objc dynamic var isDone: Bool = false
     @objc dynamic var owner: ListModel?
     @objc dynamic var order: Int = 0
     
-    convenience init(title: String, owner: ListModel? = nil, order: Int) {
+    convenience init(title: String, details: String?, owner: ListModel? = nil, order: Int) {
         self.init()
         self.title = title
+        self.details = details
         self.owner = owner
         self.order = order
     }

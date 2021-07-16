@@ -15,6 +15,7 @@ protocol NewTaskViewProtocol: class {
 protocol NewTaskPresenterInputs {
     func viewDidDisappear()
     func didChangeTitleText(_ text: String)
+    func didChangeDetailText(_ text: String)
     func didTapSave()
 }
 
@@ -41,6 +42,8 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
     
     var taskTitle: String = ""
     
+    var taskDetail: String = ""
+    
     // MARK: - Init
     init(view: NewTaskViewProtocol, coordinator: NewTaskCoordinator, list: ListModel) {
         self.view = view
@@ -61,6 +64,10 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
         taskTitle = text
     }
     
+    func didChangeDetailText(_ text: String) {
+        taskDetail = text
+    }
+    
     func didTapSave() {
         guard !taskTitle.isEmpty else { return }
         
@@ -69,9 +76,9 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
         DataManager.shared.toChange(handler: { [weak self] in
             
             if let lastOrder = unfinishedTasks.last?.order {
-                self?.list.tasks.append(Task(title: taskTitle, owner: list, order: lastOrder + 1))
+                self?.list.tasks.append(Task(title: taskTitle, details: taskDetail, owner: list, order: lastOrder + 1))
             } else {
-                list.tasks.append(Task(title: taskTitle, owner: list, order: 1))
+                list.tasks.append(Task(title: taskTitle, details: taskDetail, owner: list, order: 1))
             }
             
             }, completion: { [weak self] isAdded in
