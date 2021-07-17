@@ -91,12 +91,12 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
     
     // MARK: - Inputs Handlers
     func didSelectTask(at indexPath: IndexPath) {
+        let section = taskSections[indexPath.section]
+        
         if indexPath.row == 0 {
             taskSections[indexPath.section].isExpand.toggle()
             
-            let section = taskSections[indexPath.section]
-            
-            if section.isExpand {
+            if !section.isExpand {
                 var indexPathsToShow: [IndexPath] = []
                 
                 for i in 0..<section.tasks.count {
@@ -115,7 +115,9 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
                 view?.deleteRows(at: indexPathsToDelete)
             }
         } else {
-            
+            let task = section.tasks[indexPath.row - 1]
+
+            coordinator.showEditTask(for: task)
         }
     }
     

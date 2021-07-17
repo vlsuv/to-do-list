@@ -16,6 +16,7 @@ protocol DataManagerProtocol {
     func deleteList(_ object: ListModel, completion: ((Bool) -> ())?)
     
     func getAllTasks() -> Results<Task>
+    func deleteTask(_ object: Task, completion: ((Bool) -> ())?)
     
     func toChange(handler: (() -> ()), completion: ((Bool) -> ())?)
 }
@@ -70,6 +71,10 @@ extension DataManager {
 extension DataManager {
     func getAllTasks() -> Results<Task> {
         return realmService.get(Task.self)
+    }
+    
+    func deleteTask(_ object: Task, completion: ((Bool) -> ())?) {
+        realmService.delete(object, completion: completion)
     }
 }
 
