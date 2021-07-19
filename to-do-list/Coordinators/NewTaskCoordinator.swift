@@ -46,7 +46,20 @@ class NewTaskCoordinator: Coordinator {
         parentCoordinator?.childDidFinish(self)
     }
     
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
+        
+        childCoordinators.remove(at: index)
+    }
+    
     func didFinishAddNewTask() {
         navigationController.presentedViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    func showReminder() {
+        let reminderCoordinator = ReminderCoordinator(navigationController: navigationController)
+        reminderCoordinator.parentCoordinator = self
+        childCoordinators.append(reminderCoordinator)
+        reminderCoordinator.start()
     }
 }

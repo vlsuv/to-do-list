@@ -17,6 +17,7 @@ protocol NewTaskPresenterInputs {
     func didChangeTitleText(_ text: String)
     func didChangeDetailText(_ text: String)
     func didTapSave()
+    func didTapAddReminder()
 }
 
 protocol NewTaskPresenterOutputs {
@@ -86,5 +87,9 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
                     self?.coordinator.didFinishAddNewTask()
                 }
         })
+    }
+    
+    func didTapAddReminder() {
+        coordinator.showReminder()
     }
 }

@@ -28,16 +28,15 @@ class NewTaskController: UIViewController {
         return textView
     }()
     
-    var vStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        return stackView
+    var addDetailButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        button.setImage(Image.listImage, for: .normal)
+        return button
     }()
     
-    var addDetailButton: UIButton = {
-        let button = UIButton()
-        button.setImage(Image.listImage, for: .normal)
+    var addReminderButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        button.setImage(Image.calendarIcon, for: .normal)
         return button
     }()
     
@@ -48,6 +47,21 @@ class NewTaskController: UIViewController {
         return button
     }()
     
+    var vStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    var hStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 6
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
+    
     // Size Properties
     private var keyboardHeight: CGFloat?
     
@@ -56,7 +70,7 @@ class NewTaskController: UIViewController {
     }
     
     var elementsHeight: CGFloat {
-        return vStackView.frame.height + addDetailButton.frame.height + 36
+        return vStackView.frame.height + hStackView.frame.height + 36
     }
     
     var currentPointOrigin: CGPoint {
@@ -124,8 +138,14 @@ class NewTaskController: UIViewController {
         }
     }
     
+    @objc private func didTapAddReminderButton(_ sender: UIButton) {
+        view.endEditing(true)
+        
+        presenter?.inputs.didTapAddReminder()
+    }
+    
     // MARK: - Configures
-   private func configureElements() {
+    private func configureElements() {
         view.addSubview(vStackView)
         vStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           left: view.leftAnchor,
@@ -137,25 +157,30 @@ class NewTaskController: UIViewController {
         [titleTextField, detailTextView]
             .forEach { vStackView.addArrangedSubview($0) }
         
-        view.addSubview(addDetailButton)
-        addDetailButton.anchor(top: vStackView.bottomAnchor,
-                               left: vStackView.leftAnchor,
-                               paddingTop: 8,
-                               height: 20)
-        
         view.addSubview(saveButton)
-        saveButton.anchor(top: detailTextView.bottomAnchor,
+        saveButton.anchor(top: vStackView.bottomAnchor,
                           right: view.rightAnchor,
                           paddingTop: 8,
                           paddingRight: 18,
                           height: 20,
                           width: 56)
+        
+        view.addSubview(hStackView)
+        hStackView.anchor(top: vStackView.bottomAnchor,
+                          left: view.leftAnchor,
+                          paddingTop: 8,
+                          paddingLeft: 18,
+                          height: 20)
+        
+        [addDetailButton, addReminderButton]
+            .forEach { hStackView.addArrangedSubview($0) }
     }
     
     private func addTargets() {
         titleTextField.addTarget(self, action: #selector(didChangeTitleTextFieldText(_:)), for: .editingChanged)
         addDetailButton.addTarget(self, action: #selector(didTapAddDetailButton(_:)), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(didTapSaveButton(_:)), for: .touchUpInside)
+        addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton(_:)), for: .touchUpInside)
     }
     
     private func configurePanGesture() {

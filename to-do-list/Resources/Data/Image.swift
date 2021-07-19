@@ -10,4 +10,5 @@ import UIKit
 
 enum Image {
     static let listImage = UIImage(systemName: "text.justifyleft")
+    static let calendarIcon = UIImage(systemName: "calendar")
 }
