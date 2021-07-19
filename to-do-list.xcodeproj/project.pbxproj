@@ -34,6 +34,9 @@
 		6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC93269DC22800CAFA15 /* TaskCell.swift */; };
 		6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6743FC95269DC4BB00CAFA15 /* TasksSection.swift */; };
 		6748CC0026A1CEA200C044DA /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748CBFF26A1CEA200C044DA /* Image.swift */; };
+		677F51D726A4461F002B943B /* EditTaskSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51D626A4461F002B943B /* EditTaskSection.swift */; };
+		677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */; };
+		677F51DB26A44BD0002B943B /* EditTaskTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */; };
 		67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833626A2CB8F0028ECCD /* EditTaskController.swift */; };
 		67D0833926A2D49E0028ECCD /* EditTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833826A2D49E0028ECCD /* EditTaskPresenter.swift */; };
 		67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */; };
@@ -78,6 +81,9 @@
 		6743FC93269DC22800CAFA15 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		6743FC95269DC4BB00CAFA15 /* TasksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSection.swift; sourceTree = "<group>"; };
 		6748CBFF26A1CEA200C044DA /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		677F51D626A4461F002B943B /* EditTaskSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskSection.swift; sourceTree = "<group>"; };
+		677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextFieldCell.swift; sourceTree = "<group>"; };
+		677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextViewCell.swift; sourceTree = "<group>"; };
 		67D0833626A2CB8F0028ECCD /* EditTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskController.swift; sourceTree = "<group>"; };
 		67D0833826A2D49E0028ECCD /* EditTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskPresenter.swift; sourceTree = "<group>"; };
 		67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskCoordinator.swift; sourceTree = "<group>"; };
@@ -277,6 +283,9 @@
 			children = (
 				67D0833626A2CB8F0028ECCD /* EditTaskController.swift */,
 				67D0833826A2D49E0028ECCD /* EditTaskPresenter.swift */,
+				677F51D626A4461F002B943B /* EditTaskSection.swift */,
+				677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */,
+				677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */,
 			);
 			path = EditTask;
 			sourceTree = "<group>";
@@ -429,6 +438,7 @@
 				67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */,
 				6730C1B2269D6935005A5297 /* ListsController.swift in Sources */,
 				6730C1AE269D6935005A5297 /* AppDelegate.swift in Sources */,
+				677F51DB26A44BD0002B943B /* EditTaskTextViewCell.swift in Sources */,
 				67331CB1269ED280007A2948 /* NewListPresenter.swift in Sources */,
 				6743FC96269DC4BB00CAFA15 /* TasksSection.swift in Sources */,
 				67D0833926A2D49E0028ECCD /* EditTaskPresenter.swift in Sources */,
@@ -448,6 +458,8 @@
 				67F9409426A05C7300DF50AB /* TaskSearchPresenter.swift in Sources */,
 				6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */,
 				6743FC83269D862400CAFA15 /* AppCoordinator.swift in Sources */,
+				677F51D726A4461F002B943B /* EditTaskSection.swift in Sources */,
+				677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */,
 				67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */,
 				67331CA9269ECB46007A2948 /* RealmService.swift in Sources */,
 				67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */,
