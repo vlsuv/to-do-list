@@ -32,6 +32,6 @@ struct EditTaskTextViewOption {
 }
 
 struct EditTaskListOption {
-    var parentList: ListModel
-    var handler: ((ListModel) -> ())?
+    var parentList: (() -> (ListModel?))
+    var handler: (() -> ())?
 }

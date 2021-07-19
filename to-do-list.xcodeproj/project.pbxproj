@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3626A5759300E8E589 /* ListsChoiseController.swift */; };
+		671B3B3926A57C2200E8E589 /* ListsChoisePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3826A57C2200E8E589 /* ListsChoisePresenter.swift */; };
+		671B3B3B26A57CD100E8E589 /* ListsChoiseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3A26A57CD100E8E589 /* ListsChoiseCoordinator.swift */; };
 		6730C1AE269D6935005A5297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1AD269D6935005A5297 /* AppDelegate.swift */; };
 		6730C1B0269D6935005A5297 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1AF269D6935005A5297 /* SceneDelegate.swift */; };
 		6730C1B2269D6935005A5297 /* ListsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6730C1B1269D6935005A5297 /* ListsController.swift */; };
@@ -52,6 +55,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		671B3B3626A5759300E8E589 /* ListsChoiseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoiseController.swift; sourceTree = "<group>"; };
+		671B3B3826A57C2200E8E589 /* ListsChoisePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoisePresenter.swift; sourceTree = "<group>"; };
+		671B3B3A26A57CD100E8E589 /* ListsChoiseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoiseCoordinator.swift; sourceTree = "<group>"; };
 		6730C1AA269D6935005A5297 /* to-do-list.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "to-do-list.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6730C1AD269D6935005A5297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6730C1AF269D6935005A5297 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +127,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		671B3B3526A5756F00E8E589 /* ListsChoise */ = {
+			isa = PBXGroup;
+			children = (
+				671B3B3626A5759300E8E589 /* ListsChoiseController.swift */,
+				671B3B3826A57C2200E8E589 /* ListsChoisePresenter.swift */,
+			);
+			path = ListsChoise;
+			sourceTree = "<group>";
+		};
 		6730C1A1269D6934005A5297 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +168,7 @@
 				6743FC88269DA12200CAFA15 /* Tasks */,
 				67D0833526A2CB620028ECCD /* EditTask */,
 				67F9408926A0472D00DF50AB /* NewTask */,
+				671B3B3526A5756F00E8E589 /* ListsChoise */,
 				6730C1C1269D69DE005A5297 /* Resources */,
 			);
 			path = "to-do-list";
@@ -246,6 +262,7 @@
 				67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */,
 				67F9409526A05D3E00DF50AB /* TaskSearchCoordinator.swift */,
 				67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */,
+				671B3B3A26A57CD100E8E589 /* ListsChoiseCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -457,15 +474,18 @@
 				67331CB5269ED875007A2948 /* NewListCoordinator.swift in Sources */,
 				67F9409426A05C7300DF50AB /* TaskSearchPresenter.swift in Sources */,
 				6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */,
+				671B3B3926A57C2200E8E589 /* ListsChoisePresenter.swift in Sources */,
 				6743FC83269D862400CAFA15 /* AppCoordinator.swift in Sources */,
 				677F51D726A4461F002B943B /* EditTaskSection.swift in Sources */,
 				677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */,
+				671B3B3B26A57CD100E8E589 /* ListsChoiseCoordinator.swift in Sources */,
 				67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */,
 				67331CA9269ECB46007A2948 /* RealmService.swift in Sources */,
 				67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */,
 				67331CAC269ECBBE007A2948 /* DataManager.swift in Sources */,
 				6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */,
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
+				671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,
 				6748CC0026A1CEA200C044DA /* Image.swift in Sources */,
 				6730C1CA269D70EC005A5297 /* ListModel.swift in Sources */,

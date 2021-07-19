@@ -15,6 +15,7 @@ protocol AssemblyModuleBuilderProtocol {
     func createNewTaskController(coordinator: NewTaskCoordinator, for list: ListModel) -> UIViewController
     func createTaskSearchController(coordinator: TaskSearchCoordinator) -> UIViewController
     func createEditTaskController(coordinator: EditTaskCoordinator, for task: Task) -> UIViewController
+    func createListsChoiseController(coordinator: ListsChoiseCoordinator, for task: Task) -> UIViewController
 }
 
 final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
@@ -56,6 +57,13 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
     func createEditTaskController(coordinator: EditTaskCoordinator, for task: Task) -> UIViewController {
         let view = EditTaskController()
         let presenter = EditTaskPresenter(view: view, coordinator: coordinator, task: task)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createListsChoiseController(coordinator: ListsChoiseCoordinator, for task: Task) -> UIViewController {
+        let view = ListsChoiseController()
+        let presenter = ListsChoisePresenter(view: view, coordinator: coordinator, task: task)
         view.presenter = presenter
         return view
     }

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol EditTaskViewProtocol: class {
-    
+    func updateView()
+    func reloadRows(at indexPaths: [IndexPath])
 }
 
 protocol EditTaskPresenterInputs {
@@ -39,6 +41,8 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     
     private let task: Task
     
+    private var taskObserver: NotificationToken?
+    
     var sections: [EditTaskSection] = []
     
     var taskTitle: String = ""
@@ -59,10 +63,18 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     
     // MARK: - Configures
     private func configureSections() {
-        let listOption = EditTaskListOption(parentList: task.owner!) { [weak self] list in
+        let listOption = EditTaskListOption(parentList: { [weak self] in
+            guard let self = self else { return nil }
+            
+            return self.task.owner
+        }) { [weak self] in
             guard let self = self else { return }
             
-            self.changeParentList(from: self.task.owner!, to: list)
+            self.coordinator?.showListsChoise(for: self.task, completion: { [weak self] in
+                let indexPath = IndexPath(row: 0, section: 0)
+                
+                self?.view?.reloadRows(at: [indexPath])
+            })
         }
         let titleOption = EditTaskTextFieldOption(text: task.title, placeholder: "Title", handler: { [weak self] text in
             
@@ -107,20 +119,4 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
         }
     }
     
-    // MARK: - Handlers
-    private func changeParentList(from ownerList: ListModel, to list: ListModel) {
-        guard let taskIndex = ownerList.tasks.firstIndex(of: task) else { return }
-        
-        DataManager.shared.toChange(handler: {
-            ownerList.tasks.remove(at: taskIndex)
-            
-            task.owner = list
-            
-            list.tasks.append(task)
-        }) { isChanged in
-            if isChanged {
-                print("task owner is changed")
-            }
-        }
-    }
 }

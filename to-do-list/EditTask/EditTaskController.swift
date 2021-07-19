@@ -83,7 +83,15 @@ class EditTaskController: UIViewController {
 
 // MARK: - EditTaskViewProtocol
 extension EditTaskController: EditTaskViewProtocol {
+    func updateView() {
+        tableView.reloadData()
+    }
     
+    func reloadRows(at indexPaths: [IndexPath]) {
+        tableView.beginUpdates()
+        tableView.reloadRows(at: indexPaths, with: .automatic)
+        tableView.endUpdates()
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -119,7 +127,9 @@ extension EditTaskController: UITableViewDataSource {
             return cell
         case .EditTaskListCell(model: let model):
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = model.parentList.title
+            if let list = model.parentList() {
+                cell.textLabel?.text = list.title
+            }
             return cell
         }
     }
@@ -127,6 +137,17 @@ extension EditTaskController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension EditTaskController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return }
+        
+        switch section {
+        case .EditTaskListCell(model: let model):
+            model.handler?()
+        default:
+            return
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return 48 }
         

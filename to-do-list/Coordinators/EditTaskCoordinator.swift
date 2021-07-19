@@ -43,7 +43,21 @@ class EditTaskCoordinator: Coordinator {
         parentCoordinator?.childDidFinish(self)
     }
     
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
+        
+        childCoordinators.remove(at: index)
+    }
+    
     func didFinishEditTask() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func showListsChoise(for task: Task, completion: (() -> ())?) {
+        let listsChoiseCoordinator = ListsChoiseCoordinator(navigationController: navigationController, task: task)
+        listsChoiseCoordinator.parentCoordinator = self
+        listsChoiseCoordinator.didChangeList = completion
+        childCoordinators.append(listsChoiseCoordinator)
+        listsChoiseCoordinator.start()
     }
 }
