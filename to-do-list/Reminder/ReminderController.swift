@@ -63,7 +63,7 @@ class ReminderController: UIViewController {
     
     // MARK: - Targets
     @objc private func didTapDoneButton(_ sender: UIButton) {
-        
+        presenter?.inputs.didTapDone(with: datePicker.date)
     }
     
     @objc private func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {

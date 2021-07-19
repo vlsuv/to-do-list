@@ -16,13 +16,15 @@ class Task: Object {
     @objc dynamic var isDone: Bool = false
     @objc dynamic var owner: ListModel?
     @objc dynamic var order: Int = 0
+    @objc dynamic var reminder: Reminder?
     
-    convenience init(title: String, details: String?, owner: ListModel? = nil, order: Int) {
+    convenience init(title: String, details: String?, owner: ListModel? = nil, order: Int, reminder: Reminder? = nil) {
         self.init()
         self.title = title
         self.details = details
         self.owner = owner
         self.order = order
+        self.reminder = reminder
     }
     
     override class func primaryKey() -> String? {

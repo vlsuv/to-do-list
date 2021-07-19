@@ -56,10 +56,12 @@ class NewTaskCoordinator: Coordinator {
         navigationController.presentedViewController?.dismiss(animated: true, completion: nil)
     }
     
-    func showReminder() {
+    func showReminder(completion: ((Date) -> ())?) {
         let reminderCoordinator = ReminderCoordinator(navigationController: navigationController)
         reminderCoordinator.parentCoordinator = self
         childCoordinators.append(reminderCoordinator)
         reminderCoordinator.start()
+        
+        reminderCoordinator.didSelectDate = completion
     }
 }

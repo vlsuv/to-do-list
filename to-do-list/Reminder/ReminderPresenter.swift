@@ -14,7 +14,7 @@ protocol ReminderViewProtocol: class {
 
 protocol ReminderPresenterInputs {
     func viewDidDisappear()
-    func didTapDone()
+    func didTapDone(with date: Date)
 }
 
 protocol ReminderPresenterOutputs {
@@ -51,7 +51,7 @@ class ReminderPresenter: ReminderPresenterType, ReminderPresenterInputs, Reminde
         coordinator.viewDidDisappear()
     }
     
-    func didTapDone() {
-        
+    func didTapDone(with date: Date) {
+        coordinator.didChoiseDate(date)
     }
 }

@@ -28,6 +28,14 @@ class NewTaskController: UIViewController {
         return textView
     }()
     
+    var reminderButton: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.setTitleColor(Color.black, for: .normal)
+        button.contentHorizontalAlignment = .left
+        return button
+    }()
+    
     var addDetailButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         button.setImage(Image.listImage, for: .normal)
@@ -144,6 +152,10 @@ class NewTaskController: UIViewController {
         presenter?.inputs.didTapAddReminder()
     }
     
+    @objc private func didTapReminderButton(_ sender: UIButton) {
+        presenter?.inputs.didTapReminderButton()
+    }
+    
     // MARK: - Configures
     private func configureElements() {
         view.addSubview(vStackView)
@@ -154,7 +166,7 @@ class NewTaskController: UIViewController {
                           paddingLeft: 18,
                           paddingRight: 18)
         
-        [titleTextField, detailTextView]
+        [titleTextField, detailTextView, reminderButton]
             .forEach { vStackView.addArrangedSubview($0) }
         
         view.addSubview(saveButton)
@@ -181,6 +193,7 @@ class NewTaskController: UIViewController {
         addDetailButton.addTarget(self, action: #selector(didTapAddDetailButton(_:)), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(didTapSaveButton(_:)), for: .touchUpInside)
         addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton(_:)), for: .touchUpInside)
+        reminderButton.addTarget(self, action: #selector(didTapReminderButton(_:)), for: .touchUpInside)
     }
     
     private func configurePanGesture() {
@@ -191,7 +204,16 @@ class NewTaskController: UIViewController {
 
 // MARK: - NewTaskViewProtocol
 extension NewTaskController: NewTaskViewProtocol {
-    
+    func updateReminderLabel(with stringDate: String?) {
+        guard let stringDate = stringDate else {
+            reminderButton.isHidden = true
+            reminderButton.setTitle("", for: .normal)
+            return
+        }
+        
+        reminderButton.isHidden = false
+        reminderButton.setTitle(stringDate, for: .normal)
+    }
 }
 
 // MARK: - Keyboard Observers

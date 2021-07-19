@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NewTaskViewProtocol: class {
-    
+    func updateReminderLabel(with stringDate: String?)
 }
 
 protocol NewTaskPresenterInputs {
@@ -18,6 +18,7 @@ protocol NewTaskPresenterInputs {
     func didChangeDetailText(_ text: String)
     func didTapSave()
     func didTapAddReminder()
+    func didTapReminderButton()
 }
 
 protocol NewTaskPresenterOutputs {
@@ -39,17 +40,28 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
     
     private var coordinator: NewTaskCoordinator
     
+    private var notificationManager: NotificationManagerType
+    
     private let list: ListModel
     
     var taskTitle: String = ""
-    
     var taskDetail: String = ""
+    var reminderDate: Date?
+    
+    var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
+        return dateFormatter
+    }()
     
     // MARK: - Init
     init(view: NewTaskViewProtocol, coordinator: NewTaskCoordinator, list: ListModel) {
         self.view = view
         self.coordinator = coordinator
         self.list = list
+        
+        self.notificationManager = NotificationManager()
     }
     
     deinit {
@@ -74,22 +86,56 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
         
         let unfinishedTasks = list.tasks.filter("isDone == false").sorted(byKeyPath: "order", ascending: true)
         
-        DataManager.shared.toChange(handler: { [weak self] in
+        var taskReminder: Reminder? = nil
+        
+        if let reminderDate = reminderDate {
+            taskReminder = Reminder(title: taskTitle, date: reminderDate)
+        }
+        
+        DataManager.shared.toChange(handler: {
+            
+            let newTask: Task
             
             if let lastOrder = unfinishedTasks.last?.order {
-                self?.list.tasks.append(Task(title: taskTitle, details: taskDetail, owner: list, order: lastOrder + 1))
+                newTask = Task(title: taskTitle,
+                               details: taskDetail,
+                               owner: list,
+                               order: lastOrder + 1,
+                               reminder: taskReminder)
             } else {
-                list.tasks.append(Task(title: taskTitle, details: taskDetail, owner: list, order: 1))
+                newTask = Task(title: taskTitle,
+                               details: taskDetail,
+                               owner: list,
+                               order: 1,
+                               reminder: taskReminder)
             }
             
-            }, completion: { [weak self] isAdded in
-                if isAdded {
-                    self?.coordinator.didFinishAddNewTask()
-                }
+            if let reminder = newTask.reminder {
+                notificationManager.sendNotification(with: reminder)
+            }
+            
+            list.tasks.append(newTask)
+            
+        }, completion: { [weak self] isAdded in
+            if isAdded {
+                self?.coordinator.didFinishAddNewTask()
+            }
         })
     }
     
     func didTapAddReminder() {
-        coordinator.showReminder()
+        coordinator.showReminder { [weak self] date in
+            self?.reminderDate = date
+            
+            guard let stringDate = self?.dateFormatter.string(from: date) else { return }
+            
+            self?.view?.updateReminderLabel(with: stringDate)
+        }
+    }
+    
+    func didTapReminderButton() {
+        reminderDate = nil
+        
+        view?.updateReminderLabel(with: nil)
     }
 }

@@ -18,6 +18,8 @@ class ReminderCoordinator: Coordinator {
     private let navigationController: UINavigationController
     
     private let assemblyBuilder: AssemblyModuleBuilderProtocol
+    
+    var didSelectDate: ((Date) -> ())?
        
     // MARK: - Init
     init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder()) {
@@ -41,5 +43,11 @@ class ReminderCoordinator: Coordinator {
     // MARK: - Handlers
     func viewDidDisappear() {
         parentCoordinator?.childDidFinish(self)
+    }
+    
+    func didChoiseDate(_ date: Date) {
+        didSelectDate?(date)
+        
+        navigationController.presentedViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 }
