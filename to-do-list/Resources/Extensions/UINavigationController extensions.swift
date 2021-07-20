@@ -8,6 +8,15 @@
 
 import UIKit
 
+extension UINavigationController {
+    func toTransparent() {
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
+        navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = .clear
+    }
+}
+
 extension UINavigationController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         

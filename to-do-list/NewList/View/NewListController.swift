@@ -15,8 +15,17 @@ class NewListController: UIViewController {
     
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = Color.lightGray
+        tableView.separatorStyle = .none
         return tableView
+    }()
+    
+    private var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        button.isEnabled = false
+        return button
     }()
     
     // MARK: - Init
@@ -44,9 +53,13 @@ class NewListController: UIViewController {
     
     // MARK: - Configures
     private func configureNavigationController() {
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: Color.black,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)
+        ]
         
         navigationItem.rightBarButtonItem = doneButton
+        navigationItem.title = presenter?.outputs.title
     }
     
     private func configureTableView() {
@@ -56,13 +69,18 @@ class NewListController: UIViewController {
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.identifier)
         
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         bottom: view.bottomAnchor)
     }
 }
 
 // MARK: - NewListViewProtocol
 extension NewListController: NewListViewProtocol {
-    
+    func changeStateOfDoneButton(isEnabled: Bool) {
+        doneButton.isEnabled = isEnabled
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -76,8 +94,9 @@ extension NewListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return UITableViewCell() }
+        guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else {
+            return UITableViewCell()
+        }
         
         switch section {
         case .textFieldCell(model: let model):
@@ -99,8 +118,10 @@ extension NewListController: UITableViewDelegate {
 // MARK: - TextFieldCellDelegate
 extension NewListController: TextFieldCellDelegate {
     func didChangeText(cell: TextFieldCell, textField: UITextField) {
-        guard let text = textField.text, let indexPath = tableView.indexPath(for: cell), let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else {
-            return
+        guard let text = textField.text,
+            let indexPath = tableView.indexPath(for: cell),
+            let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else {
+                return
         }
         
         switch section {

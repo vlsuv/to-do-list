@@ -24,7 +24,7 @@ protocol ListsPresenterOutputs {
 protocol ListsPresenterInputs {
     func didTapNewList()
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
-    func didDeleteList(at indexPath: IndexPath)
+    func didTapDeleteList(at indexPath: IndexPath)
     func didTapEditList(at indexPath: IndexPath)
     func didSelectList(at indexPath: IndexPath)
     func didTapTaskSearch()
@@ -45,10 +45,6 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
     
     private weak var view: ListsViewProtocol?
     
-    private var dataManager: DataManagerProtocol {
-        return DataManager.shared
-    }
-    
     var lists: Results<ListModel>?
     
     // Cell was moved while editing table view
@@ -62,9 +58,9 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         addListsObserver()
     }
     
-    // MARK: - Lists Handlers
+    // MARK: - Configures
     func addListsObserver() {
-        dataManager.addObserveForLists { [weak self] changes in
+        DataManager.shared.addObserveForLists { [weak self] changes in
             
             switch changes {
             case .initial(let lists):
@@ -94,19 +90,21 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         }
     }
     
+    
+    // MARK: - Inputs Handlers
     func didTapNewList() {
         coordinator.showNewList(with: nil)
     }
     
     func didMoveList(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
         guard sourceIndexPath != destinationIndexPath, let lists = lists else { return }
-                
+        
         self.isMoved = true
         
         DataManager.shared.toChange(handler: {
             let sourceList = lists[sourceIndexPath.row]
             let destinationList = lists[destinationIndexPath.row]
-
+            
             swap(&sourceList.order, &destinationList.order)
         }) { isChanged in
             if isChanged {
@@ -115,7 +113,7 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         }
     }
     
-    func didDeleteList(at indexPath: IndexPath) {
+    func didTapDeleteList(at indexPath: IndexPath) {
         guard let list = lists?[indexPath.row] else { return }
         
         DataManager.shared.deleteList(list, completion: nil)
@@ -132,8 +130,7 @@ class ListsPresenter: ListsPresenterType, ListsPresenterInputs, ListsPresenterOu
         
         coordinator.showTasks(for: list)
     }
-    
-    // MARK: - Inputs Handlers
+
     func didTapTaskSearch() {
         coordinator.showTaskSearch()
     }

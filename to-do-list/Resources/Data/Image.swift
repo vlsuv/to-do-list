@@ -11,4 +11,9 @@ import UIKit
 enum Image {
     static let listImage = UIImage(systemName: "text.justifyleft")
     static let calendarIcon = UIImage(systemName: "calendar")
+    static let plusIcon = UIImage(systemName: "plus")
+    static let magnifyingglassIcon = UIImage(systemName: "magnifyingglass")
+    static let listBulletIcon = UIImage(systemName: "list.bullet")
+    static let trashIcon = UIImage(systemName: "trash")
+    static let pencilIcon = UIImage(systemName: "pencil")
 }

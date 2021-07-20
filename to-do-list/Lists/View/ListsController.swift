@@ -16,15 +16,27 @@ class ListsController: UIViewController {
     
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 48
         return tableView
     }()
     
     private var newListButton: UIButton = {
         let button = UIButton()
-        button.setTitle("New List", for: .normal)
-        button.setTitleColor(Color.black, for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 0)
+        
+        let newListNormalAttributedString = NSAttributedString(string: "New List", attributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .medium),
+            NSAttributedString.Key.foregroundColor: Color.baseBlue
+        ])
+        
+        button.setImage(Image.plusIcon, for: .normal)
+        
+        button.tintColor = Color.baseBlue
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        button.setAttributedTitle(newListNormalAttributedString, for: .normal)
         button.contentHorizontalAlignment = .left
+        
         return button
     }()
     
@@ -53,30 +65,39 @@ class ListsController: UIViewController {
     
     // MARK: - Configures
     private func configureNavigationController() {
-        let taskSearchButton = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(didTapTaskSearchButton(_:)))
-        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
-        
+        let taskSearchButton = UIBarButtonItem(image: Image.magnifyingglassIcon, style: .plain, target: self, action: #selector(didTapTaskSearchButton(_:)))
         navigationItem.rightBarButtonItem = taskSearchButton
+        
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
         navigationItem.leftBarButtonItem = editButton
+        
+        navigationController?.toTransparent()
+        navigationController?.navigationBar.tintColor = Color.baseBlue
     }
     
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
         
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: newListButton.topAnchor)
-        
-        tableView.separatorStyle = .none
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         bottom: newListButton.topAnchor)
     }
     
     private func configureNewListButton() {
         newListButton.addTarget(self, action: #selector(didTapNewListButton(_:)), for: .touchUpInside)
         
         view.addSubview(newListButton)
-        newListButton.anchor(left: view.leftAnchor, right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, height: 48)
+        newListButton.anchor(left: view.leftAnchor,
+                             right: view.rightAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                             paddingLeft: 18,
+                             paddingRight: 18,
+                             height: 48)
     }
 }
 
@@ -108,14 +129,14 @@ extension ListsController: ListsViewProtocol {
 // MARK: - UITableViewDataSource
 extension ListsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter?.outputs.lists?.count ?? 1
+        return presenter?.outputs.lists?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell else { return UITableViewCell() }
         
         if let list = presenter?.outputs.lists?[indexPath.row] {
-            cell.textLabel?.text = list.title
+            cell.configure(list)
         }
         
         return cell
@@ -149,14 +170,21 @@ extension ListsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
             
-            self?.presenter?.inputs.didDeleteList(at: indexPath)
+            self?.presenter?.inputs.didTapDeleteList(at: indexPath)
+            
             completion(true)
         }
+        deleteAction.image = Image.trashIcon
+        deleteAction.backgroundColor = Color.red
+        
         let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
             
             self?.presenter?.inputs.didTapEditList(at: indexPath)
+            
             completion(true)
         }
+        editAction.image = Image.pencilIcon
+        editAction.backgroundColor = Color.mediumGray
         
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }

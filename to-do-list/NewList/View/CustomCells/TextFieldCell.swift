@@ -21,13 +21,12 @@ class TextFieldCell: UITableViewCell {
     
     private var textField: UITextField = {
         let textField = UITextField()
+        textField.font = .systemFont(ofSize: 18, weight: .regular)
+        textField.textColor = Color.black
+        textField.textAlignment = .left
+        textField.autocapitalizationType = .none
         return textField
     }()
-    
-    func configure(_ model: TextFieldCellOption) {
-        textField.text = model.text
-        textField.placeholder = model.placeholder
-    }
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -42,6 +41,13 @@ class TextFieldCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(_ model: TextFieldCellOption) {
+        textField.text = model.text
+        textField.placeholder = model.placeholder
+        
+        textField.becomeFirstResponder()
+    }
+    
     // MARK: - Targets
     @objc private func didChangeTextFieldValue(_ sender: UITextField) {
         delegate?.didChangeText(cell: self, textField: sender)
@@ -49,14 +55,17 @@ class TextFieldCell: UITableViewCell {
     
     // MARK: - Configures
     private func addSubviews() {
-        [textField].forEach { contentView.addSubview($0) }
+        [textField]
+            .forEach { contentView.addSubview($0) }
     }
     
     private func configureConstraints() {
         textField.anchor(top: contentView.topAnchor,
                          left: contentView.leftAnchor,
                          right: contentView.rightAnchor,
-                         bottom: contentView.bottomAnchor)
+                         bottom: contentView.bottomAnchor,
+                         paddingLeft: 18,
+                         paddingRight: 18)
     }
     
     private func configureTargets() {
