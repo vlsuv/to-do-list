@@ -68,14 +68,21 @@ class EditTaskController: UIViewController {
         tableView.register(EditTaskTextFieldCell.self, forCellReuseIdentifier: EditTaskTextFieldCell.identifier)
         tableView.register(EditTaskTextViewCell.self, forCellReuseIdentifier: EditTaskTextViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(EditTaskReminderCell.self, forCellReuseIdentifier: EditTaskReminderCell.identifier)
         
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: doneButton.topAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         bottom: doneButton.topAnchor)
     }
     
     private func configureDoneButton() {
         view.addSubview(doneButton)
-        doneButton.anchor(right: view.rightAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, height: 48, width: 100)
+        doneButton.anchor(right: view.rightAnchor,
+                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                          height: 48,
+                          width: 100)
         
         doneButton.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
     }
@@ -112,16 +119,13 @@ extension EditTaskController: UITableViewDataSource {
         }
         
         switch section {
-            
         case .EditTaskTextFieldCell(model: let model):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EditTaskTextFieldCell.identifier, for: indexPath) as? EditTaskTextFieldCell else { return UITableViewCell() }
-            
             cell.configure(model)
             cell.delegate = self
             return cell
         case .EditTaskTextViewCell(model: let model):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: EditTaskTextViewCell.identifier, for: indexPath) as? EditTaskTextViewCell else { return UITableViewCell() }
-            
             cell.configure(model)
             cell.delegate = self
             return cell
@@ -130,6 +134,11 @@ extension EditTaskController: UITableViewDataSource {
             if let list = model.parentList() {
                 cell.textLabel?.text = list.title
             }
+            return cell
+        case .EditTaskReminderCell(model: let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: EditTaskReminderCell.identifier, for: indexPath) as? EditTaskReminderCell else { return UITableViewCell() }
+            cell.configure(model)
+            cell.delegate = self
             return cell
         }
     }
@@ -170,7 +179,6 @@ extension EditTaskController: EditTaskTextFieldCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell), let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return }
         
         switch section {
-            
         case .EditTaskTextFieldCell(model: let model):
             model.handler?(text)
         default:
@@ -188,8 +196,21 @@ extension EditTaskController: EditTaskTextViewCellDelegate {
         case .EditTaskTextViewCell(model: let model):
             tableView.beginUpdates()
             tableView.endUpdates()
-            
             model.handler?(text)
+        default:
+            return
+        }
+    }
+}
+
+// MARK: - EditTaskReminderCellDelegate
+extension EditTaskController: EditTaskReminderCellDelegate {
+    func didTapReminderButton(cell: EditTaskReminderCell) {
+        guard let indexPath = tableView.indexPath(for: cell), let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return }
+        
+        switch section {
+        case .EditTaskReminderCell(model: let model):
+            model.handler?()
         default:
             return
         }

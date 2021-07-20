@@ -15,15 +15,18 @@ class ReminderCoordinator: Coordinator {
     
     var parentCoordinator: Coordinator?
     
-    private let navigationController: UINavigationController
+    private var navigationController: UINavigationController?
+    
+    private var viewController: UIViewController?
     
     private let assemblyBuilder: AssemblyModuleBuilderProtocol
     
     var didSelectDate: ((Date) -> ())?
        
     // MARK: - Init
-    init(navigationController: UINavigationController, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder()) {
+    init(navigationController: UINavigationController? = nil, viewController: UIViewController? = nil, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder()) {
         self.navigationController = navigationController
+        self.viewController = viewController
         self.assemblyBuilder = assemblyBuilder
     }
     
@@ -33,7 +36,11 @@ class ReminderCoordinator: Coordinator {
         reminderController.modalPresentationStyle = .custom
         reminderController.transitioningDelegate = navigationController
         
-        navigationController.presentedViewController?.present(reminderController, animated: true, completion: nil)
+        if let navigationController = navigationController {
+            navigationController.present(reminderController, animated: true, completion: nil)
+        } else if let viewController = viewController {
+            viewController.present(reminderController, animated: true, completion: nil)
+        }
     }
     
     deinit {
@@ -48,6 +55,10 @@ class ReminderCoordinator: Coordinator {
     func didChoiseDate(_ date: Date) {
         didSelectDate?(date)
         
-        navigationController.presentedViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
+        if let navigationController = navigationController {
+            navigationController.presentedViewController?.dismiss(animated: true, completion: nil)
+        } else if let viewController = viewController {
+            viewController.presentedViewController?.dismiss(animated: true, completion: nil)
+        }
     }
 }

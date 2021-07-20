@@ -60,4 +60,13 @@ class EditTaskCoordinator: Coordinator {
         childCoordinators.append(listsChoiseCoordinator)
         listsChoiseCoordinator.start()
     }
+    
+    func showReminder(completion: ((Date) -> ())?) {
+        let reminderCoordinator = ReminderCoordinator(navigationController: navigationController)
+        reminderCoordinator.parentCoordinator = self
+        childCoordinators.append(reminderCoordinator)
+        reminderCoordinator.start()
+        
+        reminderCoordinator.didSelectDate = completion
+    }
 }

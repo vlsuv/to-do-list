@@ -17,6 +17,7 @@ enum EditTaskSectionOption {
     case EditTaskTextFieldCell(model: EditTaskTextFieldOption)
     case EditTaskTextViewCell(model: EditTaskTextViewOption)
     case EditTaskListCell(model: EditTaskListOption)
+    case EditTaskReminderCell(model: EditTaskReminderOption)
 }
 
 struct EditTaskTextFieldOption {
@@ -33,5 +34,11 @@ struct EditTaskTextViewOption {
 
 struct EditTaskListOption {
     var parentList: (() -> (ListModel?))
+    var handler: (() -> ())?
+}
+
+struct EditTaskReminderOption {
+    var reminder: Reminder?
+    var placeholder: String
     var handler: (() -> ())?
 }

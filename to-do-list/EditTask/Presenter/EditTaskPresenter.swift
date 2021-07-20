@@ -48,11 +48,14 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     var taskTitle: String = ""
     var taskDetails: String = ""
     
+    private var notificationManager: NotificationManagerType
+    
     // MARK: - Init
     init(view: EditTaskViewProtocol, coordinator: EditTaskCoordinator, task: Task) {
         self.view = view
         self.coordinator = coordinator
         self.task = task
+        self.notificationManager = NotificationManager()
         
         configureSections()
     }
@@ -63,6 +66,7 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     
     // MARK: - Configures
     private func configureSections() {
+        
         let listOption = EditTaskListOption(parentList: { [weak self] in
             guard let self = self else { return nil }
             
@@ -76,24 +80,60 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
                 self?.view?.reloadRows(at: [indexPath])
             })
         }
+        
         let titleOption = EditTaskTextFieldOption(text: task.title, placeholder: "Title", handler: { [weak self] text in
             
-            DataManager.shared.toChange(handler: {
-                self?.task.title = text
-            }, completion: nil)
-            
+            self?.changeTaskTitle(text)
         })
+        
         let detailOption = EditTaskTextViewOption(text: task.details ?? "", placeholder: "Detail", handler: { [weak self] text in
             
-            DataManager.shared.toChange(handler: {
-                self?.task.details = text
-            }, completion: nil)
-            
+            self?.changeTaskDetail(text)
         })
         
-        let descriptionSection = EditTaskSection(title: "Task Description", option: [.EditTaskListCell(model: listOption), .EditTaskTextFieldCell(model: titleOption), .EditTaskTextViewCell(model: detailOption)])
+        let reminderOption = EditTaskReminderOption(reminder: task.reminder, placeholder: "Add reminder") { [weak self] in
+            
+            self?.showReminder()
+        }
         
-        sections = [descriptionSection]
+        let taskDescriptionSection = EditTaskSection(title: "Task Description", option: [
+            .EditTaskListCell(model: listOption),
+            .EditTaskTextFieldCell(model: titleOption),
+            .EditTaskTextViewCell(model: detailOption),
+            .EditTaskReminderCell(model: reminderOption)
+        ])
+        
+        sections = [taskDescriptionSection]
+    }
+    
+    // MARK: - Secions Handlers
+    private func showReminder() {
+        coordinator?.showReminder(completion: { [weak self] date in
+            
+            DataManager.shared.toChange(handler: {
+                self?.task.reminder?.date = date
+            }) { isChanged in
+                if isChanged {
+                    guard let self = self, let reminder = self.task.reminder else { return }
+                    
+                    self.view?.updateView()
+                    
+                    self.notificationManager.sendNotification(with: reminder)
+                }
+            }
+        })
+    }
+    
+    private func changeTaskTitle(_ text: String) {
+        DataManager.shared.toChange(handler: { [weak self] in
+            self?.task.title = text
+            }, completion: nil)
+    }
+    
+    private func changeTaskDetail(_ text: String) {
+        DataManager.shared.toChange(handler: { [weak self] in
+            self?.task.details = text
+            }, completion: nil)
     }
     
     // MARK: - Inputs Handlers
@@ -118,5 +158,4 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
             }
         }
     }
-    
 }
