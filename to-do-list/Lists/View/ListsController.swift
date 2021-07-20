@@ -40,6 +40,16 @@ class ListsController: UIViewController {
         return button
     }()
     
+    private lazy var taskSearchButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: Image.magnifyingglassIcon, style: .plain, target: self, action: #selector(didTapTaskSearchButton(_:)))
+        return button
+    }()
+    
+    private lazy var editDoneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapEditDoneButton(_:)))
+        return button
+    }()
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,13 +58,10 @@ class ListsController: UIViewController {
         configureNewListButton()
         configureTableView()
         configureNavigationController()
+        configureLongPressGestureRecognizer()
     }
     
     // MARK: - Targets
-    @objc private func didTapEditButton(_ sender: UIBarButtonItem) {
-        tableView.isEditing.toggle()
-    }
-    
     @objc private func didTapNewListButton(_ sender: UIButton) {
         presenter?.inputs.didTapNewList()
     }
@@ -63,13 +70,27 @@ class ListsController: UIViewController {
         presenter?.inputs.didTapTaskSearch()
     }
     
+    @objc private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: tableView)
+        
+        let indexPath = tableView.indexPathForRow(at: location)
+        
+        guard sender.state == .began, indexPath == nil, !tableView.isEditing else { return }
+        
+        tableView.setEditing(true, animated: true)
+        
+        changeEditDoneButtonState(isHidden: false)
+    }
+    
+    @objc private func didTapEditDoneButton(_ sender: UIBarButtonItem) {
+        tableView.setEditing(false, animated: true)
+        
+        changeEditDoneButtonState(isHidden: true)
+    }
+    
     // MARK: - Configures
     private func configureNavigationController() {
-        let taskSearchButton = UIBarButtonItem(image: Image.magnifyingglassIcon, style: .plain, target: self, action: #selector(didTapTaskSearchButton(_:)))
         navigationItem.rightBarButtonItem = taskSearchButton
-        
-        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
-        navigationItem.leftBarButtonItem = editButton
         
         navigationController?.toTransparent()
         navigationController?.navigationBar.tintColor = Color.baseBlue
@@ -98,6 +119,22 @@ class ListsController: UIViewController {
                              paddingLeft: 18,
                              paddingRight: 18,
                              height: 48)
+    }
+    
+    private func configureLongPressGestureRecognizer() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    // MARK: - Helpers
+    func changeEditDoneButtonState(isHidden: Bool) {
+        if isHidden {
+            navigationItem.rightBarButtonItem = taskSearchButton
+        } else {
+            navigationItem.rightBarButtonItem = editDoneButton
+        }
     }
 }
 
