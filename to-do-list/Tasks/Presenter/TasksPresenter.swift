@@ -11,8 +11,7 @@ import RealmSwift
 
 protocol TasksViewProtocol: class {
     func updateView()
-    func insertRows(at indexPaths: [IndexPath])
-    func deleteRows(at indexPaths: [IndexPath])
+    func reloadSections(_ sections: IndexSet)
 }
 
 protocol TasksPresenterInputs {
@@ -74,7 +73,7 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
         print("deinit: \(self)")
     }
     
-    // MARK: - Tasks Configures
+    // MARK: - Configures
     private func addTasksObserver() {
         tasksObserver = list.tasks.observe({ [weak self] changes in
             self?.view?.updateView()
@@ -82,9 +81,9 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
     }
     
     private func configureTasksSections() {
-        let unfinishedTasksSection = TasksSection(title: "tasks", tasks: unfinishedTasks, isExpand: true, canMove: true, canDone: true)
+        let unfinishedTasksSection = TasksSection(title: "Uncompleted", tasks: unfinishedTasks, isExpand: true, canMove: true, canDone: true)
         
-        let finishedTasksSection = TasksSection(title: "finished tasks", tasks: finishedTasks, isExpand: false, canMove: false, canDone: false)
+        let finishedTasksSection = TasksSection(title: "Completed", tasks: finishedTasks, isExpand: false, canMove: false, canDone: false)
         
         taskSections = [unfinishedTasksSection, finishedTasksSection]
     }
@@ -96,27 +95,10 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
         if indexPath.row == 0 {
             taskSections[indexPath.section].isExpand.toggle()
             
-            if !section.isExpand {
-                var indexPathsToShow: [IndexPath] = []
-                
-                for i in 0..<section.tasks.count {
-                    indexPathsToShow.append(IndexPath(row: i + 1, section: indexPath.section))
-                }
-                
-                view?.insertRows(at: indexPathsToShow)
-                
-            } else {
-                var indexPathsToDelete: [IndexPath] = []
-                
-                for i in 0..<section.tasks.count {
-                    indexPathsToDelete.append(IndexPath(row: i + 1, section: indexPath.section))
-                }
-                
-                view?.deleteRows(at: indexPathsToDelete)
-            }
+            view?.reloadSections(IndexSet(integer: indexPath.section))
         } else {
             let task = section.tasks[indexPath.row - 1]
-
+            
             coordinator.showEditTask(for: task)
         }
     }

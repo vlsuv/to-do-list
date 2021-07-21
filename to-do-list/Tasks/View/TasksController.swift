@@ -20,6 +20,27 @@ class TasksController: UIViewController {
         return tableView
     }()
     
+    private lazy var addNewTaskButton: UIButton = {
+        let button = UIButton()
+        let buttonImage = Image.plusCircleFillIcon?.withTintColor(Color.baseBlue)
+        button.setImage(buttonImage, for: .normal)
+        
+        button.tintColor = Color.baseBlue
+        button.layer.shadowColor = Color.black.withAlphaComponent(0.3).cgColor
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 2)
+        button.layer.shadowOpacity = 1
+        button.layer.shadowRadius = 4
+        button.layer.masksToBounds = false
+        
+        button.addTarget(self, action: #selector(didTapNewTaskButton(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var editDoneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapEditDoneButton(_:)))
+        return button
+    }()
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +48,8 @@ class TasksController: UIViewController {
         
         configureNavigationController()
         configureTableView()
+        configureAddNewTaskButton()
+        configureLongPressGestureRecognizer()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -43,46 +66,84 @@ class TasksController: UIViewController {
         presenter?.inputs.didTapNewTask()
     }
     
-    @objc private func didTapEditButton(_ sender: UIBarButtonItem) {
-        tableView.isEditing.toggle()
+    @objc private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: tableView)
+        
+        let indexPath = tableView.indexPathForRow(at: location)
+        
+        guard sender.state == .began, indexPath == nil, !tableView.isEditing else { return }
+        
+        tableView.setEditing(true, animated: true)
+        
+        changeEditDoneButtonState(isHidden: false)
+    }
+    
+    @objc private func didTapEditDoneButton(_ sender: UIBarButtonItem) {
+        tableView.setEditing(false, animated: true)
+        
+        changeEditDoneButtonState(isHidden: true)
     }
     
     // MARK: - Configure
     private func configureNavigationController() {
-        let newTaskButton = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(didTapNewTaskButton(_:)))
-        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didTapEditButton(_:)))
         
-        navigationItem.rightBarButtonItems = [newTaskButton, editButton]
     }
     
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TasksSectionCell.self, forCellReuseIdentifier: TasksSectionCell.identifier)
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
         
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         bottom: view.bottomAnchor)
+    }
+    
+    private func configureAddNewTaskButton() {
+        view.addSubview(addNewTaskButton)
+        
+        let addNewTaskButtonSize: CGFloat = 50
+        addNewTaskButton.anchor(right: view.rightAnchor,
+                                bottom: view.bottomAnchor,
+                                paddingRight: 30,
+                                paddingBottom: 30,
+                                height: addNewTaskButtonSize,
+                                width: addNewTaskButtonSize)
+        
+        addNewTaskButton.layer.cornerRadius = addNewTaskButtonSize / 2
+    }
+    
+    private func configureLongPressGestureRecognizer() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    // MARK: - Helpers
+    func changeEditDoneButtonState(isHidden: Bool) {
+        if isHidden {
+            navigationItem.rightBarButtonItem = nil
+        } else {
+            navigationItem.rightBarButtonItem = editDoneButton
+        }
     }
 }
 
 // MARK: - TasksViewProtocol
 extension TasksController: TasksViewProtocol {
-    func insertRows(at indexPaths: [IndexPath]) {
-        tableView.beginUpdates()
-        tableView.insertRows(at: indexPaths, with: .automatic)
-        tableView.endUpdates()
-    }
-    
-    func deleteRows(at indexPaths: [IndexPath]) {
-        tableView.beginUpdates()
-        tableView.deleteRows(at: indexPaths, with: .automatic)
-        tableView.endUpdates()
-    }
-    
     func updateView() {
         tableView.reloadData()
+    }
+    
+    func reloadSections(_ sections: IndexSet) {
+        tableView.beginUpdates()
+        tableView.reloadSections(sections, with: .automatic)
+        tableView.endUpdates()
     }
 }
 
@@ -109,16 +170,15 @@ extension TasksController: UITableViewDataSource {
         let index = indexPath.row - 1
         
         if sectionTitleIndex {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksSectionCell.identifier, for: indexPath) as? TasksSectionCell else { return UITableViewCell() }
             
-            cell.textLabel?.text = section.title
-            cell.accessoryType = .disclosureIndicator
+            cell.configure(section)
             
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath) as? TaskCell else { return UITableViewCell() }
-            
             cell.configure(section.tasks[index])
+            cell.delegate = self
             return cell
         }
     }
@@ -142,7 +202,7 @@ extension TasksController: UITableViewDelegate {
             
             completion(true)
         }
-        doneAction.backgroundColor = .blue
+        doneAction.backgroundColor = Color.baseBlue
         
         return UISwipeActionsConfiguration(actions: [doneAction])
     }
@@ -177,5 +237,14 @@ extension TasksController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 48
+    }
+}
+
+// MARK: - TaskCellDelegate
+extension TasksController: TaskCellDelegate {
+    func didTapDoneButton(cell: UITableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        presenter?.inputs.didTapDone(at: indexPath)
     }
 }

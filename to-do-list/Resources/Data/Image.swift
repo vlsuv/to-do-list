@@ -16,4 +16,8 @@ enum Image {
     static let listBulletIcon = UIImage(systemName: "list.bullet")
     static let trashIcon = UIImage(systemName: "trash")
     static let pencilIcon = UIImage(systemName: "pencil")
+    static let chevronDown = UIImage(systemName: "chevron.down")
+    static let chevronUp = UIImage(systemName: "chevron.up")
+    static let checkmarkIcon = UIImage(systemName: "checkmark")
+    static let plusCircleFillIcon = UIImage(named: "PlustCircleFillIcon")
 }

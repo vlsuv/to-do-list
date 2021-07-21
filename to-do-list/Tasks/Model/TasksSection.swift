@@ -13,7 +13,6 @@ struct TasksSection {
     var title: String
     var tasks: Results<Task>
     var isExpand: Bool = true
-    
     var canMove: Bool
     var canDone: Bool
 }

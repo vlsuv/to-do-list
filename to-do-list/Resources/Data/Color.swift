@@ -15,4 +15,5 @@ enum Color {
     static let red = UIColor(named: "RedColor") ?? UIColor()
     static let mediumGray = UIColor(named: "MediumGrayColor") ?? UIColor()
     static let lightGray = UIColor(named: "LightGrayColor") ?? UIColor()
+    static let veryLightGray = UIColor(named: "VeryLightGrayColor") ?? UIColor()
 }
