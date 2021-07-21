@@ -44,8 +44,24 @@ class TaskSearchCoordinator: Coordinator {
     }
     
     // MARK: - Handlers
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { childCoordinator === $0 }) else { return }
+        
+        childCoordinators.remove(at: index)
+    }
+    
     func didFinishTaskSearch() {
         navigationController.presentedViewController?.dismiss(animated: false, completion: nil)
+        modalNavigationController = nil
         parentCoordinator?.childDidFinish(self)
+    }
+    
+    func showEditTask(for task: Task) {
+        guard let modalNavigationController = modalNavigationController else { return }
+        
+        let editTaskCoordinator = EditTaskCoordinator(navigationController: modalNavigationController, task: task)
+        childCoordinators.append(editTaskCoordinator)
+        editTaskCoordinator.parentCoordinator = self
+        editTaskCoordinator.start()
     }
 }

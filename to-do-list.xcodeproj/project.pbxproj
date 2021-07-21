@@ -169,6 +169,22 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		670ED05C26A85F6B00FADA85 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67F9409126A0555700DF50AB /* TaskSearchController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		670ED05D26A85F7700FADA85 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				67F9409326A05C7300DF50AB /* TaskSearchPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		671B3B3526A5756F00E8E589 /* ListsChoise */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,8 +479,8 @@
 		67F9409026A0553600DF50AB /* TaskSearch */ = {
 			isa = PBXGroup;
 			children = (
-				67F9409126A0555700DF50AB /* TaskSearchController.swift */,
-				67F9409326A05C7300DF50AB /* TaskSearchPresenter.swift */,
+				670ED05C26A85F6B00FADA85 /* View */,
+				670ED05D26A85F7700FADA85 /* Presenter */,
 			);
 			path = TaskSearch;
 			sourceTree = "<group>";

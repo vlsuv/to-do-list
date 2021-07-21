@@ -23,6 +23,7 @@ class TaskSearchController: UIViewController {
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -51,16 +52,22 @@ class TaskSearchController: UIViewController {
         
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.titleView = searchBar
+        
+        navigationController?.navigationBar.tintColor = Color.baseBlue
+        navigationController?.toTransparent()
     }
     
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
         
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         bottom: view.bottomAnchor)
     }
     
     private func configureSearchBar() {
@@ -90,11 +97,13 @@ extension TaskSearchController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath) as? TaskCell else { return UITableViewCell() }
         
         if let task = presenter?.outputs.searchTasks?[indexPath.row] {
-            cell.textLabel?.text = task.title
+            cell.configure(task)
         }
+        
+        cell.delegate = self
         
         return cell
     }
@@ -102,6 +111,22 @@ extension TaskSearchController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension TaskSearchController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        presenter?.inputs.didSelectTask(at: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
+    }
 }
 
-
+// MARK: - TaskCellDelegate
+extension TaskSearchController: TaskCellDelegate {
+    func didTapDoneButton(cell: UITableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        presenter?.inputs.didTapDoneButton(at: indexPath)
+    }
+}

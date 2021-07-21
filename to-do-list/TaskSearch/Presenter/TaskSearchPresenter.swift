@@ -16,6 +16,8 @@ protocol TaskSearchViewProtocol: class {
 protocol TaskSearchPresenterInputs {
     func didTapCancel()
     func didChangeSearchText(_ query: String)
+    func didTapDoneButton(at indexPath: IndexPath)
+    func didSelectTask(at indexPath: IndexPath)
 }
 
 protocol TaskSearchPresenterOutputs {
@@ -35,12 +37,14 @@ class TaskSearchPresenter: TaskSearchPresenterType, TaskSearchPresenterInputs, T
     
     private weak var view: TaskSearchViewProtocol?
     
-    private weak var coordinator: TaskSearchCoordinator?
+    private var coordinator: TaskSearchCoordinator?
     
     // MARK: - Tasks Properties
     private var tasks: Results<Task>
     
     var searchTasks: Results<Task>?
+    
+    private var tasksObserver: NotificationToken?
     
     // MARK: - Init
     init(view: TaskSearchViewProtocol, coordinator: TaskSearchCoordinator) {
@@ -48,10 +52,19 @@ class TaskSearchPresenter: TaskSearchPresenterType, TaskSearchPresenterInputs, T
         self.coordinator = coordinator
         
         tasks = DataManager.shared.getAllTasks()
+        
+        addTasksObserver()
     }
     
     deinit {
         print("deinit: \(self)")
+    }
+    
+    // MARK: - Configures
+    private func addTasksObserver() {
+        tasksObserver = tasks.observe({ [weak self] changes in
+            self?.view?.updateView()
+        })
     }
     
     // MARK: - Inputs Handlers
@@ -62,5 +75,23 @@ class TaskSearchPresenter: TaskSearchPresenterType, TaskSearchPresenterInputs, T
     func didChangeSearchText(_ query: String) {
         searchTasks = tasks.filter("title CONTAINS[cd] %@", "\(query.lowercased())")
         view?.updateView()
+    }
+    
+    func didTapDoneButton(at indexPath: IndexPath) {
+        guard let task = searchTasks?[indexPath.row] else { return }
+        
+        DataManager.shared.toChange(handler: {
+            task.isDone.toggle()
+        }) { isChanged in
+            if isChanged {
+                print("Task is changed")
+            }
+        }
+    }
+    
+    func didSelectTask(at indexPath: IndexPath) {
+        guard let task = searchTasks?[indexPath.row] else { return }
+        
+        coordinator?.showEditTask(for: task)
     }
 }

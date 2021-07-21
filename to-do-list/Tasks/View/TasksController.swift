@@ -171,9 +171,7 @@ extension TasksController: UITableViewDataSource {
         
         if sectionTitleIndex {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksSectionCell.identifier, for: indexPath) as? TasksSectionCell else { return UITableViewCell() }
-            
             cell.configure(section)
-            
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath) as? TaskCell else { return UITableViewCell() }
