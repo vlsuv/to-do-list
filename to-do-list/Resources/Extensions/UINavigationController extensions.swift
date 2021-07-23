@@ -16,10 +16,3 @@ extension UINavigationController {
         navigationController?.view.backgroundColor = .clear
     }
 }
-
-extension UINavigationController: UIViewControllerTransitioningDelegate {
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        
-        CustomPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-}

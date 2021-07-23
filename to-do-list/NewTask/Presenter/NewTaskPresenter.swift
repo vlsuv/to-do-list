@@ -19,6 +19,7 @@ protocol NewTaskPresenterInputs {
     func didTapSave()
     func didTapAddReminder()
     func didTapReminderButton()
+    func didTapCancelReminder()
 }
 
 protocol NewTaskPresenterOutputs {
@@ -44,11 +45,11 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
     
     private let list: ListModel
     
-    var taskTitle: String = ""
-    var taskDetail: String = ""
-    var reminderDate: Date?
+    private var taskTitle: String = ""
+    private var taskDetail: String = ""
+    private var reminderDate: Date?
     
-    var dateFormatter: DateFormatter = {
+    private var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         dateFormatter.dateStyle = .short
@@ -124,6 +125,21 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
     }
     
     func didTapAddReminder() {
+        showReminder()
+    }
+    
+    func didTapReminderButton() {
+        showReminder()
+    }
+    
+    func didTapCancelReminder() {
+        reminderDate = nil
+        
+        view?.updateReminderLabel(with: nil)
+    }
+    
+    // MARK: - Handlers
+    private func showReminder() {
         coordinator.showReminder { [weak self] date in
             self?.reminderDate = date
             
@@ -131,11 +147,5 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
             
             self?.view?.updateReminderLabel(with: stringDate)
         }
-    }
-    
-    func didTapReminderButton() {
-        reminderDate = nil
-        
-        view?.updateReminderLabel(with: nil)
     }
 }

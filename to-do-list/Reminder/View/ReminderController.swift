@@ -15,8 +15,11 @@ class ReminderController: UIViewController {
     
     private var doneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Done", for: .normal)
-        button.setTitleColor(Color.black, for: .normal)
+        let normalAttributedString = NSAttributedString(string: "Done", attributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.foregroundColor: Color.baseBlue
+        ])
+        button.setAttributedTitle(normalAttributedString, for: .normal)
         return button
     }()
     
@@ -43,7 +46,7 @@ class ReminderController: UIViewController {
         
         guard let containerHeight = presentationController?.containerView?.frame.height else { return }
         
-        view.frame.origin = CGPoint(x: 0, y: containerHeight - (datePicker.frame.height + doneButton.frame.height + 36))
+        view.frame.origin = CGPoint(x: 0, y: containerHeight - (datePicker.frame.height + doneButton.frame.height + 54))
         
         if !pointOriginIsSetted {
             pointOrigin = view.frame.origin
@@ -61,11 +64,12 @@ class ReminderController: UIViewController {
         print("deinit: \(self)")
     }
     
-    // MARK: - Targets
+    // MARK: - Elements Targets
     @objc private func didTapDoneButton(_ sender: UIButton) {
         presenter?.inputs.didTapDone(with: datePicker.date)
     }
     
+    // MARK: - Tatgets of ui move
     @objc private func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {
         guard let pointOrigin = pointOrigin else { return }
         
@@ -100,7 +104,7 @@ class ReminderController: UIViewController {
                           paddingTop: 18,
                           paddingRight: 18,
                           height: 20,
-                          width: 60)
+                          width: 48)
         
         doneButton.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
     }
@@ -109,7 +113,10 @@ class ReminderController: UIViewController {
         view.addSubview(datePicker)
         datePicker.anchor(top: doneButton.bottomAnchor,
                           left: view.leftAnchor,
-                          right: view.rightAnchor)
+                          right: view.rightAnchor,
+                          paddingTop: 18,
+                          paddingLeft: 18,
+                          paddingRight: 18)
     }
     
     private func configurePanGestureRecognizer() {
@@ -121,11 +128,4 @@ class ReminderController: UIViewController {
 // MARK: - ReminderViewProtocol
 extension ReminderController: ReminderViewProtocol {
     
-}
-
-extension ReminderController: UIViewControllerTransitioningDelegate {
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        
-        CustomPresentationController(presentedViewController: presented, presenting: presenting)
-    }
 }

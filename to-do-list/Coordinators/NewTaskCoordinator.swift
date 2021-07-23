@@ -32,7 +32,9 @@ class NewTaskCoordinator: Coordinator {
         let newTaskController = assemblyBuilder.createNewTaskController(coordinator: self, for: list)
         
         newTaskController.modalPresentationStyle = .custom
-        newTaskController.transitioningDelegate = navigationController
+        
+        let presentationManager = PresentationManager()
+        newTaskController.transitioningDelegate = presentationManager
         
         navigationController.present(newTaskController, animated: true, completion: nil)
     }

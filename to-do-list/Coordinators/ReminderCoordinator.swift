@@ -22,7 +22,7 @@ class ReminderCoordinator: Coordinator {
     private let assemblyBuilder: AssemblyModuleBuilderProtocol
     
     var didSelectDate: ((Date) -> ())?
-       
+    
     // MARK: - Init
     init(navigationController: UINavigationController? = nil, viewController: UIViewController? = nil, assemblyBuilder: AssemblyModuleBuilderProtocol = AssemblyModuleBuilder()) {
         self.navigationController = navigationController
@@ -33,12 +33,17 @@ class ReminderCoordinator: Coordinator {
     func start() {
         let reminderController = assemblyBuilder.createReminderController(coordinator: self)
         
-        reminderController.modalPresentationStyle = .custom
-        reminderController.transitioningDelegate = navigationController
+        let presentationManager = PresentationManager()
         
         if let navigationController = navigationController {
+            reminderController.modalPresentationStyle = .custom
+            reminderController.transitioningDelegate = presentationManager
+            
             navigationController.present(reminderController, animated: true, completion: nil)
         } else if let viewController = viewController {
+            reminderController.modalPresentationStyle = .custom
+            reminderController.transitioningDelegate = presentationManager
+            
             viewController.present(reminderController, animated: true, completion: nil)
         }
     }

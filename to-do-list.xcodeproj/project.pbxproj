@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670BD40826A9648B00EE312A /* ReminderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670BD40726A9648B00EE312A /* ReminderButton.swift */; };
 		670ED05A26A816A000FADA85 /* TasksSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670ED05926A816A000FADA85 /* TasksSectionCell.swift */; };
 		671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3626A5759300E8E589 /* ListsChoiseController.swift */; };
 		671B3B3926A57C2200E8E589 /* ListsChoisePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3826A57C2200E8E589 /* ListsChoisePresenter.swift */; };
@@ -46,6 +47,7 @@
 		677F51D726A4461F002B943B /* EditTaskSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51D626A4461F002B943B /* EditTaskSection.swift */; };
 		677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */; };
 		677F51DB26A44BD0002B943B /* EditTaskTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */; };
+		67837C0A26AAC00000C6C29E /* PresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837C0926AAC00000C6C29E /* PresentationManager.swift */; };
 		67888DF626A6D877001C649E /* EditTaskReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888DF526A6D876001C649E /* EditTaskReminderCell.swift */; };
 		67888E0226A6F143001C649E /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888E0126A6F143001C649E /* ListCell.swift */; };
 		67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833626A2CB8F0028ECCD /* EditTaskController.swift */; };
@@ -63,6 +65,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		670BD40726A9648B00EE312A /* ReminderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderButton.swift; sourceTree = "<group>"; };
 		670ED05926A816A000FADA85 /* TasksSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSectionCell.swift; sourceTree = "<group>"; };
 		671B3B3626A5759300E8E589 /* ListsChoiseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoiseController.swift; sourceTree = "<group>"; };
 		671B3B3826A57C2200E8E589 /* ListsChoisePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoisePresenter.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		677F51D626A4461F002B943B /* EditTaskSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskSection.swift; sourceTree = "<group>"; };
 		677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextFieldCell.swift; sourceTree = "<group>"; };
 		677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextViewCell.swift; sourceTree = "<group>"; };
+		67837C0926AAC00000C6C29E /* PresentationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationManager.swift; sourceTree = "<group>"; };
 		67888DF526A6D876001C649E /* EditTaskReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskReminderCell.swift; sourceTree = "<group>"; };
 		67888E0126A6F143001C649E /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		67D0833626A2CB8F0028ECCD /* EditTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskController.swift; sourceTree = "<group>"; };
@@ -223,11 +227,11 @@
 				6730C1C8269D6FE1005A5297 /* Lists */,
 				67331CAD269ED24A007A2948 /* NewList */,
 				6743FC88269DA12200CAFA15 /* Tasks */,
-				67F9409026A0553600DF50AB /* TaskSearch */,
-				673815C626A5A62B00CACF1A /* Reminder */,
 				67D0833526A2CB620028ECCD /* EditTask */,
 				67F9408926A0472D00DF50AB /* NewTask */,
+				673815C626A5A62B00CACF1A /* Reminder */,
 				671B3B3526A5756F00E8E589 /* ListsChoise */,
+				67F9409026A0553600DF50AB /* TaskSearch */,
 				6730C1C1269D69DE005A5297 /* Resources */,
 			);
 			path = "to-do-list";
@@ -287,6 +291,8 @@
 			isa = PBXGroup;
 			children = (
 				67331CAB269ECBBE007A2948 /* DataManager.swift */,
+				673815D026A5C39200CACF1A /* NotificationManager.swift */,
+				67837C0926AAC00000C6C29E /* PresentationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -312,9 +318,8 @@
 		673815C626A5A62B00CACF1A /* Reminder */ = {
 			isa = PBXGroup;
 			children = (
-				673815C726A5A65C00CACF1A /* ReminderController.swift */,
-				673815CB26A5B00000CACF1A /* ReminderPresenter.swift */,
-				673815D026A5C39200CACF1A /* NotificationManager.swift */,
+				67837C0B26AAC6FE00C6C29E /* View */,
+				67837C0C26AAC71500C6C29E /* Presenter */,
 			);
 			path = Reminder;
 			sourceTree = "<group>";
@@ -362,6 +367,47 @@
 				67F9409726A0748C00DF50AB /* CustomPresentationController.swift */,
 			);
 			path = CustomPresentationController;
+			sourceTree = "<group>";
+		};
+		67837C0426AABB8400C6C29E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67F9408A26A0474300DF50AB /* NewTaskController.swift */,
+				67837C0626AABBB400C6C29E /* CustonButtons */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		67837C0526AABBA400C6C29E /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		67837C0626AABBB400C6C29E /* CustonButtons */ = {
+			isa = PBXGroup;
+			children = (
+				670BD40726A9648B00EE312A /* ReminderButton.swift */,
+			);
+			path = CustonButtons;
+			sourceTree = "<group>";
+		};
+		67837C0B26AAC6FE00C6C29E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				673815C726A5A65C00CACF1A /* ReminderController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		67837C0C26AAC71500C6C29E /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				673815CB26A5B00000CACF1A /* ReminderPresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		67888DF726A6DDE6001C649E /* View */ = {
@@ -470,8 +516,8 @@
 		67F9408926A0472D00DF50AB /* NewTask */ = {
 			isa = PBXGroup;
 			children = (
-				67F9408A26A0474300DF50AB /* NewTaskController.swift */,
-				67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */,
+				67837C0426AABB8400C6C29E /* View */,
+				67837C0526AABBA400C6C29E /* Presenter */,
 			);
 			path = NewTask;
 			sourceTree = "<group>";
@@ -613,6 +659,7 @@
 				673815CF26A5C32600CACF1A /* Reminder.swift in Sources */,
 				67888DF626A6D877001C649E /* EditTaskReminderCell.swift in Sources */,
 				67331CB8269EDBAC007A2948 /* NewListSection.swift in Sources */,
+				67837C0A26AAC00000C6C29E /* PresentationManager.swift in Sources */,
 				67F9409A26A0762900DF50AB /* UINavigationController extensions.swift in Sources */,
 				67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */,
 				6730C1B2269D6935005A5297 /* ListsController.swift in Sources */,
@@ -628,6 +675,7 @@
 				67F9409626A05D3E00DF50AB /* TaskSearchCoordinator.swift in Sources */,
 				6743FC90269DA59F00CAFA15 /* TasksPresenter.swift in Sources */,
 				67331CAF269ED26E007A2948 /* NewListController.swift in Sources */,
+				670BD40826A9648B00EE312A /* ReminderButton.swift in Sources */,
 				6743FC7E269D83A900CAFA15 /* Coordinator.swift in Sources */,
 				67F9409226A0555700DF50AB /* TaskSearchController.swift in Sources */,
 				6743FC87269D944500CAFA15 /* AssemblyModuleBuilder.swift in Sources */,

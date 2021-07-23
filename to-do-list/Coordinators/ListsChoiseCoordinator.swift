@@ -38,7 +38,9 @@ class ListsChoiseCoordinator: Coordinator {
         let listsChoiseController = assemblyBuilder.createListsChoiseController(coordinator: self, for: task)
         
         listsChoiseController.modalPresentationStyle = .custom
-        listsChoiseController.transitioningDelegate = navigationController
+        
+        let presentationManager = PresentationManager()
+        listsChoiseController.transitioningDelegate = presentationManager
         
         navigationController.present(listsChoiseController, animated: true, completion: nil)
     }
