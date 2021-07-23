@@ -16,19 +16,28 @@ class NewTaskController: UIViewController {
     // MARK: - Elemets Properties
     private var titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "New task"
         textField.textColor = Color.black
+        textField.font = .systemFont(ofSize: 16, weight: .regular)
+        textField.attributedPlaceholder = NSAttributedString(string: "New task", attributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.foregroundColor: Color.mediumGray
+        ])
         return textField
     }()
     
-    private var detailTextView: UITextView = {
-        let textView = UITextView()
-        textView.isScrollEnabled = false
-        textView.isHidden = true
+    private var detailTextView: UIPlaceholderTextView = {
+        let textView = UIPlaceholderTextView()
         textView.font = .systemFont(ofSize: 14, weight: .regular)
         textView.textColor = Color.mediumGray
-        textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0
+        
+        textView.isScrollEnabled = false
+        textView.isHidden = true
+        
+        textView.attributedPlaceholder = NSAttributedString(string: "Add details", attributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
+            NSAttributedString.Key.foregroundColor: Color.mediumGray
+        ])
         return textView
     }()
     
@@ -202,6 +211,7 @@ class NewTaskController: UIViewController {
         
         [titleTextField, detailTextView, reminderButton]
             .forEach { vStackView.addArrangedSubview($0) }
+        detailTextView.anchor(left: vStackView.leftAnchor, right: vStackView.rightAnchor)
         
         view.addSubview(saveButton)
         saveButton.anchor(top: vStackView.bottomAnchor,

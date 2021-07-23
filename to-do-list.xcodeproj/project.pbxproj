@@ -48,6 +48,7 @@
 		677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */; };
 		677F51DB26A44BD0002B943B /* EditTaskTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */; };
 		67837C0A26AAC00000C6C29E /* PresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837C0926AAC00000C6C29E /* PresentationManager.swift */; };
+		67837C0E26AACE7B00C6C29E /* UIPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */; };
 		67888DF626A6D877001C649E /* EditTaskReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888DF526A6D876001C649E /* EditTaskReminderCell.swift */; };
 		67888E0226A6F143001C649E /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888E0126A6F143001C649E /* ListCell.swift */; };
 		67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833626A2CB8F0028ECCD /* EditTaskController.swift */; };
@@ -108,6 +109,7 @@
 		677F51D826A44A26002B943B /* EditTaskTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextFieldCell.swift; sourceTree = "<group>"; };
 		677F51DA26A44BD0002B943B /* EditTaskTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextViewCell.swift; sourceTree = "<group>"; };
 		67837C0926AAC00000C6C29E /* PresentationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationManager.swift; sourceTree = "<group>"; };
+		67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlaceholderTextView.swift; sourceTree = "<group>"; };
 		67888DF526A6D876001C649E /* EditTaskReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskReminderCell.swift; sourceTree = "<group>"; };
 		67888E0126A6F143001C649E /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		67D0833626A2CB8F0028ECCD /* EditTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskController.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			children = (
 				67F9408A26A0474300DF50AB /* NewTaskController.swift */,
 				67837C0626AABBB400C6C29E /* CustonButtons */,
+				67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				673815C826A5A65C00CACF1A /* ReminderController.swift in Sources */,
 				677F51D926A44A26002B943B /* EditTaskTextFieldCell.swift in Sources */,
 				671B3B3B26A57CD100E8E589 /* ListsChoiseCoordinator.swift in Sources */,
+				67837C0E26AACE7B00C6C29E /* UIPlaceholderTextView.swift in Sources */,
 				67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */,
 				67331CA9269ECB46007A2948 /* RealmService.swift in Sources */,
 				67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */,
