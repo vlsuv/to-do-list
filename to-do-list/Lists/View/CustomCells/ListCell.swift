@@ -20,17 +20,18 @@ class ListCell: UITableViewCell {
         return label
     }()
     
-    private var listIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Image.listBulletIcon
-        imageView.tintColor = Color.baseBlue
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        imageView?.image = Image.listBulletIcon
+        imageView?.tintColor = Color.baseBlue
+        imageView?.contentMode = .scaleAspectFit
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.veryLightGray
+        selectedBackgroundView = backgroundView
+        
         addSubviews()
         configureConstraints()
     }
@@ -45,22 +46,22 @@ class ListCell: UITableViewCell {
     
     // MARK: - Configures
     private func addSubviews() {
-        [listIcon, titleLabel]
+        [titleLabel]
             .forEach { contentView.addSubview($0) }
     }
     
     private func configureConstraints() {
-        listIcon.anchor(left: contentView.leftAnchor,
-                        paddingLeft: 18,
-                        height: 20,
-                        width: 20)
-        listIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        imageView?.anchor(left: contentView.leftAnchor,
+                          paddingLeft: 18,
+                          height: 20,
+                          width: 20)
+        imageView?.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         titleLabel.anchor(top: contentView.topAnchor,
-                          left: listIcon.rightAnchor,
+                          left: imageView?.rightAnchor,
                           right: contentView.rightAnchor,
                           bottom: contentView.bottomAnchor,
-                          paddingLeft: 8,
+                          paddingLeft: 18,
                           paddingRight: 18)
     }
 }

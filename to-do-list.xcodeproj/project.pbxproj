@@ -55,6 +55,8 @@
 		67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */; };
 		67F096E326AC0DC300316C1A /* EditTaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F096E226AC0DC300316C1A /* EditTaskListCell.swift */; };
 		67F096E526AC481D00316C1A /* EditTaskTitleTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F096E426AC481D00316C1A /* EditTaskTitleTextViewCell.swift */; };
+		67F096EB26AC5A4D00316C1A /* NewTaskContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F096EA26AC5A4D00316C1A /* NewTaskContentView.swift */; };
+		67F096ED26AC695E00316C1A /* ReminderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F096EC26AC695E00316C1A /* ReminderContentView.swift */; };
 		67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408A26A0474300DF50AB /* NewTaskController.swift */; };
 		67F9408D26A0499000DF50AB /* NewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */; };
 		67F9408F26A04A7C00DF50AB /* NewTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */; };
@@ -117,6 +119,8 @@
 		67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskCoordinator.swift; sourceTree = "<group>"; };
 		67F096E226AC0DC300316C1A /* EditTaskListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskListCell.swift; sourceTree = "<group>"; };
 		67F096E426AC481D00316C1A /* EditTaskTitleTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTitleTextViewCell.swift; sourceTree = "<group>"; };
+		67F096EA26AC5A4D00316C1A /* NewTaskContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskContentView.swift; sourceTree = "<group>"; };
+		67F096EC26AC695E00316C1A /* ReminderContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderContentView.swift; sourceTree = "<group>"; };
 		67F9408A26A0474300DF50AB /* NewTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskController.swift; sourceTree = "<group>"; };
 		67F9408C26A0499000DF50AB /* NewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskCoordinator.swift; sourceTree = "<group>"; };
 		67F9408E26A04A7C00DF50AB /* NewTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskPresenter.swift; sourceTree = "<group>"; };
@@ -377,8 +381,9 @@
 			isa = PBXGroup;
 			children = (
 				67F9408A26A0474300DF50AB /* NewTaskController.swift */,
-				67837C0626AABBB400C6C29E /* CustonButtons */,
+				67F096EA26AC5A4D00316C1A /* NewTaskContentView.swift */,
 				67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */,
+				67837C0626AABBB400C6C29E /* CustonButtons */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				673815C726A5A65C00CACF1A /* ReminderController.swift */,
+				67F096EC26AC695E00316C1A /* ReminderContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -661,11 +667,13 @@
 			files = (
 				6743FC81269D861400CAFA15 /* ListsCoordinator.swift in Sources */,
 				67F9408F26A04A7C00DF50AB /* NewTaskPresenter.swift in Sources */,
+				67F096EB26AC5A4D00316C1A /* NewTaskContentView.swift in Sources */,
 				6743FC8E269DA2CE00CAFA15 /* TasksCoordinator.swift in Sources */,
 				673815CF26A5C32600CACF1A /* Reminder.swift in Sources */,
 				67888DF626A6D877001C649E /* EditTaskReminderCell.swift in Sources */,
 				67331CB8269EDBAC007A2948 /* NewListSection.swift in Sources */,
 				67837C0A26AAC00000C6C29E /* PresentationManager.swift in Sources */,
+				67F096ED26AC695E00316C1A /* ReminderContentView.swift in Sources */,
 				67F9409A26A0762900DF50AB /* UINavigationController extensions.swift in Sources */,
 				67F9408B26A0474300DF50AB /* NewTaskController.swift in Sources */,
 				6730C1B2269D6935005A5297 /* ListsController.swift in Sources */,

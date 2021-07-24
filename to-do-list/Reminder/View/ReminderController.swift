@@ -13,40 +13,32 @@ class ReminderController: UIViewController {
     // MARK: - Properties
     var presenter: ReminderPresenterType?
     
-    private var doneButton: UIButton = {
-        let button = UIButton()
-        let normalAttributedString = NSAttributedString(string: "Done", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            NSAttributedString.Key.foregroundColor: Color.baseBlue
-        ])
-        button.setAttributedTitle(normalAttributedString, for: .normal)
-        return button
+    private var contentView: ReminderContentView = {
+        let view = ReminderContentView()
+        return view
     }()
     
-    private var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        return datePicker
-    }()
+    private var pointOrigin: CGPoint?
     
-    var pointOrigin: CGPoint?
-    var pointOriginIsSetted: Bool = false
+    private var pointOriginIsSetted: Bool = false
+    
+    private var elementsHeight: CGFloat {
+        return contentView.datePicker.frame.height + contentView.doneButton.frame.height + 54
+    }
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.white
-        
-        configureDoneButton()
-        configureDatePicker()
-        configurePanGestureRecognizer()
+        configureContentView()
+        addTargets()
+        configureMovePanGestureRecognier()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         guard let containerHeight = presentationController?.containerView?.frame.height else { return }
         
-        view.frame.origin = CGPoint(x: 0, y: containerHeight - (datePicker.frame.height + doneButton.frame.height + 54))
+        view.frame.origin = CGPoint(x: 0, y: containerHeight - elementsHeight)
         
         if !pointOriginIsSetted {
             pointOrigin = view.frame.origin
@@ -55,6 +47,7 @@ class ReminderController: UIViewController {
         }
     }
     
+    // MARK: - Deinit
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         presenter?.inputs.viewDidDisappear()
@@ -64,12 +57,34 @@ class ReminderController: UIViewController {
         print("deinit: \(self)")
     }
     
-    // MARK: - Elements Targets
+    // MARK: - Targets
     @objc private func didTapDoneButton(_ sender: UIButton) {
-        presenter?.inputs.didTapDone(with: datePicker.date)
+        presenter?.inputs.didTapDone(with: contentView.datePicker.date)
     }
     
-    // MARK: - Tatgets of ui move
+    // MARK: - Configures
+    private func configureContentView() {
+        view.addSubview(contentView)
+        contentView.frame = view.bounds
+    }
+    
+    private func addTargets() {
+        contentView.doneButton.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
+    }
+}
+
+// MARK: - ReminderViewProtocol
+extension ReminderController: ReminderViewProtocol {
+    
+}
+
+// MARK: - View Moving
+extension ReminderController {
+    private func configureMovePanGestureRecognier() {
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
+        view.addGestureRecognizer(panGestureRecognizer)
+    }
+    
     @objc private func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {
         guard let pointOrigin = pointOrigin else { return }
         
@@ -77,7 +92,7 @@ class ReminderController: UIViewController {
         
         let currentYPosition = pointOrigin.y + translation.y
         
-        if currentYPosition >= pointOrigin.y - 100 {
+        if currentYPosition >= pointOrigin.y - (elementsHeight / 2) {
             UIView.animate(withDuration: 1) {
                 self.view.frame.origin = CGPoint(x: 0, y: currentYPosition)
             }
@@ -87,7 +102,7 @@ class ReminderController: UIViewController {
         
         let dragVelocity = sender.velocity(in: view)
         
-        if dragVelocity.y >= 20 {
+        if dragVelocity.y >= 1300 {
             self.dismiss(animated: true, completion: nil)
         } else {
             UIView.animate(withDuration: 0.3) {
@@ -95,37 +110,4 @@ class ReminderController: UIViewController {
             }
         }
     }
-    
-    // MARK: - Configures
-    private func configureDoneButton() {
-        view.addSubview(doneButton)
-        doneButton.anchor(top: view.topAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 18,
-                          paddingRight: 18,
-                          height: 20,
-                          width: 48)
-        
-        doneButton.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
-    }
-    
-    private func configureDatePicker() {
-        view.addSubview(datePicker)
-        datePicker.anchor(top: doneButton.bottomAnchor,
-                          left: view.leftAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18,
-                          paddingRight: 18)
-    }
-    
-    private func configurePanGestureRecognizer() {
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
-        view.addGestureRecognizer(panGestureRecognizer)
-    }
-}
-
-// MARK: - ReminderViewProtocol
-extension ReminderController: ReminderViewProtocol {
-    
 }

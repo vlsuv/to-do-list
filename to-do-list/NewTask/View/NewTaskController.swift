@@ -13,94 +13,25 @@ class NewTaskController: UIViewController {
     // MARK: - Properties
     var presenter: NewTaskPresenterType?
     
-    // MARK: - Elemets Properties
-    private var titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = Color.black
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.attributedPlaceholder = NSAttributedString(string: "New task", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
-            NSAttributedString.Key.foregroundColor: Color.mediumGray
-        ])
-        return textField
+    private var contentView: NewTaskContentView = {
+        let view = NewTaskContentView()
+        return view
     }()
     
-    private var detailTextView: UIPlaceholderTextView = {
-        let textView = UIPlaceholderTextView()
-        textView.font = .systemFont(ofSize: 14, weight: .regular)
-        textView.textColor = Color.mediumGray
-        textView.textContainer.lineFragmentPadding = 0
-        
-        textView.isScrollEnabled = false
-        textView.isHidden = true
-        
-        textView.attributedPlaceholder = NSAttributedString(string: "Add details", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-            NSAttributedString.Key.foregroundColor: Color.mediumGray
-        ])
-        return textView
-    }()
-    
-    private lazy var reminderButton: ReminderButton = {
-        let button = ReminderButton()
-        button.isHidden = true
-        button.delegate = self
-        return button
-    }()
-    
-    private var addDetailButton: UIButton = {
-        let button = UIButton()
-        button.setImage(Image.listImage, for: .normal)
-        button.tintColor = Color.baseBlue
-        return button
-    }()
-    
-    private var addReminderButton: UIButton = {
-        let button = UIButton()
-        button.setImage(Image.calendarIcon, for: .normal)
-        button.tintColor = Color.baseBlue
-        return button
-    }()
-    
-    private var saveButton: UIButton = {
-        let button = UIButton()
-        let normalAttributedString = NSAttributedString(string: "Save", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            NSAttributedString.Key.foregroundColor: Color.baseBlue
-        ])
-        button.setAttributedTitle(normalAttributedString, for: .normal)
-        return button
-    }()
-    
-    // MARK: - StackViews Properties
-    private var vStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.alignment = .leading
-        return stackView
-    }()
-    
-    private var hStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 18
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
+    private var isFirstLayout: Bool = true
     
     // MARK: - Size Properties
-    private var keyboardHeight: CGFloat?
-    
-    var containerHeight: CGFloat {
+    private var containerHeight: CGFloat {
         return presentationController?.containerView?.frame.height ?? 0
     }
     
-    var elementsHeight: CGFloat {
-        return vStackView.frame.height + hStackView.frame.height + 54
+    private var elementsHeight: CGFloat {
+        return contentView.vStackView.frame.height + contentView.hStackView.frame.height + 54
     }
     
-    var currentPointOrigin: CGPoint {
+    private var keyboardHeight: CGFloat?
+    
+    private var currentPointOrigin: CGPoint {
         return CGPoint(x: 0, y: containerHeight - (elementsHeight + (keyboardHeight ?? 0)))
     }
     
@@ -108,20 +39,13 @@ class NewTaskController: UIViewController {
         return containerHeight - elementsHeight
     }
     
-    private var isFirstLayout: Bool = true
-    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.white
-        
-        configureElements()
+        configureContentView()
         addTargets()
-        
         addKeyboardObservers()
-        configurePanGesture()
-        
-        detailTextView.delegate = self
+        configureMovePanGestureRecognizer()
     }
     
     override func viewDidLayoutSubviews() {
@@ -132,10 +56,11 @@ class NewTaskController: UIViewController {
         if isFirstLayout {
             isFirstLayout = false
             
-            titleTextField.becomeFirstResponder()
+            contentView.titleTextField.becomeFirstResponder()
         }
     }
     
+    // MARK: - Deinit
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         presenter?.inputs.viewDidDisappear()
@@ -145,23 +70,13 @@ class NewTaskController: UIViewController {
         print("deinit: \(self)")
     }
     
-    // MARK: - Elements Targets
-    @objc private func didChangeTitleTextFieldText(_ sender: UITextField) {
-        guard let text = sender.text else { return }
-        
-        presenter?.inputs.didChangeTitleText(text)
-    }
-    
-    @objc private func didTapSaveButton(_ sender: UITextField) {
-        presenter?.inputs.didTapSave()
-    }
-    
+    // MARK: - Targets
     @objc private func didTapAddDetailButton(_ sender: UIButton) {
-        guard detailTextView.isHidden else { return }
+        guard contentView.detailTextView.isHidden else { return }
         
         UIView.animate(withDuration: 0.3) {
-            self.detailTextView.isHidden = false
-            self.detailTextView.becomeFirstResponder()
+            self.contentView.detailTextView.isHidden = false
+            self.contentView.detailTextView.becomeFirstResponder()
         }
     }
     
@@ -171,98 +86,55 @@ class NewTaskController: UIViewController {
         presenter?.inputs.didTapAddReminder()
     }
     
+    @objc private func didTapSaveButton(_ sender: UITextField) {
+        presenter?.inputs.didTapSave()
+    }
+    
+    @objc private func didChangeTitleTextFieldText(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        presenter?.inputs.didChangeTitleText(text)
+    }
+    
     @objc private func didTapReminderButton(_ sender: UIButton) {
         presenter?.inputs.didTapReminderButton()
     }
     
-    // MARK: - Targets of ui move
-    @objc private func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: view)
-        let totalPointOrigin = currentPointOrigin.y + translation.y
-        
-        if totalPointOrigin >= currentPointOrigin.y - 100 {
-            UIView.animate(withDuration: 1) {
-                self.view.frame.origin = CGPoint(x: 0, y: totalPointOrigin)
-            }
-        }
-        
-        guard sender.state == .ended else { return }
-        
-        let dragVelocity = sender.velocity(in: view)
-        
-        if dragVelocity.y >= 20 {
-            self.dismiss(animated: true, completion: nil)
-        } else {
-            UIView.animate(withDuration: 0.3) {
-                self.view.frame.origin = (self.currentPointOrigin)
-            }
-        }
-    }
-    
     // MARK: - Configures
-    private func configureElements() {
-        view.addSubview(vStackView)
-        vStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left: view.leftAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+    private func configureContentView() {
+        view.addSubview(contentView)
+        contentView.frame = view.bounds
         
-        [titleTextField, detailTextView, reminderButton]
-            .forEach { vStackView.addArrangedSubview($0) }
-        detailTextView.anchor(left: vStackView.leftAnchor, right: vStackView.rightAnchor)
-        
-        view.addSubview(saveButton)
-        saveButton.anchor(top: vStackView.bottomAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 18,
-                          paddingRight: 18,
-                          height: 20)
-        
-        view.addSubview(hStackView)
-        hStackView.anchor(top: vStackView.bottomAnchor,
-                          left: view.leftAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18)
-        hStackView.rightAnchor.constraint(lessThanOrEqualTo: saveButton.leftAnchor, constant: -18).isActive = true
-        
-        [addDetailButton, addReminderButton]
-            .forEach { hStackView.addArrangedSubview($0) }
+        contentView.reminderButton.delegate = self
+        contentView.detailTextView.delegate = self
     }
     
     private func addTargets() {
-        titleTextField.addTarget(self, action: #selector(didChangeTitleTextFieldText(_:)), for: .editingChanged)
-        addDetailButton.addTarget(self, action: #selector(didTapAddDetailButton(_:)), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(didTapSaveButton(_:)), for: .touchUpInside)
-        addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton(_:)), for: .touchUpInside)
-        reminderButton.addTarget(self, action: #selector(didTapReminderButton(_:)), for: .touchUpInside)
-    }
-    
-    private func configurePanGesture() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
-        view.addGestureRecognizer(panGesture)
+        contentView.titleTextField.addTarget(self, action: #selector(didChangeTitleTextFieldText(_:)), for: .editingChanged)
+        contentView.addDetailButton.addTarget(self, action: #selector(didTapAddDetailButton(_:)), for: .touchUpInside)
+        contentView.saveButton.addTarget(self, action: #selector(didTapSaveButton(_:)), for: .touchUpInside)
+        contentView.addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton(_:)), for: .touchUpInside)
+        contentView.reminderButton.addTarget(self, action: #selector(didTapReminderButton(_:)), for: .touchUpInside)
     }
 }
 
 // MARK: - NewTaskViewProtocol
 extension NewTaskController: NewTaskViewProtocol {
     func updateReminderLabel(with stringDate: String?) {
-        guard let stringDate = stringDate else {
-            reminderButton.isHidden = true
-            reminderButton.setTitle("", for: .normal)
-            return
+        if let stringDate = stringDate {
+            contentView.reminderButton.isHidden = false
+            contentView.reminderButton.configure(text: stringDate)
+        } else {
+            contentView.reminderButton.isHidden = true
+            contentView.reminderButton.setTitle("", for: .normal)
         }
-        
-        reminderButton.isHidden = false
-        reminderButton.configure(text: stringDate)
     }
 }
 
 // MARK: - UITextViewDelegate
 extension NewTaskController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        if textView == detailTextView {
+        if textView == contentView.detailTextView {
             guard let text = textView.text else { return }
             
             presenter?.inputs.didChangeDetailText(text)
@@ -273,8 +145,40 @@ extension NewTaskController: UITextViewDelegate {
 // MARK: - ReminderButtonDelegate
 extension NewTaskController: ReminderButtonDelegate {
     func didTapCancel(button: UIButton) {
-        if button == reminderButton {
+        if button == contentView.reminderButton {
             presenter?.inputs.didTapCancelReminder()
+        }
+    }
+}
+
+// MARK: - View Moving
+extension NewTaskController {
+    private func configureMovePanGestureRecognizer() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
+        view.addGestureRecognizer(panGesture)
+    }
+    
+    @objc private func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let totalPointOrigin = currentPointOrigin.y + translation.y
+        
+        if totalPointOrigin >= currentPointOrigin.y - (elementsHeight / 2) {
+            UIView.animate(withDuration: 1) {
+                self.view.frame.origin = CGPoint(x: 0, y: totalPointOrigin)
+            }
+        }
+        
+        guard sender.state == .ended else { return }
+        
+        let dragVelocity = sender.velocity(in: view)
+        
+        if dragVelocity.y >= 1300 {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.view.frame.origin = (self.currentPointOrigin)
+            }
         }
     }
 }
