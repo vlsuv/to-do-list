@@ -9,7 +9,8 @@
 import UIKit
 
 protocol EditTaskReminderCellDelegate: class {
-    func didTapReminderButton(cell: EditTaskReminderCell)
+    func didTapReminderButton(cell: UITableViewCell)
+    func didTapCancelReminderButton(cell: UITableViewCell)
 }
 
 class EditTaskReminderCell: UITableViewCell {
@@ -21,41 +22,29 @@ class EditTaskReminderCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Color.black
+        label.textColor = Color.mediumGray
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
-    private var reminderButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(Color.black, for: .normal)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = Color.black.cgColor
-        button.layer.cornerRadius = 22
+    private lazy var reminderButton: ReminderButton = {
+        let button = ReminderButton()
+        button.delegate = self
         return button
     }()
     
-    func configure(_ model: EditTaskReminderOption) {
-        guard let reminder = model.reminder else {
-            reminderButton.isHidden = true
-            titleLabel.isHidden = false
-            titleLabel.text = model.placeholder
-            return
-        }
-        
-        reminderButton.isHidden = false
-        titleLabel.isHidden = true
-        
+    private var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         dateFormatter.dateStyle = .short
-        let dateString = dateFormatter.string(from: reminder.date)
-        
-        reminderButton.setTitle(dateString, for: .normal)
-    }
+        return dateFormatter
+    }()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        
         addSubviews()
         configureConstraints()
         addTargets()
@@ -63,6 +52,24 @@ class EditTaskReminderCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(_ model: EditTaskReminderOption) {
+        imageView?.image = Image.calendarIcon
+        imageView?.tintColor = Color.mediumGray
+        imageView?.contentMode = .scaleAspectFit
+        
+        titleLabel.text = model.placeholder
+        
+        if let reminder = model.reminder() {
+            reminderButton.isHidden = false
+            titleLabel.isHidden = true
+            
+            reminderButton.configure(text: dateFormatter.string(from: reminder.date))
+        } else {
+            reminderButton.isHidden = true
+            titleLabel.isHidden = false
+        }
     }
     
     // MARK: - Targets
@@ -77,20 +84,36 @@ class EditTaskReminderCell: UITableViewCell {
     }
     
     private func configureConstraints() {
+        let imageViewSize: CGFloat = 20
+        let topPadding: CGFloat = (contentView.frame.height - imageViewSize) / 2
+        
+        imageView?.anchor(top: topAnchor,
+                          left: leftAnchor,
+                          paddingTop: topPadding,
+                          paddingLeft: 18,
+                          height: imageViewSize,
+                          width: imageViewSize)
+        
         titleLabel.anchor(top: contentView.topAnchor,
-                          left: contentView.leftAnchor,
+                          left: imageView?.rightAnchor,
                           right: contentView.rightAnchor,
                           bottom: contentView.bottomAnchor,
                           paddingLeft: 18,
                           paddingRight: 18)
         
-        reminderButton.anchor(top: contentView.topAnchor,
-                              left: contentView.leftAnchor,
-                              bottom: contentView.bottomAnchor,
+        reminderButton.anchor(left: imageView?.rightAnchor,
                               paddingLeft: 18)
+        reminderButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
     
     private func addTargets() {
         reminderButton.addTarget(self, action: #selector(didTapReminderButton(_:)), for: .touchUpInside)
+    }
+}
+
+// MARK: - ReminderButtonDelegate
+extension EditTaskReminderCell: ReminderButtonDelegate {
+    func didTapCancel(button: UIButton) {
+        delegate?.didTapCancelReminderButton(cell: self)
     }
 }

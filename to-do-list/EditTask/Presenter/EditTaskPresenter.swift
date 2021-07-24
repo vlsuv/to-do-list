@@ -22,6 +22,7 @@ protocol EditTaskPresenterInputs {
 
 protocol EditTaskPresenterOutputs {
     var sections: [EditTaskSection] { get set }
+    var markOfDone: String { get }
 }
 
 protocol EditTaskPresenterType {
@@ -50,6 +51,10 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     
     private var notificationManager: NotificationManagerType
     
+    var markOfDone: String {
+        return task.isDone ? "Mark uncompleted" : "Mark completed"
+    }
+    
     // MARK: - Init
     init(view: EditTaskViewProtocol, coordinator: EditTaskCoordinator, task: Task) {
         self.view = view
@@ -66,39 +71,29 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     
     // MARK: - Configures
     private func configureSections() {
-        
         let listOption = EditTaskListOption(parentList: { [weak self] in
-            guard let self = self else { return nil }
-            
-            return self.task.owner
+            return self?.task.owner
         }) { [weak self] in
-            guard let self = self else { return }
-            
-            self.coordinator?.showListsChoise(for: self.task, completion: { [weak self] in
-                let indexPath = IndexPath(row: 0, section: 0)
-                
-                self?.view?.reloadRows(at: [indexPath])
-            })
+            self?.showListsChoise()
         }
         
-        let titleOption = EditTaskTextFieldOption(text: task.title, placeholder: "Title", handler: { [weak self] text in
-            
+        let titleOption = EditTaskTitleTextViewOption(text: task.title, placeholder: "Enter title") { [weak self] text in
             self?.changeTaskTitle(text)
-        })
+        }
         
-        let detailOption = EditTaskTextViewOption(text: task.details ?? "", placeholder: "Detail", handler: { [weak self] text in
-            
+        let detailOption = EditTaskTextViewOption(text: task.details, placeholder: "Add details", icon: Image.listImage) { [weak self] text in
             self?.changeTaskDetail(text)
-        })
+        }
         
-        let reminderOption = EditTaskReminderOption(reminder: task.reminder, placeholder: "Add reminder") { [weak self] in
-            
+        let reminderOption = EditTaskReminderOption(reminder: { [weak self] in self?.task.reminder }, placeholder: "Add date/time", icon: Image.calendarIcon, handler: { [weak self] in
             self?.showReminder()
+        }) { [weak self] in
+            self?.removeReminder()
         }
         
         let taskDescriptionSection = EditTaskSection(title: "Task Description", option: [
             .EditTaskListCell(model: listOption),
-            .EditTaskTextFieldCell(model: titleOption),
+            .EditTaskTitleTextViewCell(model: titleOption),
             .EditTaskTextViewCell(model: detailOption),
             .EditTaskReminderCell(model: reminderOption)
         ])
@@ -107,21 +102,38 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
     }
     
     // MARK: - Secions Handlers
-    private func showReminder() {
-        coordinator?.showReminder(completion: { [weak self] date in
+    private func showListsChoise() {
+        coordinator?.showListsChoise(for: self.task, completion: { [weak self] in
+            let indexPath = IndexPath(row: 0, section: 0)
             
-            DataManager.shared.toChange(handler: {
-                self?.task.reminder?.date = date
-            }) { isChanged in
-                if isChanged {
-                    guard let self = self, let reminder = self.task.reminder else { return }
-                    
+            self?.view?.reloadRows(at: [indexPath])
+        })
+    }
+    
+    private func showReminder() {
+        coordinator?.showReminder(completion: { [weak self] reminderDate in
+            guard let self = self else { return }
+            
+            if let oldReminder = self.task.reminder {
+                DataManager.shared.deleteReminder(oldReminder, completion: nil)
+            }
+            
+            let newReminder = Reminder(title: self.task.title, date: reminderDate)
+            
+            DataManager.shared.addReminder(newReminder, to: self.task) { isAdded in
+                if isAdded {
                     self.view?.updateView()
-                    
-                    self.notificationManager.sendNotification(with: reminder)
                 }
             }
         })
+    }
+    
+    private func removeReminder() {
+        guard let reminder = task.reminder else { return }
+        
+        DataManager.shared.deleteReminder(reminder) { [weak self] isDeleted in
+            self?.view?.updateView()
+        }
     }
     
     private func changeTaskTitle(_ text: String) {

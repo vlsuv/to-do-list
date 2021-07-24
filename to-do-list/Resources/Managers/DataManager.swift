@@ -19,6 +19,9 @@ protocol DataManagerProtocol {
     func deleteTask(_ object: Task, completion: ((Bool) -> ())?)
     
     func toChange(handler: (() -> ()), completion: ((Bool) -> ())?)
+    
+    func addReminder(_ object: Reminder, to task: Task, completion: ((Bool) -> ())?)
+    func deleteReminder(_ object: Reminder, completion: ((Bool) -> ())?)
 }
 
 class DataManager: DataManagerProtocol {
@@ -32,9 +35,12 @@ class DataManager: DataManagerProtocol {
     
     private var listsObserver: NotificationToken?
     
+    private var notificationManager: NotificationManagerType
+    
     // MARK: - Init
     private init() {
         self.realmService = RealmService()
+        self.notificationManager = NotificationManager()
         
         lists = realmService.get(ListModel.self).sorted(byKeyPath: "order", ascending: true)
     }
@@ -74,6 +80,26 @@ extension DataManager {
     }
     
     func deleteTask(_ object: Task, completion: ((Bool) -> ())?) {
+        realmService.delete(object, completion: completion)
+    }
+}
+
+// MARK: - Reminder Manage
+extension DataManager {
+    func addReminder(_ object: Reminder, to task: Task, completion: ((Bool) -> ())?) {
+        realmService.writeChange(handler: {
+            task.reminder = object
+        }) { [weak self] isAdded in
+            if isAdded {
+                self?.notificationManager.sendNotification(with: object)
+                completion?(true)
+            }
+            completion?(false)
+        }
+    }
+    
+    func deleteReminder(_ object: Reminder, completion: ((Bool) -> ())?) {
+        notificationManager.removeNotification(object)
         realmService.delete(object, completion: completion)
     }
 }

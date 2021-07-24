@@ -31,6 +31,12 @@ class UIPlaceholderTextView: UITextView {
         }
     }
     
+    var placeholderFont: UIFont? {
+        didSet {
+            placeholderLabel.font = placeholderFont
+        }
+    }
+    
     var attributedPlaceholder: NSAttributedString? {
         didSet {
             placeholderLabel.attributedText = attributedPlaceholder
@@ -55,6 +61,12 @@ class UIPlaceholderTextView: UITextView {
         }
     }
     
+    override var textContainerInset: UIEdgeInsets {
+        didSet {
+            updateConstraintsForPlaceholderLabel()
+        }
+    }
+    
     // MARK: - Init
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -69,10 +81,18 @@ class UIPlaceholderTextView: UITextView {
     private func configure() {
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: nil)
         
-        
         addSubview(placeholderLabel)
-        placeholderLabel.anchor(left: leftAnchor, right: rightAnchor)
-        placeholderLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        updateConstraintsForPlaceholderLabel()
+    }
+    
+    private func updateConstraintsForPlaceholderLabel() {
+        placeholderLabel.anchor(top: topAnchor,
+                                left: leftAnchor,
+                                right: rightAnchor,
+                                bottom: bottomAnchor,
+                                paddingTop: textContainerInset.top,
+                                paddingLeft: textContainerInset.left,
+                                paddingRight: textContainerInset.right)
     }
     
     deinit {

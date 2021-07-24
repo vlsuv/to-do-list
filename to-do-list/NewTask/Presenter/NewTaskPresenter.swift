@@ -87,41 +87,23 @@ class NewTaskPresenter: NewTaskPresenterType, NewTaskPresenterInputs, NewTaskPre
         
         let unfinishedTasks = list.tasks.filter("isDone == false").sorted(byKeyPath: "order", ascending: true)
         
-        var taskReminder: Reminder? = nil
-        
-        if let reminderDate = reminderDate {
-            taskReminder = Reminder(title: taskTitle, date: reminderDate)
-        }
+        let reminder = reminderDate == nil ? nil : Reminder(title: taskTitle, date: reminderDate!)
         
         DataManager.shared.toChange(handler: {
             
-            let newTask: Task
-            
-            if let lastOrder = unfinishedTasks.last?.order {
-                newTask = Task(title: taskTitle,
+            let newTask = Task(title: taskTitle,
                                details: taskDetail,
                                owner: list,
-                               order: lastOrder + 1,
-                               reminder: taskReminder)
-            } else {
-                newTask = Task(title: taskTitle,
-                               details: taskDetail,
-                               owner: list,
-                               order: 1,
-                               reminder: taskReminder)
-            }
-            
-            if let reminder = newTask.reminder {
-                notificationManager.sendNotification(with: reminder)
-            }
+                               order: (unfinishedTasks.last?.order ?? 0) + 1,
+                               reminder: reminder)
             
             list.tasks.append(newTask)
             
-        }, completion: { [weak self] isAdded in
+        }) { [weak self] isAdded in
             if isAdded {
                 self?.coordinator.didFinishAddNewTask()
             }
-        })
+        }
     }
     
     func didTapAddReminder() {

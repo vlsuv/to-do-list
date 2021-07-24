@@ -1,23 +1,23 @@
 //
-//  EditTaskTextViewCell.swift
+//  EditTaskTitleTextViewCell.swift
 //  to-do-list
 //
-//  Created by vlsuv on 18.07.2021.
+//  Created by vlsuv on 24.07.2021.
 //  Copyright © 2021 vlsuv. All rights reserved.
 //
 
 import UIKit
 
-protocol EditTaskTextViewCellDelegate: class {
-    func didChangeText(cell: EditTaskTextViewCell, text: String)
+protocol EditTaskTitleTextViewCellDelegate: class {
+    func didChangeText(cell: UITableViewCell, text: String)
 }
 
-class EditTaskTextViewCell: UITableViewCell {
+class EditTaskTitleTextViewCell: UITableViewCell {
     
     // MARK: - Properties
-    static let identifier: String = "EditTaskTextViewCell"
+    static let identifier: String = "EditTaskTitleTextViewCell"
     
-    weak var delegate: EditTaskTextViewCellDelegate?
+    weak var delegate: EditTaskTitleTextViewCellDelegate?
     
     private var textView: UIPlaceholderTextView = {
         let textView = UIPlaceholderTextView()
@@ -25,10 +25,10 @@ class EditTaskTextViewCell: UITableViewCell {
         textView.textContainerInset.top = 0
         textView.isScrollEnabled = false
         
-        textView.font = .systemFont(ofSize: 16, weight: .regular)
+        textView.font = .systemFont(ofSize: 18, weight: .medium)
         textView.textColor = Color.black
         
-        textView.placeholderFont = .systemFont(ofSize: 16, weight: .medium)
+        textView.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
         textView.placeholderColor = Color.mediumGray
         return textView
     }()
@@ -40,21 +40,16 @@ class EditTaskTextViewCell: UITableViewCell {
         textView.delegate = self
         
         addSubviews()
+        configureConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ model: EditTaskTextViewOption) {
-        imageView?.image = model.icon
-        imageView?.tintColor = Color.mediumGray
-        imageView?.contentMode = .scaleAspectFit
-        
+    func configure(_ model: EditTaskTitleTextViewOption) {
         textView.text = model.text
         textView.placeholder = model.placeholder
-        
-        updateElementsConstraints()
     }
     
     // MARK: - Configures
@@ -63,31 +58,21 @@ class EditTaskTextViewCell: UITableViewCell {
             .forEach { contentView.addSubview($0) }
     }
     
-    private func updateElementsConstraints() {
+    private func configureConstraints() {
         contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
         
-        let imageViewSize: CGFloat = 20
-        let topPadding: CGFloat = (contentView.frame.height - imageViewSize) / 2
-        
-        imageView?.anchor(top: topAnchor,
-                          left: leftAnchor,
-                          paddingTop: topPadding,
-                          paddingLeft: 18,
-                          height: imageViewSize,
-                          width: imageViewSize)
-        
         textView.anchor(top: contentView.topAnchor,
-                        left: imageView?.image == nil ? contentView.leftAnchor : imageView?.rightAnchor,
+                        left: contentView.leftAnchor,
                         right: contentView.rightAnchor,
                         bottom: contentView.bottomAnchor,
-                        paddingTop: topPadding,
+                        paddingTop: 8,
                         paddingLeft: 18,
                         paddingRight: 18)
     }
 }
 
 // MARK: - UITextViewDelegate
-extension EditTaskTextViewCell: UITextViewDelegate {
+extension EditTaskTitleTextViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let text = textView.text else { return }
         

@@ -14,22 +14,10 @@ struct EditTaskSection {
 }
 
 enum EditTaskSectionOption {
-    case EditTaskTextFieldCell(model: EditTaskTextFieldOption)
+    case EditTaskTitleTextViewCell(model: EditTaskTitleTextViewOption)
     case EditTaskTextViewCell(model: EditTaskTextViewOption)
     case EditTaskListCell(model: EditTaskListOption)
     case EditTaskReminderCell(model: EditTaskReminderOption)
-}
-
-struct EditTaskTextFieldOption {
-    var text: String
-    var placeholder: String
-    var handler: ((String) -> ())?
-}
-
-struct EditTaskTextViewOption {
-    var text: String
-    var placeholder: String
-    var handler: ((String) -> ())?
 }
 
 struct EditTaskListOption {
@@ -37,8 +25,23 @@ struct EditTaskListOption {
     var handler: (() -> ())?
 }
 
-struct EditTaskReminderOption {
-    var reminder: Reminder?
+struct EditTaskTitleTextViewOption {
+    var text: String
     var placeholder: String
+    var handler: ((String) -> ())?
+}
+
+struct EditTaskTextViewOption {
+    var text: String?
+    var placeholder: String?
+    var icon: UIImage?
+    var handler: ((String) -> ())?
+}
+
+struct EditTaskReminderOption {
+    var reminder: (() -> (Reminder?))
+    var placeholder: String
+    var icon: UIImage?
     var handler: (() -> ())?
+    var cancelHandler: (() -> ())?
 }
