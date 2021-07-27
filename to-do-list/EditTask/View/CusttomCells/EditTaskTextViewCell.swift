@@ -25,10 +25,10 @@ class EditTaskTextViewCell: UITableViewCell {
         textView.textContainerInset.top = 0
         textView.isScrollEnabled = false
         
-        textView.font = .systemFont(ofSize: 16, weight: .regular)
+        textView.font = .systemFont(ofSize: FontSize.title2, weight: .regular)
         textView.textColor = Color.black
         
-        textView.placeholderFont = .systemFont(ofSize: 16, weight: .medium)
+        textView.placeholderFont = .systemFont(ofSize: FontSize.title2, weight: .medium)
         textView.placeholderColor = Color.darkGray
         return textView
     }()
@@ -64,15 +64,15 @@ class EditTaskTextViewCell: UITableViewCell {
     }
     
     private func updateElementsConstraints() {
-        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: Size.mediumCellHeight).isActive = true
         
-        let imageViewSize: CGFloat = 20
+        let imageViewSize: CGFloat = Size.mediumIconHeight
         let topPadding: CGFloat = (contentView.frame.height - imageViewSize) / 2
         
         imageView?.anchor(top: topAnchor,
                           left: leftAnchor,
                           paddingTop: topPadding,
-                          paddingLeft: 18,
+                          paddingLeft: Space.mediumSpace,
                           height: imageViewSize,
                           width: imageViewSize)
         
@@ -81,8 +81,8 @@ class EditTaskTextViewCell: UITableViewCell {
                         right: contentView.rightAnchor,
                         bottom: contentView.bottomAnchor,
                         paddingTop: topPadding,
-                        paddingLeft: 18,
-                        paddingRight: 18)
+                        paddingLeft: Space.mediumSpace,
+                        paddingRight: Space.mediumSpace)
     }
 }
 

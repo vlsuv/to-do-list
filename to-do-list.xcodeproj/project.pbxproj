@@ -50,6 +50,7 @@
 		67837C0E26AACE7B00C6C29E /* UIPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */; };
 		67888DF626A6D877001C649E /* EditTaskReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888DF526A6D876001C649E /* EditTaskReminderCell.swift */; };
 		67888E0226A6F143001C649E /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67888E0126A6F143001C649E /* ListCell.swift */; };
+		67AA6B4D26B048B800C57C62 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AA6B4C26B048B800C57C62 /* Style.swift */; };
 		67C7DDA526AD5412005E3D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67C7DDA426AD5411005E3D9F /* Assets.xcassets */; };
 		67D0833726A2CB8F0028ECCD /* EditTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833626A2CB8F0028ECCD /* EditTaskController.swift */; };
 		67D0833926A2D49E0028ECCD /* EditTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0833826A2D49E0028ECCD /* EditTaskPresenter.swift */; };
@@ -115,6 +116,7 @@
 		67837C0D26AACE7B00C6C29E /* UIPlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlaceholderTextView.swift; sourceTree = "<group>"; };
 		67888DF526A6D876001C649E /* EditTaskReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskReminderCell.swift; sourceTree = "<group>"; };
 		67888E0126A6F143001C649E /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		67AA6B4C26B048B800C57C62 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		67C7DDA426AD5411005E3D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67D0833626A2CB8F0028ECCD /* EditTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskController.swift; sourceTree = "<group>"; };
 		67D0833826A2D49E0028ECCD /* EditTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskPresenter.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 			children = (
 				6730C1C6269D6A38005A5297 /* Color.swift */,
 				6748CBFF26A1CEA200C044DA /* Image.swift */,
+				67AA6B4C26B048B800C57C62 /* Style.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
 				673815CC26A5B00000CACF1A /* ReminderPresenter.swift in Sources */,
 				67888E0226A6F143001C649E /* ListCell.swift in Sources */,
+				67AA6B4D26B048B800C57C62 /* Style.swift in Sources */,
 				671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */,
 				673815D126A5C39200CACF1A /* NotificationManager.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,

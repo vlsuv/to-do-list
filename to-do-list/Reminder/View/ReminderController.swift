@@ -23,7 +23,7 @@ class ReminderController: UIViewController {
     private var pointOriginIsSetted: Bool = false
     
     private var elementsHeight: CGFloat {
-        return contentView.datePicker.frame.height + contentView.doneButton.frame.height + 54
+        return contentView.datePicker.frame.height + contentView.doneButton.frame.height + (Space.mediumSpace * 3)
     }
     
     // MARK: - Init

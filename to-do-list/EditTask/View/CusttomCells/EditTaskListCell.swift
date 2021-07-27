@@ -23,7 +23,7 @@ class EditTaskListCell: UITableViewCell {
     
     private var listTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: FontSize.title2, weight: .medium)
         label.textColor = Color.baseBlue
         return label
     }()
@@ -56,11 +56,11 @@ class EditTaskListCell: UITableViewCell {
         listTitleLabel.anchor(top: contentView.topAnchor,
                               left: contentView.leftAnchor,
                               bottom: contentView.bottomAnchor,
-                              paddingLeft: 18)
-        listTitleLabel.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -18).isActive = true
+                              paddingLeft: Space.mediumSpace)
+        listTitleLabel.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -Space.mediumSpace).isActive = true
         
         selectIconImageView.anchor(left: listTitleLabel.rightAnchor,
-                                   paddingLeft: 8,
+                                   paddingLeft: Space.smallSpace,
                                    height: 10,
                                    width: 10)
         selectIconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true

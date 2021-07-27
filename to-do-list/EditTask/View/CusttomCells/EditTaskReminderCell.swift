@@ -23,7 +23,7 @@ class EditTaskReminderCell: UITableViewCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Color.darkGray
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: FontSize.title2, weight: .medium)
         return label
     }()
     
@@ -84,13 +84,13 @@ class EditTaskReminderCell: UITableViewCell {
     }
     
     private func configureConstraints() {
-        let imageViewSize: CGFloat = 20
+        let imageViewSize: CGFloat = Size.mediumIconHeight
         let topPadding: CGFloat = (contentView.frame.height - imageViewSize) / 2
         
         imageView?.anchor(top: topAnchor,
                           left: leftAnchor,
                           paddingTop: topPadding,
-                          paddingLeft: 18,
+                          paddingLeft: Space.mediumSpace,
                           height: imageViewSize,
                           width: imageViewSize)
         
@@ -98,11 +98,11 @@ class EditTaskReminderCell: UITableViewCell {
                           left: imageView?.rightAnchor,
                           right: contentView.rightAnchor,
                           bottom: contentView.bottomAnchor,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+                          paddingLeft: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace)
         
         reminderButton.anchor(left: imageView?.rightAnchor,
-                              paddingLeft: 18)
+                              paddingLeft: Space.mediumSpace)
         reminderButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
     

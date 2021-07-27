@@ -24,7 +24,7 @@ class EditTaskController: UIViewController {
         let button = UIButton()
         button.setTitle(presenter?.outputs.markOfDone, for: .normal)
         button.setTitleColor(Color.baseBlue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        button.titleLabel?.font = .systemFont(ofSize: FontSize.title2, weight: .medium)
         button.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -85,8 +85,8 @@ class EditTaskController: UIViewController {
         view.addSubview(doneButton)
         doneButton.anchor(right: view.rightAnchor,
                           bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                          paddingRight: 18,
-                          height: 48)
+                          paddingRight: Space.mediumSpace,
+                          height: Size.mediumCellHeight)
     }
 }
 
@@ -160,7 +160,7 @@ extension EditTaskController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return 48 }
+        guard let section = presenter?.outputs.sections[indexPath.section].option[indexPath.row] else { return Size.mediumCellHeight }
         
         switch section {
         case .EditTaskTextViewCell(model: _):
@@ -168,12 +168,12 @@ extension EditTaskController: UITableViewDelegate {
         case .EditTaskTitleTextViewCell(model: _):
             return UITableView.automaticDimension
         default:
-            return 48
+            return Size.mediumCellHeight
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
+        return Size.largeCellHeight
     }
 }
 

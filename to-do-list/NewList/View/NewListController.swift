@@ -56,7 +56,7 @@ class NewListController: UIViewController {
     private func configureNavigationController() {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: Color.black,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.title2, weight: .regular)
         ]
         
         navigationItem.rightBarButtonItem = doneButton
@@ -112,7 +112,7 @@ extension NewListController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension NewListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
+        return Size.mediumCellHeight
     }
 }
 

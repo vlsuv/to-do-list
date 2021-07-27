@@ -18,7 +18,7 @@ class ListsController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
-        tableView.rowHeight = 48
+        tableView.rowHeight = Size.mediumCellHeight
         return tableView
     }()
     
@@ -26,14 +26,14 @@ class ListsController: UIViewController {
         let button = UIButton()
         
         let newListNormalAttributedString = NSAttributedString(string: "New List", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .medium),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.title1, weight: .medium),
             NSAttributedString.Key.foregroundColor: Color.baseBlue
         ])
         
         button.setImage(Image.plusIcon.withTintColor(Color.baseBlue), for: .normal)
         
         button.tintColor = Color.baseBlue
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: Space.smallSpace, bottom: 0, right: 0)
         button.setAttributedTitle(newListNormalAttributedString, for: .normal)
         button.contentHorizontalAlignment = .left
         
@@ -116,9 +116,9 @@ class ListsController: UIViewController {
         newListButton.anchor(left: view.leftAnchor,
                              right: view.rightAnchor,
                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                             paddingLeft: 18,
-                             paddingRight: 18,
-                             height: 48)
+                             paddingLeft: Space.mediumSpace,
+                             paddingRight: Space.mediumSpace,
+                             height: Size.mediumCellHeight)
     }
     
     private func configureLongPressGestureRecognizer() {

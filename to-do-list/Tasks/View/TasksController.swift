@@ -106,11 +106,11 @@ class TasksController: UIViewController {
     private func configureAddNewTaskButton() {
         view.addSubview(addNewTaskButton)
         
-        let addNewTaskButtonSize: CGFloat = 50
+        let addNewTaskButtonSize: CGFloat = Size.largeIconSize
         addNewTaskButton.anchor(right: view.rightAnchor,
                                 bottom: view.bottomAnchor,
-                                paddingRight: 30,
-                                paddingBottom: 30,
+                                paddingRight: Space.largeSpace,
+                                paddingBottom: Space.largeSpace,
                                 height: addNewTaskButtonSize,
                                 width: addNewTaskButtonSize)
         
@@ -237,12 +237,12 @@ extension TasksController: UITableViewDelegate {
         if indexPath.row > 0 {
             return UITableView.automaticDimension
         } else {
-            return 48
+            return Size.mediumCellHeight
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 88
+        return Size.largeCellHeight
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

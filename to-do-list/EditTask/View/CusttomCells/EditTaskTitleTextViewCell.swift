@@ -25,10 +25,10 @@ class EditTaskTitleTextViewCell: UITableViewCell {
         textView.textContainerInset.top = 0
         textView.isScrollEnabled = false
         
-        textView.font = .systemFont(ofSize: 18, weight: .medium)
+        textView.font = .systemFont(ofSize: FontSize.title1, weight: .medium)
         textView.textColor = Color.black
         
-        textView.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
+        textView.placeholderFont = .systemFont(ofSize: FontSize.title1, weight: .medium)
         textView.placeholderColor = Color.mediumGray
         return textView
     }()
@@ -59,15 +59,15 @@ class EditTaskTitleTextViewCell: UITableViewCell {
     }
     
     private func configureConstraints() {
-        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: Size.mediumCellHeight).isActive = true
         
         textView.anchor(top: contentView.topAnchor,
                         left: contentView.leftAnchor,
                         right: contentView.rightAnchor,
                         bottom: contentView.bottomAnchor,
-                        paddingTop: 8,
-                        paddingLeft: 18,
-                        paddingRight: 18)
+                        paddingTop: Space.smallSpace,
+                        paddingLeft: Space.mediumSpace,
+                        paddingRight: Space.mediumSpace)
     }
 }
 

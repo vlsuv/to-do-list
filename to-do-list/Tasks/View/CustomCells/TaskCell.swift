@@ -30,7 +30,7 @@ class TaskCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: FontSize.title2, weight: .regular)
         label.textColor = Color.black
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -39,7 +39,7 @@ class TaskCell: UITableViewCell {
     
     private var detailLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: FontSize.body, weight: .regular)
         label.textColor = Color.mediumGray
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -81,28 +81,28 @@ class TaskCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: Size.mediumCellHeight).isActive = true
         
-        let doneButtonSize: CGFloat = 20
+        let doneButtonSize: CGFloat = Size.mediumIconHeight
         doneButton.anchor(top: contentView.topAnchor,
                           left: contentView.leftAnchor,
-                          paddingTop: (48 - doneButtonSize) / 2,
-                          paddingLeft: 18,
+                          paddingTop: (Size.mediumCellHeight - doneButtonSize) / 2,
+                          paddingLeft: Space.mediumSpace,
                           height: doneButtonSize,
                           width: doneButtonSize)
         
         titleLabel.anchor(top: contentView.topAnchor,
                           left: doneButton.rightAnchor,
                           right: contentView.rightAnchor,
-                          paddingTop: (48 - doneButtonSize) / 2,
-                          paddingLeft: 8,
-                          paddingRight: 18)
+                          paddingTop: (Size.mediumCellHeight - doneButtonSize) / 2,
+                          paddingLeft: Space.smallSpace,
+                          paddingRight: Space.mediumSpace)
         
         detailLabel.anchor(top: titleLabel.bottomAnchor,
                            left: titleLabel.leftAnchor,
                            right: titleLabel.rightAnchor,
                            bottom: contentView.bottomAnchor,
-                           paddingTop: 6,
-                           paddingBottom: 8)
+                           paddingTop: Space.smallSpace,
+                           paddingBottom: Space.smallSpace)
     }
 }

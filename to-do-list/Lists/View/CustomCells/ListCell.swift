@@ -15,7 +15,7 @@ class ListCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: FontSize.title1, weight: .regular)
         label.textColor = Color.black
         return label
     }()
@@ -52,16 +52,16 @@ class ListCell: UITableViewCell {
     
     private func configureConstraints() {
         imageView?.anchor(left: contentView.leftAnchor,
-                          paddingLeft: 18,
-                          height: 20,
-                          width: 20)
+                          paddingLeft: Space.mediumSpace,
+                          height: Size.mediumIconHeight,
+                          width: Size.mediumIconHeight)
         imageView?.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         titleLabel.anchor(top: contentView.topAnchor,
                           left: imageView?.rightAnchor,
                           right: contentView.rightAnchor,
                           bottom: contentView.bottomAnchor,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+                          paddingLeft: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace)
     }
 }

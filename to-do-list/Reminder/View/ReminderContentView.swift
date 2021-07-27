@@ -14,7 +14,7 @@ class ReminderContentView: UIView {
     var doneButton: UIButton = {
         let button = UIButton()
         let normalAttributedString = NSAttributedString(string: "Done", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.title2, weight: .medium),
             NSAttributedString.Key.foregroundColor: Color.baseBlue
         ])
         button.setAttributedTitle(normalAttributedString, for: .normal)
@@ -54,16 +54,16 @@ class ReminderContentView: UIView {
     private func configureConstraints() {
         doneButton.anchor(top: self.topAnchor,
                           right: self.rightAnchor,
-                          paddingTop: 18,
-                          paddingRight: 18,
+                          paddingTop: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace,
                           height: 20,
                           width: 48)
         
         datePicker.anchor(top: doneButton.bottomAnchor,
                           left: self.leftAnchor,
                           right: self.rightAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+                          paddingTop: Space.mediumSpace,
+                          paddingLeft: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace)
     }
 }

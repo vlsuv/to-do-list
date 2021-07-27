@@ -21,7 +21,7 @@ class TextFieldCell: UITableViewCell {
     
     private var textField: UITextField = {
         let textField = UITextField()
-        textField.font = .systemFont(ofSize: 18, weight: .regular)
+        textField.font = .systemFont(ofSize: FontSize.title1, weight: .regular)
         textField.textColor = Color.black
         textField.textAlignment = .left
         textField.autocapitalizationType = .none
@@ -64,8 +64,8 @@ class TextFieldCell: UITableViewCell {
                          left: contentView.leftAnchor,
                          right: contentView.rightAnchor,
                          bottom: contentView.bottomAnchor,
-                         paddingLeft: 18,
-                         paddingRight: 18)
+                         paddingLeft: Space.mediumSpace,
+                         paddingRight: Space.mediumSpace)
     }
     
     private func configureTargets() {

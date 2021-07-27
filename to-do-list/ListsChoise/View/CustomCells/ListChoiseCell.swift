@@ -16,14 +16,14 @@ class ListChoiseCell: UITableViewCell {
     private var listTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Color.black
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: FontSize.body, weight: .regular)
         label.textAlignment = .left
         label.numberOfLines = 1
         return label
     }()
     
     private var selectImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: Size.smallIconSize, height: Size.smallIconSize))
         imageView.contentMode = .scaleAspectFit
         imageView.image = Image.checkmarkIcon?.withTintColor(Color.darkGray)
         imageView.isHidden = true
@@ -63,7 +63,7 @@ class ListChoiseCell: UITableViewCell {
                               left: contentView.leftAnchor,
                               right: contentView.rightAnchor,
                               bottom: contentView.bottomAnchor,
-                              paddingLeft: 18,
-                              paddingRight: 18)
+                              paddingLeft: Space.mediumSpace,
+                              paddingRight: Space.mediumSpace)
     }
 }

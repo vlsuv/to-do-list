@@ -19,7 +19,7 @@ class ReminderButton: UIButton {
     
     private var dateTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: FontSize.body, weight: .medium)
         label.textColor = Color.darkGray
         label.textAlignment = .center
         return label
@@ -72,7 +72,7 @@ class ReminderButton: UIButton {
     }
     
     private func configureConstraints() {
-        let cancelIconSize: CGFloat = 15
+        let cancelIconSize: CGFloat = Size.smallIconSize
         cancelIconImageView.anchor(right: rightAnchor,
                                    paddingRight: 5,
                                    height: cancelIconSize,

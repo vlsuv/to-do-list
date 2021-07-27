@@ -26,7 +26,7 @@ class NewTaskController: UIViewController {
     }
     
     private var elementsHeight: CGFloat {
-        return contentView.vStackView.frame.height + contentView.hStackView.frame.height + 54
+        return contentView.vStackView.frame.height + contentView.hStackView.frame.height + (Space.mediumSpace * 3)
     }
     
     private var keyboardHeight: CGFloat?

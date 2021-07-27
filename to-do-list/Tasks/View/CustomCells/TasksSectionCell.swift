@@ -16,12 +16,12 @@ class TasksSectionCell: UITableViewCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Color.black
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: FontSize.title2, weight: .medium)
         return label
     }()
     
     private var stateImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: Size.smallIconSize, height: Size.smallIconSize))
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Color.mediumGray
         return imageView
@@ -58,7 +58,7 @@ class TasksSectionCell: UITableViewCell {
                           left: contentView.leftAnchor,
                           right: contentView.rightAnchor,
                           bottom: contentView.bottomAnchor,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+                          paddingLeft: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace)
     }
 }

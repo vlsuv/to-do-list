@@ -14,9 +14,9 @@ class NewTaskContentView: UIView {
     var titleTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = Color.black
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
+        textField.font = .systemFont(ofSize: FontSize.title2, weight: .regular)
         textField.attributedPlaceholder = NSAttributedString(string: "New task", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.title2, weight: .regular),
             NSAttributedString.Key.foregroundColor: Color.mediumGray
         ])
         return textField
@@ -24,7 +24,7 @@ class NewTaskContentView: UIView {
     
     var detailTextView: UIPlaceholderTextView = {
         let textView = UIPlaceholderTextView()
-        textView.font = .systemFont(ofSize: 14, weight: .regular)
+        textView.font = .systemFont(ofSize: FontSize.body, weight: .regular)
         textView.textColor = Color.mediumGray
         textView.textContainer.lineFragmentPadding = 0
         
@@ -32,7 +32,7 @@ class NewTaskContentView: UIView {
         textView.isHidden = true
         
         textView.attributedPlaceholder = NSAttributedString(string: "Add details", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.body, weight: .regular),
             NSAttributedString.Key.foregroundColor: Color.mediumGray
         ])
         return textView
@@ -61,7 +61,7 @@ class NewTaskContentView: UIView {
     var saveButton: UIButton = {
         let button = UIButton()
         let normalAttributedString = NSAttributedString(string: "Save", attributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: FontSize.title2, weight: .medium),
             NSAttributedString.Key.foregroundColor: Color.baseBlue
         ])
         button.setAttributedTitle(normalAttributedString, for: .normal)
@@ -72,7 +72,7 @@ class NewTaskContentView: UIView {
     var vStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = Space.smallSpace
         stackView.alignment = .leading
         return stackView
     }()
@@ -80,7 +80,7 @@ class NewTaskContentView: UIView {
     var hStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 18
+        stackView.spacing = Space.mediumSpace
         stackView.distribution = .equalSpacing
         return stackView
     }()
@@ -116,25 +116,25 @@ class NewTaskContentView: UIView {
         vStackView.anchor(top: self.safeAreaLayoutGuide.topAnchor,
                           left: self.leftAnchor,
                           right: self.rightAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18,
-                          paddingRight: 18)
+                          paddingTop: Space.mediumSpace,
+                          paddingLeft: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace)
         
         detailTextView.anchor(left: vStackView.leftAnchor, right: vStackView.rightAnchor)
         
         saveButton.anchor(top: vStackView.bottomAnchor,
                           right: self.rightAnchor,
-                          paddingTop: 18,
-                          paddingRight: 18,
-                          height: 20)
+                          paddingTop: Space.mediumSpace,
+                          paddingRight: Space.mediumSpace,
+                          height: Size.mediumIconHeight)
         
         [addDetailButton, addReminderButton]
             .forEach { hStackView.addArrangedSubview($0) }
         hStackView.anchor(top: vStackView.bottomAnchor,
                           left: self.leftAnchor,
-                          paddingTop: 18,
-                          paddingLeft: 18)
+                          paddingTop: Space.mediumSpace,
+                          paddingLeft: Space.mediumSpace)
         
-        hStackView.rightAnchor.constraint(lessThanOrEqualTo: saveButton.leftAnchor, constant: -18).isActive = true
+        hStackView.rightAnchor.constraint(lessThanOrEqualTo: saveButton.leftAnchor, constant: -Space.mediumSpace).isActive = true
     }
 }

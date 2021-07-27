@@ -26,7 +26,7 @@ class ListsChoiseController: UIViewController {
     private var pointOriginIsSetted: Bool = false
     
     private var elementsHeight: CGFloat {
-        return tableView.contentSize.height + 36
+        return tableView.contentSize.height + (Space.mediumSpace * 2)
     }
     
     // MARK: - Init
@@ -153,11 +153,11 @@ extension ListsChoiseController {
         guard section == 0 else { return nil }
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 38))
-        let label = UILabel(frame: CGRect(x: 18, y: 0, width: view.frame.width, height: view.frame.height))
+        let label = UILabel(frame: CGRect(x: Space.mediumSpace, y: 0, width: view.frame.width, height: view.frame.height))
         
         label.text = "Move task to"
         label.textColor = Color.darkGray
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: FontSize.body, weight: .regular)
         label.textAlignment = .left
         
         view.addSubview(label)
