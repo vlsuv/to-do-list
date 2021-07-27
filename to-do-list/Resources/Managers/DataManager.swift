@@ -69,6 +69,8 @@ extension DataManager {
     }
     
     func deleteList(_ object: ListModel, completion: ((Bool) -> ())?) {
+        object.tasks.forEach { deleteTask($0, completion: nil) }
+        
         realmService.delete(object, completion: completion)
     }
 }
@@ -80,6 +82,10 @@ extension DataManager {
     }
     
     func deleteTask(_ object: Task, completion: ((Bool) -> ())?) {
+        if let reminder = object.reminder {
+            deleteReminder(reminder, completion: nil)
+        }
+        
         realmService.delete(object, completion: completion)
     }
 }
@@ -100,6 +106,7 @@ extension DataManager {
     
     func deleteReminder(_ object: Reminder, completion: ((Bool) -> ())?) {
         notificationManager.removeNotification(object)
+        
         realmService.delete(object, completion: completion)
     }
 }

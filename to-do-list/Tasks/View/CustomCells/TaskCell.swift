@@ -49,8 +49,6 @@ class TaskCell: UITableViewCell {
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
-        
         addSubviews()
         setupConstraints()
         
@@ -83,20 +81,20 @@ class TaskCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        let doneButtonSize: CGFloat = 20
-        doneButton.anchor( top: contentView.topAnchor,
-                           left: contentView.leftAnchor,
-                           paddingTop: 8,
-                           paddingLeft: 18,
-                           height: doneButtonSize,
-                           width: doneButtonSize)
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
         
-        doneButton.layer.cornerRadius = doneButtonSize / 2
+        let doneButtonSize: CGFloat = 20
+        doneButton.anchor(top: contentView.topAnchor,
+                          left: contentView.leftAnchor,
+                          paddingTop: (48 - doneButtonSize) / 2,
+                          paddingLeft: 18,
+                          height: doneButtonSize,
+                          width: doneButtonSize)
         
         titleLabel.anchor(top: contentView.topAnchor,
                           left: doneButton.rightAnchor,
                           right: contentView.rightAnchor,
-                          paddingTop: 8,
+                          paddingTop: (48 - doneButtonSize) / 2,
                           paddingLeft: 8,
                           paddingRight: 18)
         
