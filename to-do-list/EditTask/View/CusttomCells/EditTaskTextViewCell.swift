@@ -29,7 +29,7 @@ class EditTaskTextViewCell: UITableViewCell {
         textView.textColor = Color.black
         
         textView.placeholderFont = .systemFont(ofSize: 16, weight: .medium)
-        textView.placeholderColor = Color.mediumGray
+        textView.placeholderColor = Color.darkGray
         return textView
     }()
     
@@ -47,8 +47,8 @@ class EditTaskTextViewCell: UITableViewCell {
     }
     
     func configure(_ model: EditTaskTextViewOption) {
-        imageView?.image = model.icon
-        imageView?.tintColor = Color.mediumGray
+        imageView?.image = model.icon?.withTintColor(Color.darkGray)
+        imageView?.tintColor = Color.darkGray
         imageView?.contentMode = .scaleAspectFit
         
         textView.text = model.text

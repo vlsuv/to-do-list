@@ -14,17 +14,17 @@ class EditTaskListCell: UITableViewCell {
     static let identifier: String = "EditTaskListCell"
     
     private var selectIconImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-        imageView.image = Image.chevronDown
+        let imageView = UIImageView()
+        imageView.image = Image.chevronDownTwoIcon.withTintColor(Color.baseBlue)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Color.mediumGray
+        imageView.tintColor = Color.baseBlue
         return imageView
     }()
     
     private var listTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = Color.mediumGray
+        label.textColor = Color.baseBlue
         return label
     }()
     
@@ -35,7 +35,6 @@ class EditTaskListCell: UITableViewCell {
         addSubviews()
         configureConstraints()
         
-        accessoryView = selectIconImageView
         selectionStyle = .none
     }
     
@@ -49,16 +48,21 @@ class EditTaskListCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        [listTitleLabel]
+        [listTitleLabel, selectIconImageView]
             .forEach { contentView.addSubview($0) }
     }
     
     private func configureConstraints() {
         listTitleLabel.anchor(top: contentView.topAnchor,
                               left: contentView.leftAnchor,
-                              right: contentView.rightAnchor,
                               bottom: contentView.bottomAnchor,
-                              paddingLeft: 18,
-                              paddingRight: 18)
+                              paddingLeft: 18)
+        listTitleLabel.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor, constant: -18).isActive = true
+        
+        selectIconImageView.anchor(left: listTitleLabel.rightAnchor,
+                                   paddingLeft: 8,
+                                   height: 10,
+                                   width: 10)
+        selectIconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 }

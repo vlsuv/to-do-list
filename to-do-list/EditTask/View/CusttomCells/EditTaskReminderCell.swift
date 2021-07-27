@@ -22,7 +22,7 @@ class EditTaskReminderCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Color.mediumGray
+        label.textColor = Color.darkGray
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -55,8 +55,8 @@ class EditTaskReminderCell: UITableViewCell {
     }
     
     func configure(_ model: EditTaskReminderOption) {
-        imageView?.image = Image.calendarIcon
-        imageView?.tintColor = Color.mediumGray
+        imageView?.image = model.icon?.withTintColor(Color.darkGray)
+        imageView?.tintColor = Color.darkGray
         imageView?.contentMode = .scaleAspectFit
         
         titleLabel.text = model.placeholder

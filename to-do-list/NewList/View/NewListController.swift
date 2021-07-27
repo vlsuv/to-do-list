@@ -24,6 +24,7 @@ class NewListController: UIViewController {
     
     private var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        button.tintColor = Color.baseBlue
         button.isEnabled = false
         return button
     }()

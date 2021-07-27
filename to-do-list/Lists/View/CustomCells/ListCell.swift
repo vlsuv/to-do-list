@@ -24,7 +24,7 @@ class ListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        imageView?.image = Image.listBulletIcon
+        imageView?.image = Image.listBulletIcon?.withTintColor(Color.baseBlue)
         imageView?.tintColor = Color.baseBlue
         imageView?.contentMode = .scaleAspectFit
         

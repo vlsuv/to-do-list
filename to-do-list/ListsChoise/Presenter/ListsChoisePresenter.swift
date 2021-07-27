@@ -20,6 +20,7 @@ protocol ListsChoisePresenterInputs {
 
 protocol ListsChoisePresenterOutputs {
     var lists: Results<ListModel> { get set }
+    func owner(list: ListModel) -> Bool 
 }
 
 protocol ListsChoisePresenterType {
@@ -82,5 +83,9 @@ class ListsChoisePresenter: ListsChoisePresenterType, ListsChoisePresenterInputs
         guard let owner = task.owner, owner != destinationList else { return }
         
         changeParentList(from: owner, to: destinationList)
+    }
+    
+    func owner(list: ListModel) -> Bool {
+        return task.owner == list
     }
 }

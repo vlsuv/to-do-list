@@ -30,7 +30,7 @@ class ListsController: UIViewController {
             NSAttributedString.Key.foregroundColor: Color.baseBlue
         ])
         
-        button.setImage(Image.plusIcon, for: .normal)
+        button.setImage(Image.plusIcon.withTintColor(Color.baseBlue), for: .normal)
         
         button.tintColor = Color.baseBlue
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
@@ -93,7 +93,7 @@ class ListsController: UIViewController {
         navigationItem.rightBarButtonItem = taskSearchButton
         
         navigationController?.toTransparent()
-        navigationController?.navigationBar.tintColor = Color.baseBlue
+        navigationController?.navigationBar.tintColor = Color.darkGray
     }
     
     private func configureTableView() {
@@ -211,7 +211,7 @@ extension ListsController: UITableViewDelegate {
             
             completion(true)
         }
-        deleteAction.image = Image.trashIcon
+        deleteAction.image = Image.trashIcon?.withTintColor(Color.white)
         deleteAction.backgroundColor = Color.red
         
         let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
@@ -220,7 +220,7 @@ extension ListsController: UITableViewDelegate {
             
             completion(true)
         }
-        editAction.image = Image.pencilIcon
+        editAction.image = Image.pencilIcon?.withTintColor(Color.white)
         editAction.backgroundColor = Color.mediumGray
         
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])

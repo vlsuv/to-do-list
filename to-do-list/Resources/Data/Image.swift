@@ -9,16 +9,18 @@
 import UIKit
 
 enum Image {
-    static let listImage = UIImage(systemName: "text.justifyleft")
-    static let calendarIcon = UIImage(systemName: "calendar")
-    static let plusIcon = UIImage(systemName: "plus")
+    static let listImage = UIImage(named: "ListIcon")
+    static let calendarIcon = UIImage(named: "CalendarIcon")
+    static let plusIcon = UIImage(named: "PlusIcon") ?? UIImage()
     static let magnifyingglassIcon = UIImage(systemName: "magnifyingglass")
-    static let listBulletIcon = UIImage(systemName: "list.bullet")
-    static let trashIcon = UIImage(systemName: "trash")
-    static let pencilIcon = UIImage(systemName: "pencil")
+    static let listBulletIcon = UIImage(named: "ListBulletIcon")
+    static let trashIcon = UIImage(named: "TrashIcon")
+    static let pencilIcon = UIImage(named: "PencilIcon")
     static let chevronDown = UIImage(systemName: "chevron.down")
     static let chevronUp = UIImage(systemName: "chevron.up")
-    static let checkmarkIcon = UIImage(systemName: "checkmark")
+    static let checkmarkIcon = UIImage(named: "CheckIcon")
+    static let circleIcon = UIImage(named: "CircleIcon")
     static let plusCircleFillIcon = UIImage(named: "PlustCircleFillIcon")
     static let xMarkIcon = UIImage(systemName: "xmark")
+    static let chevronDownTwoIcon = UIImage(named: "ChevronDownIcon") ?? UIImage()
 }

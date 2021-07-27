@@ -21,9 +21,8 @@ class TaskCell: UITableViewCell {
     
     private lazy var doneButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = Color.mediumGray.cgColor
-        button.setImage(Image.checkmarkIcon, for: .selected)
-        button.tintColor = Color.baseBlue
+        button.setImage(Image.checkmarkIcon?.withTintColor(Color.baseBlue), for: .selected)
+        button.setImage(Image.circleIcon?.withTintColor(Color.darkGray), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
         return button
@@ -70,7 +69,6 @@ class TaskCell: UITableViewCell {
         detailLabel.text = task.details
         
         doneButton.isSelected = task.isDone
-        doneButton.layer.borderWidth = task.isDone ? 0 : 1.6
     }
     
     // MARK: - Targets

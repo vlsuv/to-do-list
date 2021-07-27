@@ -46,14 +46,14 @@ class NewTaskContentView: UIView {
     
     var addDetailButton: UIButton = {
         let button = UIButton()
-        button.setImage(Image.listImage, for: .normal)
+        button.setImage(Image.listImage?.withTintColor(Color.baseBlue), for: .normal)
         button.tintColor = Color.baseBlue
         return button
     }()
     
     var addReminderButton: UIButton = {
         let button = UIButton()
-        button.setImage(Image.calendarIcon, for: .normal)
+        button.setImage(Image.calendarIcon?.withTintColor(Color.baseBlue), for: .normal)
         button.tintColor = Color.baseBlue
         return button
     }()

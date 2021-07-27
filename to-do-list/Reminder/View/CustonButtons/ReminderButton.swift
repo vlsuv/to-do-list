@@ -20,7 +20,7 @@ class ReminderButton: UIButton {
     private var dateTitle: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = Color.mediumGray
+        label.textColor = Color.darkGray
         label.textAlignment = .center
         return label
     }()
@@ -29,7 +29,7 @@ class ReminderButton: UIButton {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.tintColor = Color.mediumGray
+        imageView.tintColor = Color.darkGray
         imageView.image = Image.xMarkIcon
         imageView.isUserInteractionEnabled = true
         return imageView
