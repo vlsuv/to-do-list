@@ -84,9 +84,15 @@ class TasksController: UIViewController {
         changeEditDoneButtonState(isHidden: true)
     }
     
+    @objc private func didTapListMoreDetailsButton(_ sender: UIBarButtonItem) {
+        presenter?.inputs.didTapListMoreDetails()
+    }
+    
     // MARK: - Configure
     private func configureNavigationController() {
+        let listMoreDetailsButton = UIBarButtonItem(image: Image.moreHorizontalIcon?.withTintColor(Color.darkGray), style: .plain, target: self, action: #selector(didTapListMoreDetailsButton(_:)))
         
+        navigationItem.rightBarButtonItem = listMoreDetailsButton
     }
     
     private func configureTableView() {

@@ -17,6 +17,7 @@ protocol AssemblyModuleBuilderProtocol {
     func createEditTaskController(coordinator: EditTaskCoordinator, for task: Task) -> UIViewController
     func createListsChoiseController(coordinator: ListsChoiseCoordinator, for task: Task) -> UIViewController
     func createReminderController(coordinator: ReminderCoordinator) -> UIViewController
+    func createListMoreDetailController(coordinator: ListMoreDetailCoordinator, completion: ((ListMoreDetailCompletionAction) -> ())?) -> UIViewController
 }
 
 final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
@@ -72,6 +73,14 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
     func createReminderController(coordinator: ReminderCoordinator) -> UIViewController {
         let view = ReminderController()
         let presenter = ReminderPresenter(view: view, coordinator: coordinator)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createListMoreDetailController(coordinator: ListMoreDetailCoordinator, completion: ((ListMoreDetailCompletionAction) -> ())?) -> UIViewController {
+        let view = ListMoreDetailController()
+        let presenter = ListMoreDetailPresenter(view: view, coordinator: coordinator)
+        presenter.completion = completion
         view.presenter = presenter
         return view
     }

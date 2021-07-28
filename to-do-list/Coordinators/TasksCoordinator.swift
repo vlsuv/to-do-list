@@ -48,6 +48,10 @@ class TasksCoordinator: Coordinator {
         childCoordinators.remove(at: index)
     }
     
+    func toPopViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func showNewTask(for list: ListModel) {
        let newTaskCoordinator = NewTaskCoordinator(navigationController: navigationController, list: list)
         childCoordinators.append(newTaskCoordinator)
@@ -60,5 +64,19 @@ class TasksCoordinator: Coordinator {
         childCoordinators.append(editTaskCoordinator)
         editTaskCoordinator.parentCoordinator = self
         editTaskCoordinator.start()
+    }
+    
+    func showListMoreDetail(completion: ((ListMoreDetailCompletionAction) -> ())?) {
+        let listMoreDetailCoordinator = ListMoreDetailCoordinator(navigationController: navigationController, completion: completion)
+        childCoordinators.append(listMoreDetailCoordinator)
+        listMoreDetailCoordinator.parentCoordinator = self
+        listMoreDetailCoordinator.start()
+    }
+    
+    func showNewList(with list: ListModel?) {
+        let newListCoordinator = NewListCoordinator(navigationController: navigationController, list: list)
+        childCoordinators.append(newListCoordinator)
+        newListCoordinator.parentCoordinator = self
+        newListCoordinator.start()
     }
 }

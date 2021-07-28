@@ -20,6 +20,7 @@ protocol TasksPresenterInputs {
     func didTapDone(at indexPath: IndexPath)
     func didTapNewTask()
     func didMoveTask(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
+    func didTapListMoreDetails()
 }
 
 protocol TasksPresenterOutputs {
@@ -129,5 +130,24 @@ class TasksPresenter: TasksPresenterType, TasksPresenterInputs, TasksPresenterOu
         DataManager.shared.toChange(handler: {
             swap(&sourceTask.order, &destinationTask.order)
         }, completion: nil)
+    }
+    
+    func didTapListMoreDetails() {
+        coordinator.showListMoreDetail { [weak self] action in
+            guard let self = self else { return }
+            
+            switch action {
+            case .renameList:
+                self.coordinator.showNewList(with: self.list)
+            case .deleteList:
+                DataManager.shared.deleteList(self.list) { isDeleted in
+                    self.coordinator.toPopViewController()
+                }
+            case .deleteAllCompletedTasks:
+                self.taskSections[1].isExpand = false
+                
+                self.finishedTasks.forEach { DataManager.shared.deleteTask($0, completion: nil) }
+            }
+        }
     }
 }

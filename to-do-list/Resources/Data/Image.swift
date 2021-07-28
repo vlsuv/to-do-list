@@ -23,4 +23,5 @@ enum Image {
     static let plusCircleFillIcon = UIImage(named: "PlustCircleFillIcon")
     static let xMarkIcon = UIImage(systemName: "xmark")
     static let chevronDownTwoIcon = UIImage(named: "ChevronDownIcon") ?? UIImage()
+    static let moreHorizontalIcon = UIImage(named: "MoreHorizontalIcon")
 }

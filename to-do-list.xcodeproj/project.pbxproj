@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670A677326B0643E009C4299 /* ListMoreDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670A677226B0643E009C4299 /* ListMoreDetailController.swift */; };
+		670A677526B06574009C4299 /* ListMoreDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670A677426B06574009C4299 /* ListMoreDetailCoordinator.swift */; };
+		670A677726B06639009C4299 /* ListMoreDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670A677626B06639009C4299 /* ListMoreDetailPresenter.swift */; };
+		670A677926B07249009C4299 /* ListMoreDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670A677826B07249009C4299 /* ListMoreDetailSection.swift */; };
+		670A677F26B07889009C4299 /* ListDetailStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670A677E26B07889009C4299 /* ListDetailStaticCell.swift */; };
 		670BD40826A9648B00EE312A /* ReminderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670BD40726A9648B00EE312A /* ReminderButton.swift */; };
 		670ED05A26A816A000FADA85 /* TasksSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670ED05926A816A000FADA85 /* TasksSectionCell.swift */; };
 		671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B3B3626A5759300E8E589 /* ListsChoiseController.swift */; };
@@ -71,6 +76,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		670A677226B0643E009C4299 /* ListMoreDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMoreDetailController.swift; sourceTree = "<group>"; };
+		670A677426B06574009C4299 /* ListMoreDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMoreDetailCoordinator.swift; sourceTree = "<group>"; };
+		670A677626B06639009C4299 /* ListMoreDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMoreDetailPresenter.swift; sourceTree = "<group>"; };
+		670A677826B07249009C4299 /* ListMoreDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMoreDetailSection.swift; sourceTree = "<group>"; };
+		670A677E26B07889009C4299 /* ListDetailStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailStaticCell.swift; sourceTree = "<group>"; };
 		670BD40726A9648B00EE312A /* ReminderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderButton.swift; sourceTree = "<group>"; };
 		670ED05926A816A000FADA85 /* TasksSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSectionCell.swift; sourceTree = "<group>"; };
 		671B3B3626A5759300E8E589 /* ListsChoiseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChoiseController.swift; sourceTree = "<group>"; };
@@ -159,6 +169,49 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		670A677126B0640C009C4299 /* ListMoreDetails */ = {
+			isa = PBXGroup;
+			children = (
+				670A677B26B07824009C4299 /* Model */,
+				670A677A26B0781A009C4299 /* View */,
+				670A677C26B0782E009C4299 /* Presenter */,
+			);
+			path = ListMoreDetails;
+			sourceTree = "<group>";
+		};
+		670A677A26B0781A009C4299 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				670A677226B0643E009C4299 /* ListMoreDetailController.swift */,
+				670A677D26B07869009C4299 /* CustomCells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		670A677B26B07824009C4299 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				670A677826B07249009C4299 /* ListMoreDetailSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		670A677C26B0782E009C4299 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				670A677626B06639009C4299 /* ListMoreDetailPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		670A677D26B07869009C4299 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				670A677E26B07889009C4299 /* ListDetailStaticCell.swift */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
 		670ED05726A8162400FADA85 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +290,7 @@
 				6743FC86269D944500CAFA15 /* AssemblyModuleBuilder.swift */,
 				6743FC7F269D858400CAFA15 /* Coordinators */,
 				6730C1C8269D6FE1005A5297 /* Lists */,
+				670A677126B0640C009C4299 /* ListMoreDetails */,
 				67331CAD269ED24A007A2948 /* NewList */,
 				6743FC88269DA12200CAFA15 /* Tasks */,
 				67D0833526A2CB620028ECCD /* EditTask */,
@@ -350,6 +404,7 @@
 				67D0833A26A2D5390028ECCD /* EditTaskCoordinator.swift */,
 				671B3B3A26A57CD100E8E589 /* ListsChoiseCoordinator.swift */,
 				673815C926A5AF3F00CACF1A /* ReminderCoordinator.swift */,
+				670A677426B06574009C4299 /* ListMoreDetailCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -730,7 +785,9 @@
 				6730C1C7269D6A38005A5297 /* Color.swift in Sources */,
 				67331CB3269ED544007A2948 /* TextFieldCell.swift in Sources */,
 				67331CB5269ED875007A2948 /* NewListCoordinator.swift in Sources */,
+				670A677726B06639009C4299 /* ListMoreDetailPresenter.swift in Sources */,
 				67F9409426A05C7300DF50AB /* TaskSearchPresenter.swift in Sources */,
+				670A677526B06574009C4299 /* ListMoreDetailCoordinator.swift in Sources */,
 				6743FC8C269DA1DA00CAFA15 /* Task.swift in Sources */,
 				671B3B3926A57C2200E8E589 /* ListsChoisePresenter.swift in Sources */,
 				6743FC83269D862400CAFA15 /* AppCoordinator.swift in Sources */,
@@ -742,11 +799,14 @@
 				67331CA9269ECB46007A2948 /* RealmService.swift in Sources */,
 				67D0833B26A2D5390028ECCD /* EditTaskCoordinator.swift in Sources */,
 				67331CAC269ECBBE007A2948 /* DataManager.swift in Sources */,
+				670A677926B07249009C4299 /* ListMoreDetailSection.swift in Sources */,
+				670A677F26B07889009C4299 /* ListDetailStaticCell.swift in Sources */,
 				6743FC94269DC22800CAFA15 /* TaskCell.swift in Sources */,
 				6730C1C4269D6A1A005A5297 /* UIView extensions.swift in Sources */,
 				673815CC26A5B00000CACF1A /* ReminderPresenter.swift in Sources */,
 				67888E0226A6F143001C649E /* ListCell.swift in Sources */,
 				67AA6B4D26B048B800C57C62 /* Style.swift in Sources */,
+				670A677326B0643E009C4299 /* ListMoreDetailController.swift in Sources */,
 				671B3B3726A5759400E8E589 /* ListsChoiseController.swift in Sources */,
 				673815D126A5C39200CACF1A /* NotificationManager.swift in Sources */,
 				6743FC8A269DA14B00CAFA15 /* TasksController.swift in Sources */,
