@@ -48,7 +48,7 @@ class EditTaskTitleTextViewCell: UITableViewCell {
     }
     
     func configure(_ model: EditTaskTitleTextViewOption) {
-        textView.text = model.text
+        textView.text = model.text?()
         textView.placeholder = model.placeholder
     }
     

@@ -42,7 +42,7 @@ class TasksSectionCell: UITableViewCell {
     
     func configure(_ model: TasksSection) {
         titleLabel.text = "\(model.title) (\(model.tasks.count))"
-        stateImageView.image = model.isExpand ? Image.chevronUp : Image.chevronDown
+        stateImageView.image = model.isExpand ? Image.chevronUpIcon : Image.chevronDownIcon
     }
     
     // MARK: - Configures

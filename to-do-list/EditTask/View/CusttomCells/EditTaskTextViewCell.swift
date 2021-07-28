@@ -51,7 +51,7 @@ class EditTaskTextViewCell: UITableViewCell {
         imageView?.tintColor = Color.darkGray
         imageView?.contentMode = .scaleAspectFit
         
-        textView.text = model.text
+        textView.text = model.text?()
         textView.placeholder = model.placeholder
         
         updateElementsConstraints()

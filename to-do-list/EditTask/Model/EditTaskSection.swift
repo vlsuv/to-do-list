@@ -26,13 +26,13 @@ struct EditTaskListOption {
 }
 
 struct EditTaskTitleTextViewOption {
-    var text: String
+    var text: (() -> (String))?
     var placeholder: String
     var handler: ((String) -> ())?
 }
 
 struct EditTaskTextViewOption {
-    var text: String?
+    var text: (() -> (String?))?
     var placeholder: String?
     var icon: UIImage?
     var handler: ((String) -> ())?

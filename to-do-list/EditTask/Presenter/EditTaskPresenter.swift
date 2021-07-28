@@ -77,11 +77,11 @@ class EditTaskPresenter: EditTaskPresenterType, EditTaskPresenterInputs, EditTas
             self?.showListsChoise()
         }
         
-        let titleOption = EditTaskTitleTextViewOption(text: task.title, placeholder: "Enter title") { [weak self] text in
+        let titleOption = EditTaskTitleTextViewOption(text: { self.task.title }, placeholder: "Enter title") { [weak self] text in
             self?.changeTaskTitle(text)
         }
         
-        let detailOption = EditTaskTextViewOption(text: task.details, placeholder: "Add details", icon: Image.listImage) { [weak self] text in
+        let detailOption = EditTaskTextViewOption(text: { self.task.details }, placeholder: "Add details", icon: Image.listIcon) { [weak self] text in
             self?.changeTaskDetail(text)
         }
         

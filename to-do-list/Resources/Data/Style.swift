@@ -15,6 +15,7 @@ enum Space {
 }
 
 enum Size {
+    static let smallCellHeight: CGFloat = 38
     static let mediumCellHeight: CGFloat = 48
     static let largeCellHeight: CGFloat = 88
     

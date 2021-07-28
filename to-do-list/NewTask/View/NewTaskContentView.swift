@@ -46,7 +46,7 @@ class NewTaskContentView: UIView {
     
     var addDetailButton: UIButton = {
         let button = UIButton()
-        button.setImage(Image.listImage?.withTintColor(Color.baseBlue), for: .normal)
+        button.setImage(Image.listIcon?.withTintColor(Color.baseBlue), for: .normal)
         button.tintColor = Color.baseBlue
         return button
     }()
