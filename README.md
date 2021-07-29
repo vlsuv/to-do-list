@@ -6,7 +6,7 @@
 - [Features](#Features)
 - [Used](#Used)
 - [Screenshots](#Screenshots)
-- [Visual-User-Interfase](#Visual-User-Interface)
+- [Visual-User-Interface](#Visual-User-Interface)
 
 ## Description
 - A Simple to-do list app build for iPhone.
@@ -27,7 +27,7 @@
 - Move task to any list
 - Change task's order by dragging
 
-### User-Interfase
+### User-Interface
 Visually look in the graph [Visual-User-Interface](#Visual-User-Interface)
 
 Most of the icons by [Feather Icons](https://feathericons.com/)
