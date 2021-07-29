@@ -6,7 +6,7 @@
 - [Features](#Features)
 - [Used](#Used)
 - [Screenshots](#Screenshots)
-- [Visual-User-Interfase](#Visual-User-Interfase)
+- [Visual-User-Interfase](#Visual-User-Interface)
 
 ## Description
 - A Simple to-do list app build for iPhone.
@@ -59,5 +59,5 @@ Most of the icons by [Feather Icons](https://feathericons.com/)
 ### Other
 <img src="Screenshots/search-task-page.png" width="257" height="500"> <img src="Screenshots/list-more-details-page.png" width="257" height="500">  <img src="Screenshots/choose-list-page.png" width="257" height="500"> <img src="Screenshots/calendar-page.png" width="257" height="500"> <img src="Screenshots/task-notification.png" width="257" height="500">
 
-## Visual-User-Interfase
+## Visual-User-Interface
 <img src="Screenshots/gif/new-task1.gif" width="251" height="500"> <img src="Screenshots/gif/new-task2.gif" width="251" height="500"> <img src="Screenshots/gif/tasks-column.gif" width="251" height="500"> <img src="Screenshots/gif/task-edit-mode.gif" width="251" height="500"> <img src="Screenshots/gif/lists-edit-mode.gif" width="251" height="500">
